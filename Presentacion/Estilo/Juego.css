@@ -1,0 +1,60 @@
+.grass{
+     background-image: url("../../Assets/images/pradera-de-arte-en-píxeles-con-fondo-flores-textura-césped-impecable-ilustración-vectorial-223655068.webp");
+    background-size: cover;        /* Ajusta la imagen al tamaño de la celda */
+    background-position: center;   /* Centra la textura */
+    background-repeat: no-repeat;  /* Evita repeticiones dentro de la celda */
+    
+    width: 5vh;
+    height: 5vh;
+
+    }
+
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    width: 2.8vmin;
+    height: 2.8vmin;
+}
+
+.huds {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #2c3e50;
+    padding: 10px;
+}
+
+.huds table {
+    margin: auto;
+}
+
+.huds button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.huds button:hover {
+    background-color: #2980b9;
+}
+
+.casilla{
+    all: unset;
+    width: 100%;
+    height: 100%;
+    
+}
