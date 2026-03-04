@@ -1,8 +1,13 @@
+
+let tipoElegido;
 document.addEventListener("DOMContentLoaded", function() {
 
     const hudAcciones = document.getElementById("hudAcciones");
     const hudDinamico = document.getElementById("hudDinamico");
     const btnConstruir = document.getElementById("btnConstruir");
+
+   
+    
 
     btnConstruir.addEventListener("click", function() {
         hudAcciones.style.display = "none";
@@ -85,14 +90,14 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Listener de selección de tipo (solo imprime en consola por ahora)
+    
     function agregarListenerTipo() {
         hudDinamico.addEventListener("click", function listener(e) {
             if (e.target.dataset.tipo) {
                 
-                tipo=e.target.dataset.tipo;
+                 tipoElegido=e.target.dataset.tipo;
                 
-                hudDinamico.removeEventListener("click", listener); // evita duplicar listeners
+                hudDinamico.removeEventListener("click", listener); 
             }
         });
     }
