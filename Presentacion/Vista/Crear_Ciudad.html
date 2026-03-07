@@ -4,53 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear_Ciudad</title>
+    <link rel="stylesheet" href="../Estilo/Crear_Ciudad.css">
     <script defer src="../../Modelos/Alcalde.js"></script>
     <script defer src="../../Modelos/Ciudad.js"></script>
     <script defer src="../../Modelos/Mapa.js"></script>
     <script defer src="../../Acceso_Datos/CiudadStorage.js"></script>
     <script defer src="../../Negocio/Crear_Ciudad.js"></script>
-    
 </head>
 <body>
-    
-
-    <div>
+    <div class="contenedor">
         <h2>Crear Nueva Ciudad</h2>
-    </div>
 
-    
-
-        <div>
+        <div class="campo">
             <label>Nombre de la ciudad</label><br>
-            <input id="nombreCiudadInput"type="text" name="nombreCiudad" required>
+            <input id="nombreCiudadInput" type="text" name="nombreCiudad" required>
         </div>
 
-        <div>
+        <div class="campo">
             <label>Nombre del alcalde</label><br>
-            <input  id ="nombreAlcaldeInput" type="text" name="nombreAlcalde" required>
+            <input id="nombreAlcaldeInput" type="text" name="nombreAlcalde" required>
         </div>
 
-        <div>
-            <label>Región</label><br>
+        <div class="campo">
+            <label>Region</label><br>
             <input id="regionInput" type="text" name="region" required>
         </div>
 
-        <div>
-            <label>Tamaño del mapa (entre 15x15 y 30x30)</label><br>
+        <div class="campo">
+            <label>Tamano del mapa (entre 15x15 y 30x30)</label><br>
             <input id="tamanioInput"
-                type="number" 
-                name="tamanio" 
-                min="15" 
-                max="30" 
+                type="number"
+                name="tamanio"
+                min="15"
+                max="30"
                 required>
         </div>
 
-        <div>
-            <button  id ="botonCrear" type="button">Crear Ciudad</button>
+        <div class="acciones">
+            <button id="botonCrear" type="button">Crear Ciudad</button>
         </div>
-
-    
-
+    </div>
 </body>
-
 </html>

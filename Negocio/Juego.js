@@ -3,12 +3,52 @@ document.addEventListener("DOMContentLoaded", inicializarJuego);
 
 
 function inicializarJuego() {
+    intentarBloqueoOrientacionMovil();
+    configurarAlertaOrientacionMovil();
+
     const ciudad = cargarCiudad();
 
     if (!ciudad) return;
 
     mostrarDatosCiudad(ciudad);
     renderizarMapa(ciudad);
+}
+
+function intentarBloqueoOrientacionMovil() {
+    const esMovil = /Android|iPhone|iPod/i.test(navigator.userAgent);
+
+    if (!esMovil) return;
+    if (!screen.orientation || typeof screen.orientation.lock !== "function") return;
+
+    screen.orientation.lock("portrait").catch(() => {
+        // Algunos navegadores no permiten bloquear orientacion fuera de fullscreen.
+    });
+}
+
+function configurarAlertaOrientacionMovil() {
+    const esMovil = /Android|iPhone|iPod/i.test(navigator.userAgent);
+
+    if (!esMovil) return;
+
+    let alertaMostradaEnHorizontal = false;
+
+    const validarOrientacion = () => {
+        const estaHorizontal = window.matchMedia("(orientation: landscape)").matches;
+
+        if (estaHorizontal && !alertaMostradaEnHorizontal) {
+            alert("Para jugar, gira tu dispositivo a orientacion vertical.");
+            alertaMostradaEnHorizontal = true;
+            return;
+        }
+
+        if (!estaHorizontal) {
+            alertaMostradaEnHorizontal = false;
+        }
+    };
+
+    window.addEventListener("orientationchange", validarOrientacion);
+    window.addEventListener("resize", validarOrientacion);
+    validarOrientacion();
 }
 function cargarCiudad() {
     const ciudad = CiudadStorage.cargar();
@@ -25,11 +65,21 @@ function cargarCiudad() {
     return ciudad;
 }
 function mostrarDatosCiudad(ciudad) {
-    document.getElementById("datosCiudad").textContent = ciudad.nombreCiudad;
+    const nombre = document.getElementById("datosCiudad");
+    if (nombre) nombre.textContent = ciudad.nombreCiudad;
+    const actualizar = (id, valor) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = valor;
+    };
 
-    document.getElementById("infoRecursos").textContent =
-        `Dinero: ${ciudad.dinero} | Electricidad: ${ciudad.electricidad} | Agua: ${ciudad.agua} | Alimento: ${ciudad.alimento} | Población: ${ciudad.poblacion}`;
-}function renderizarMapa(ciudad) {
+    actualizar("Dinero", ciudad.dinero);
+    actualizar("Electricidad", ciudad.electricidad);
+    actualizar("Agua", ciudad.agua);
+    actualizar("Alimento", ciudad.alimento);
+    actualizar("Poblacion", ciudad.poblacion); 
+}
+
+function renderizarMapa(ciudad) {
     const mapaContainer = document.getElementById("mapaContainer");
     let tablaHTML = "<table>";
 
@@ -68,6 +118,7 @@ function obtenerClaseCelda(valor) {
 
     return "";
 }
+
 
 
 

@@ -1,60 +1,330 @@
-.grass{
-     background-image: url("../../Assets/images/pradera-de-arte-en-píxeles-con-fondo-flores-textura-césped-impecable-ilustración-vectorial-223655068.webp");
-    background-size: cover;        /* Ajusta la imagen al tamaño de la celda */
-    background-position: center;   /* Centra la textura */
-    background-repeat: no-repeat;  /* Evita repeticiones dentro de la celda */
-    
-    width: 5vh;
-    height: 5vh;
+:root {
+    --panel-bg: #1e1e1e;
+    --surface-bg: #2c2c2c;
+    --text-main: #ffffff;
+    --btn-main: #3498db;
+    --btn-hover: #2980b9;
+    --cell-size: 4.2vh;
+}
 
-    }
-
+/*----------------- CUERPO -----------------*/
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
 
 body {
-    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: var(--surface-bg);
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+/*-----------------ESTADISTICAS-----------------*/
+
+.recursosCiudad {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
-table {
+#infoCiudad {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1e1e1e;
+    color: var(--text-main);
+    font-weight: bold;
+    padding: 5px 12px;
+    width: 100vw;
+}
+
+#datosCiudad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background-color: #2c2c2c;
+    background-position: center;
+    background-size: 70%;
+    background-repeat: no-repeat;
+
+    border: 2px solid #2c2c2c;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.4);
+
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+#datosCiudad:hover {
+    background-color: #3d3d3d;
+    border-color: #459fdb;
+    box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        0 0 10px rgba(69,159,219,0.5);
+    transform: translateY(-1px);
+}
+
+#Dinero, #Electricidad, #Agua, #Alimento, #Poblacion {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 1%;
+    padding: 0 1%;
+    background-color: #333;
+    border-radius: 10px;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#Dinero::before,
+#Electricidad::before,
+#Agua::before,
+#Alimento::before,
+#Poblacion::before {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#Dinero::before { background-image: url("../../Assets/images/menu/dinero.png"); }
+#Electricidad::before { background-image: url("../../Assets/images/menu/destello.png"); }
+#Agua::before { background-image: url("../../Assets/images/menu/gota-de-agua.png"); }
+#Alimento::before { background-image: url("../../Assets/images/menu/pollo.png"); }
+#Poblacion::before { background-image: url("../../Assets/images/menu/gente-junta.png"); }
+
+/*-----------------MAPA-----------------*/
+
+#mapaContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    width: 100vw;
+    background-color: #24551fb7;
+}
+
+#mapaContainer table {
+    width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
-td {
-    width: 2.8vmin;
-    height: 2.8vmin;
+#mapaContainer td {
+    padding: 0;
 }
+
+.grass {
+    background-image: url("../../Assets/images/istockphoto-2191688361-612x612.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.casilla {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 0;
+    padding: 0;
+    background: transparent;
+}
+
+/*-----------------BOTONES-----------------*/
 
 .huds {
-    position: fixed;
-    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    background-color: #2c3e50;
-    padding: 10px;
-}
-
-.huds table {
-    margin: auto;
+    flex-wrap: wrap;
+    background-color: #1e1e1e;
 }
 
 .huds button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #3498db;
-    color: white;
-    border: none;
+    padding: 40px;
+    background-color: #2c2c2c;
+    border-radius: 10px;
+
+    background-position: center;
+    background-size: 70%;
+    background-repeat: no-repeat;
+
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.4);
     cursor: pointer;
+    transition: all 0.1s ease;
 }
 
 .huds button:hover {
-    background-color: #2980b9;
+    background-color: #3d3d3d;
+    border-color: #459fdb;
+    box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        0 0 10px rgba(69,159,219,0.5);
+    transform: translateY(-1px);
 }
 
-.casilla{
-    all: unset;
+#hudAcciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
     width: 100%;
-    height: 100%;
-    
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+#btnConstruir { background-image: url("../../Assets/images/menu/herramientas-de-construccion.png"); }
+#btnDemoler { background-image: url("../../Assets/images/menu/excavadora.png"); }
+#btnRuta { background-image: url("../../Assets/images/menu/ruta.png"); }
+#btnConfig { background-image: url("../../Assets/images/menu/engranajes.png"); }
+
+/*-----------------TIPOS DE PANTALLAS-----------------*/
+
+@media (max-width: 769px) {
+
+    .huds button {
+        width: 22%;
+        height: 60px;
+        padding: 0;
+        background-size: 60%;
+    }
+}
+
+/* 768px - 1024px */
+@media (min-width:769px) and (max-width:1024px) and (min-height:600px){
+
+body{
+    display:grid;
+    grid-template-columns:70% 30%;
+    grid-template-rows:auto 1fr auto;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* MAPA */
+
+#mapaContainer{
+    grid-column:1;
+    grid-row:1 / 4;
+
+    width:100%;
+    height:100%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+}
+
+/* SIDEBAR RECURSOS */
+#datosCiudad{
+    padding:2px 8px 4px 8px;
+
+}
+
+#infoCiudad{
+    grid-column:2;
+    grid-row:1;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    width:100%;
+    padding:0px;
+
+    border-left:2px solid #444;
+}
+
+.recursosCiudad{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    width:100%;
+}
+
+#Dinero,
+#Electricidad,
+#Agua,
+#Alimento,
+#Poblacion{
+    width:95%;
+    margin:0;
+    font-size:.9rem;
+}
+
+/* PANEL CENTRAL */
+
+.huds{
+    grid-column:2;
+    grid-row:2;
+
+    display:flex;
+    flex-direction:column;
+
+    border-left:2px solid #444;
+    background:var(--panel-bg);
+}
+
+/* BOTONES */
+
+#hudAcciones{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+
+    width:100%;
+    padding:15px;
+}
+
+.huds button{
+    width:100%;
+    height:70px;
+    padding:0;
+
+    background-size:50%;
+}
+
+/* ESTADISTICAS */
+
+#hudDinamico{
+    grid-column:2;
+    grid-row:3;
+
+    width:100%;
+    min-height:140px; /* evita que quede demasiado pequeño */
+
+    border-left:2px solid #444;
+    border-top:1px solid #444;
+
+    padding:15px;
+
+    flex-grow:1;
+}
+}
+
+/*1025px en adelante*/
+@media (min-width:1025px) {
+
+    :root {
+        --cell-size: 5vh;
+    }
 }

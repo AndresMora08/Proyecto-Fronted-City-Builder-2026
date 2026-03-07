@@ -1,6 +1,14 @@
 body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 24px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
 
     background-image: url("https://t3.ftcdn.net/jpg/04/49/03/76/360_F_449037628_15r3avzP4JTQUdKb3SBCXAQZac8ISNK1.jpg");
     background-size: cover;
@@ -8,45 +16,76 @@ body {
     background-repeat: no-repeat;
 }
 
-
-.LogoJuego{
+.LogoJuego {
+    margin: 0;
     font-size: 60px;
     font-weight: bold;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #dcecf1; 
+    color: #dcecf1;
 
     text-align: center;
-    
-    text-shadow: 
-        0 0 10px rgba(0,140,255,0.9),
-        0 0 20px rgba(0,110,255,0.8),
-        0 0 40px rgba(0,80,255,0.7);
 
+    text-shadow:
+        0 0 10px rgba(0, 140, 255, 0.9),
+        0 0 20px rgba(0, 110, 255, 0.8),
+        0 0 40px rgba(0, 80, 255, 0.7);
 }
 
-
-
-
-button{
+button {
     width: 250px;
     padding: 15px;
     font-size: 18px;
     font-weight: bold;
-    
-    background-color: rgba(0, 40, 90, 0.9); 
-    color: #e6f7ff; 
-    
-    border: 2px solid #00aaff; 
+
+    background-color: rgba(0, 40, 90, 0.9);
+    color: #e6f7ff;
+
+    border: 2px solid #00aaff;
     border-radius: 10px;
-    
+
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-
-button:hover{
+button:hover {
     background-color: #00aaff;
     color: #001a33;
     box-shadow: 0 0 15px #00aaff;
+}
+
+@media (max-width: 767px) {
+    body {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .LogoJuego {
+        font-size: 32px;
+        letter-spacing: 1px;
+    }
+
+    button {
+        width: 100%;
+        max-width: 330px;
+        padding: 12px;
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .LogoJuego {
+        font-size: 46px;
+    }
+
+    button {
+        width: 280px;
+        font-size: 17px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .LogoJuego {
+        font-size: 60px;
+    }
 }
