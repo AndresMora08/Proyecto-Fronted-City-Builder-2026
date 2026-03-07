@@ -12,8 +12,30 @@ function inicializarJuego() {
 
     mostrarDatosCiudad(ciudad);
     renderizarMapa(ciudad);
+    configurarMenus();
 }
 
+// FUNCIÓN DE MENUS PARA EL HUD
+function configurarMenus() {
+    const hudAcciones = document.getElementById('hudAcciones');
+    const hudConstruir = document.getElementById('hudConstruir');
+    const btnConstruir = document.getElementById('btnConstruir');
+    const btnVolver = document.getElementById('btnVolver');
+
+    if (btnConstruir && hudAcciones && hudConstruir) {
+        btnConstruir.addEventListener('click', () => {
+            hudAcciones.style.display = 'none';   // Escondemos el principal
+            hudConstruir.style.display = 'flex';  // Mostramos construir
+        });
+    }
+
+    if (btnVolver) {
+        btnVolver.addEventListener('click', () => {
+            hudConstruir.style.display = 'none';  // Escondemos construir
+            hudAcciones.style.display = 'flex';   // Mostramos el principal
+        });
+    }
+}
 function intentarBloqueoOrientacionMovil() {
     const esMovil = /Android|iPhone|iPod/i.test(navigator.userAgent);
 
@@ -21,7 +43,6 @@ function intentarBloqueoOrientacionMovil() {
     if (!screen.orientation || typeof screen.orientation.lock !== "function") return;
 
     screen.orientation.lock("portrait").catch(() => {
-        // Algunos navegadores no permiten bloquear orientacion fuera de fullscreen.
     });
 }
 

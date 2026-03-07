@@ -194,6 +194,24 @@ body {
 #btnRuta { background-image: url("../../Assets/images/menu/ruta.png"); }
 #btnConfig { background-image: url("../../Assets/images/menu/engranajes.png"); }
 
+#hudConstruir {
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#btnResiden {background-image: url("../../Assets/images/construir/apartamentos.png");}
+#btnComer {background-image: url("../../Assets/images/construir/centro-comercial.png");}
+#btnIndus {background-image: url("../../Assets/images/construir/fabrica.png");}
+
 /*-----------------TIPOS DE PANTALLAS-----------------*/
 
 @media (max-width: 769px) {
@@ -310,7 +328,7 @@ body{
     grid-row:3;
 
     width:100%;
-    min-height:140px; /* evita que quede demasiado pequeño */
+    min-height:140px;
 
     border-left:2px solid #444;
     border-top:1px solid #444;
