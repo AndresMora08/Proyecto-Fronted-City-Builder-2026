@@ -25,7 +25,7 @@ function activarEventosCasillas(ciudad){
 }
     function modalidadConstruccion(ciudad, x, y, tipoElegido){
 
-        const objeto = objetoVacio(tipoElegido);
+        const objeto = objetoVacio(tipoElegido,x,y);
         const costo = objeto.getCostoConstruccion();
 
         const validacion = validarConstruccion(costo, x, y, ciudad, tipoElegido);
@@ -73,67 +73,72 @@ function activarEventosCasillas(ciudad){
 
     }
 
-    function objetoVacio(tipoElegido){
+ function objetoVacio(tipoElegido, x, y) {
 
-        let edificio;
-        console.log("Tipo elegido:", tipoElegido);
-        if (tipoElegido === "r") {
-            edificio = Via.crearVia();
-        }
+    let edificio;
+    console.log("Tipo elegido:", tipoElegido);
 
-        else if (tipoElegido === "R1") {
-            edificio = Edificio_Residencial.crearCasa();
-        }
-
-        else if (tipoElegido === "R2") {
-            edificio = Edificio_Residencial.crearApartamento();
-        }
-
-        else if (tipoElegido === "C1") {
-            edificio = Edificio_Comercial.crearTienda();
-        }
-
-        else if (tipoElegido === "C2") {
-            edificio = Edificio_Comercial.crearCentroComercial();
-        }
-
-        else if (tipoElegido === "I1"){
-            edificio = Edificio_Industrial.crearFabrica();
-        }
-
-        else if (tipoElegido === "I2") {
-            edificio = Edificio_Industrial.crearGranja();
-        }
-
-        else if (tipoElegido === "S1") {
-            edificio = Edificio_Servicio.crearEstacionPolicia();
-        }
-
-        else if (tipoElegido === "S2") {
-            edificio = Edificio_Servicio.crearEstacionBomberos();
-        }
-
-        else if (tipoElegido === "S3") {
-            edificio = Edificio_Servicio.crearHospital();
-        }
-
-        else if (tipoElegido === "U1") {
-            edificio = Edificio_Servicio.crearPlantaElectrica();
-        }
-
-        else if (tipoElegido === "U2") {
-            edificio = Edificio_Servicio.crearPlantaAgua();
-        }
-
-        else if (tipoElegido === "P1") {
-            edificio=Parque.crearParque();
-
-        }
-        
-
-        return edificio;
-
+    // VIA
+    if (tipoElegido === "r") {
+        edificio = Via.crearVia(null, x, y);
     }
+
+    // RESIDENCIAL
+    else if (tipoElegido === "R1") {
+        edificio = Edificio_Residencial.crearCasa(null, x, y);
+    }
+
+    else if (tipoElegido === "R2") {
+        edificio = Edificio_Residencial.crearApartamento(null, x, y);
+    }
+
+    // COMERCIAL
+    else if (tipoElegido === "C1") {
+        edificio = Edificio_Comercial.crearTienda(null, x, y);
+    }
+
+    else if (tipoElegido === "C2") {
+        edificio = Edificio_Comercial.crearCenrtoComercial(null, x, y);
+    }
+
+    // INDUSTRIAL
+    else if (tipoElegido === "I1") {
+        edificio = Edificio_Industrial.crearFabrica(null, x, y);
+    }
+
+    else if (tipoElegido === "I2") {
+        edificio = Edificio_Industrial.crearGranja(null, x, y);
+    }
+
+    // SERVICIOS
+    else if (tipoElegido === "S1") {
+        edificio = Edificio_Servicios.crearEstacionPolicia(null, x, y);
+    }
+
+    else if (tipoElegido === "S2") {
+        edificio = Edificio_Servicios.crearEstacionBomberos(null, x, y);
+    }
+
+    else if (tipoElegido === "S3") {
+        edificio = Edificio_Servicios.crearHospital(null, x, y);
+    }
+
+    // UTILIDADES
+    else if (tipoElegido === "U1") {
+        edificio = Planta_Utilidad.crearPlantaElectrica(null, x, y);
+    }
+
+    else if (tipoElegido === "U2") {
+        edificio = Planta_Utilidad.crearPlantaAgua(null, x, y);
+    }
+
+    // PARQUE
+    else if (tipoElegido === "P1") {
+        edificio = Parque.crearParque(null, x, y);
+    }
+
+    return edificio;
+}
 
     function validarConstruccion(costo, x, y, ciudad, tipoElegido){
 
@@ -193,8 +198,8 @@ function activarEventosCasillas(ciudad){
 
         objeto.setNombre(nombreEdificio);
 
-        ciudad.dinero -= objeto.costoConstruccion;
-
+        ciudad.dinero-=(Number(objeto.getCostoConstruccion()));
+       
         ciudad.edificios.push(objeto);
 
         mensajeAusuario.innerHTML = `

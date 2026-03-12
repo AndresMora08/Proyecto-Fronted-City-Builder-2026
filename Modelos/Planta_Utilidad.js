@@ -8,26 +8,26 @@ class Planta_Utilidad extends Edificio{
     static contadorPlantaElectrica = 1;
     static contadorPlantaAgua = 1;
 
-    constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad, produccion){
-        super("Planta_Utilidad",nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad);
+    constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y, produccion){
+        super("Planta_Utilidad",nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
         this._produccion = produccion;
     }
 
-    static crearPlantaElectrica(nombrePlanta){
+    static crearPlantaElectrica(nombrePlanta,x,y){
         const nombreFinal = nombrePlanta && nombrePlanta.trim()
             ? nombrePlanta.trim()
             : `Planta electrica ${Planta_Utilidad.contadorPlantaElectrica++}`;
 
-        const plantaElectrica = new Planta_Utilidad(nombreFinal, tipoUtilidad.plantaElectrica, 10000, 0, 0, 200);
+        const plantaElectrica = new Planta_Utilidad(nombreFinal, tipoUtilidad.plantaElectrica, 10000, 0, 0,x,y, 200);
         return plantaElectrica;
     }
 
-    static crearPlantaAgua(nombrePlanta){
+    static crearPlantaAgua(nombrePlanta,x,y){
         const nombreFinal = nombrePlanta && nombrePlanta.trim()
             ? nombrePlanta.trim()
             : `Planta de agua ${Planta_Utilidad.contadorPlantaAgua++}`;
 
-        const plantaAgua = new Planta_Utilidad(nombreFinal, tipoUtilidad.PlantaAgua, 8000, 0, 20, 150);
+        const plantaAgua = new Planta_Utilidad(nombreFinal, tipoUtilidad.PlantaAgua, 8000, 0, 20,x,y, 150);
         return plantaAgua;
     }
 

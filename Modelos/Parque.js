@@ -6,12 +6,12 @@ class Parque extends Edificio{
 
     static contadorParques = 1;
 
-    constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad, aumentoFelicidad){
-        super("Parque", nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad);
+    constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y, aumentoFelicidad){
+        super("Parque", nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y);
         this._aumentoFelicidad = aumentoFelicidad;
     }
 
-    static crearParque(nombreParque){
+    static crearParque(nombreParque,x,y){
 
         const nombreFinal = nombreParque && nombreParque.trim()
             ? nombreParque.trim()
@@ -23,6 +23,8 @@ class Parque extends Edificio{
             1500,
             0,
             0,
+            x,
+            y,
             5
         );
 

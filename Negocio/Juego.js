@@ -106,7 +106,7 @@ function renderizarMapa(ciudad) {
 
     tablaHTML += "</table>";
     mapaContainer.innerHTML = tablaHTML;
-    mapaContainer.innerHTML = tablaHTML;
+    
 
     
 }

@@ -1,13 +1,14 @@
 class Edificio{
 
-    constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad) {
+    constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y) {
 
     this.nombre = nombre;
     this.tipo = tipo;
     this.costoConstruccion = costoConstruccion;
     this.consumoAgua = consumoAgua;
     this.consumoElectricidad = consumoElectricidad;
-
+    this.x=x;
+    this.y=y;
     }
      getNombre(){
         return this.nombre;
