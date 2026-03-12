@@ -4,15 +4,17 @@ const tipoIndustrial = {
 }
 
 class Edificio_Industrial extends Edificio{
+
     static contadorFabrica = 1;
     static contadorGranja = 1;
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad, produccion, empleos){
         super("Edificio_Industrial",nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad);
-        this.produccion = produccion;
-        this.empleos = empleos;
+        this._produccion = produccion;
+        this._empleos = empleos;
     }
-    crearFabrica(nombreIndustria){
+
+    static crearFabrica(nombreIndustria){
         const nombreFinal = nombreIndustria && nombreIndustria.trim()
             ? nombreIndustria.trim()
             : `Fabrica ${Edificio_Industrial.contadorFabrica++}`;
@@ -21,12 +23,28 @@ class Edificio_Industrial extends Edificio{
         return Fabrica;
     }
 
-    crearGranja(nombreIndustria){
+    static crearGranja(nombreIndustria){
         const nombreFinal = nombreIndustria && nombreIndustria.trim()
             ? nombreIndustria.trim()
             : `Granja ${Edificio_Industrial.contadorGranja++}`;
 
         const Granja = new Edificio_Industrial(nombreFinal, tipoIndustrial.Granja, 3000, 10, 0, 50, 8);
         return Granja;
+    }
+
+    get produccion(){
+        return this._produccion;
+    }
+
+    set produccion(valor){
+        this._produccion = valor;
+    }
+
+    get empleos(){
+        return this._empleos;
+    }
+
+    set empleos(valor){
+        this._empleos = valor;
     }
 }

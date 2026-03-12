@@ -129,13 +129,25 @@ body {
     padding: 0;
 }
 
-.grass {
+.pasto{
     background-image: url("../../Assets/images/istockphoto-2191688361-612x612.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
+.casa{
+     background-image: url("../../Assets/images/pixil-assets-hose1.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.via{
+    background-image: url("https://as1.ftcdn.net/v2/jpg/04/02/10/88/1000_F_402108824_3peF0VIZgXrXEWgBXWuBbptxjpkZO8lH.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .casilla {
     display: block;
     width: 100%;
@@ -194,8 +206,8 @@ body {
 #btnRuta { background-image: url("../../Assets/images/menu/ruta.png"); }
 #btnConfig { background-image: url("../../Assets/images/menu/engranajes.png"); }
 
-#hudConstruir {
-    display: none; 
+#hudDinamico {
+    display:none; 
     justify-content: center;
     align-items: center;
     padding: 10px;

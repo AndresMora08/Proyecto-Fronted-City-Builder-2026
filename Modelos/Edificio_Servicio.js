@@ -16,7 +16,7 @@ class Edificio_Servicios extends Edificio{
 
     }
 
-    crearEstacionPolicia(nombreEstacion){
+    static crearEstacionPolicia(nombreEstacion){
         const nombreFinal = nombreEstacion && nombreEstacion.trim()
             ? nombreEstacion.trim()
             : `Estacion de policia ${Edificio_Servicios.contadorEstacionPolicia++}`;
@@ -25,7 +25,7 @@ class Edificio_Servicios extends Edificio{
         return EstacionPolicia;
     }
 
-    crearEstacionBomberos(nombreEstacion){
+    static crearEstacionBomberos(nombreEstacion){
         const nombreFinal = nombreEstacion && nombreEstacion.trim()
             ? nombreEstacion.trim()
             : `Estacion de bomberos ${Edificio_Servicios.contadorEstacionBombreos++}`;
@@ -34,7 +34,7 @@ class Edificio_Servicios extends Edificio{
         return EstacionBomberos;
     }
 
-    crearHospital(nombreHospital){
+    static crearHospital(nombreHospital){
         const nombreFinal = nombreHospital && nombreHospital.trim()
             ? nombreHospital.trim()
             : `Hospital ${Edificio_Servicios.contadorHospital++}`;

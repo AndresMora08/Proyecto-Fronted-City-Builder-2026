@@ -8,7 +8,7 @@ class Via extends Edificio {
     }
 
 
-    crearVia(nombreVia) {
+    static crearVia(nombreVia) {
         const nombreFinal = nombreVia && nombreVia.trim()
             ? nombreVia.trim()
             : `Via ${Via.contadorVias++}`;

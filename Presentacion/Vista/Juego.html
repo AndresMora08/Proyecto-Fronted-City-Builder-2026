@@ -4,12 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>City Builder</title>
+    
     <script defer src="../../Acceso_Datos/CiudadStorage.js" ></script>
     <script defer src="../../Negocio/Juego.js"></script>
-    <script defer src="../../Negocio/Menu_Acciones.js"></script>
     <script defer src="../../Modelos/Alcalde.js"></script>
     <script defer src="../../Modelos/Ciudad.js"></script>
     <script defer src="../../Modelos/Mapa.js"></script>
+    <script defer src="../../Modelos/Edificio.js"></script>
+    <script defer src="../../Modelos/Edificio_Comercial.js"></script>
+    <script defer src="../../Modelos/Edificio_Industrial.js"></script>
+    <script defer src="../../Modelos/Edificio_Residencial.js"></script>
+    <script defer src="../../Modelos/Edificio_Servicio.js"></script>
+    <script defer src="../../Modelos/Parque.js"></script>
+    <script defer src="../../Modelos/Planta_Utilidad.js"></script>
+    <script defer src="../../Modelos/Via.js"></script>
+    <script defer src="../../Negocio/Menu_Acciones.js"></script>
+    <script defer src="../../Negocio/Validaciones_y_Construcciones.js"></script>
     <link rel="stylesheet" href="../Estilo/Juego.css">
 </head>
 <body>
@@ -34,14 +44,12 @@
             <button id="btnRuta"></button>
             <button id="btnConfig"></button>
         </div>
-        <div id="hudConstruir">
-            <button id="btnResiden"></button>
-            <button id="btnComer"></button>
-            <button id="btnIndus"></button>
-            <button id="btnVolver">⬅ Volver</button>
-        </div>
+
+         <div id="hudDinamico"></div> 
             
     </div>
+
+    <div id="mensajeAusuario"></div>
 
 </body>
 </html>

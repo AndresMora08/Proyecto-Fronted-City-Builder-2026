@@ -13,7 +13,7 @@ class Edificio_Comercial extends Edificio{
 
     }
 
-    crearTienda(nombreComercio){
+   static crearTienda(nombreComercio){
         const nombreFinal = nombreComercio && nombreComercio.trim()
             ? nombreComercio.trim()
             : `Tienda ${Edificio_Comercial.contadorTienda++}`;
@@ -22,7 +22,7 @@ class Edificio_Comercial extends Edificio{
         return tienda;
     }
 
-    crearCenrtoComercial(nombreComercio){
+   static crearCenrtoComercial(nombreComercio){
         const nombreFinal = nombreComercio && nombreComercio.trim()
             ? nombreComercio.trim()
             : `Centro comercial ${Edificio_Comercial.contadorCentroComercial++}`;

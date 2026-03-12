@@ -6,99 +6,142 @@ document.addEventListener("DOMContentLoaded", function() {
     const hudDinamico = document.getElementById("hudDinamico");
     const btnConstruir = document.getElementById("btnConstruir");
 
-   
-    
-
     btnConstruir.addEventListener("click", function() {
-        hudAcciones.style.display = "none";
+         hudAcciones.style.display = "none";
+        hudDinamico.style.display = "flex";
         mostrarMenuConstruccion();
     });
 
     // Menú principal de construcción
     function mostrarMenuConstruccion() {
+       
         hudDinamico.innerHTML = `
-            <table>
-                <tr>
-                    <td><button id="btnResiden">Residencial</button></td>
-                    <td><button id="btnComer">Comercial</button></td>
-                    <td><button id="btnIndus">Industrial</button></td>
-                    <td><button id="btnVolver">⬅ Volver</button></td>
-                </tr>
-            </table>
+            <button id="btnResiden"></button>
+            <button id="btnComer"></button>
+            <button id="btnIndus"></button>
+            <button id="btnServ"></button>
+            <button id="btnUtili"></button>
+            <button id="btnParque"></button>
+            <button id="btnVia"></button>
+            <button id="btnVolver">⬅</button>
         `;
 
         document.getElementById("btnResiden").addEventListener("click", mostrarMenuResidencial);
         document.getElementById("btnComer").addEventListener("click", mostrarMenuComercial);
         document.getElementById("btnIndus").addEventListener("click", mostrarMenuIndustrial);
+        document.getElementById("btnServ").addEventListener("click", mostrarMenuServicio);
+        document.getElementById("btnUtili").addEventListener("click", mostrarMenuUtilidad);
+        document.getElementById("btnParque").addEventListener("click", mostrarMenuParque);
+        document.getElementById("btnVia").addEventListener("click", mostrarMenuVia);
+
         document.getElementById("btnVolver").addEventListener("click", function() {
             hudDinamico.innerHTML = "";
-            hudAcciones.style.display = "block";
+            hudDinamico.style.display = "none";
+            hudAcciones.style.display = "flex";
         });
     }
 
-    // Submenú Residencial
+    // Residencial
     function mostrarMenuResidencial() {
         hudDinamico.innerHTML = `
-            <table>
-                <tr>
-                    <td><button data-tipo="R1">Casa</button></td>
-                    <td><button data-tipo="R2">Apartamento</button></td>
-                    <td><button id="btnVolver">⬅ Volver</button></td>
-                </tr>
-            </table>
+            <button data-tipo="R1">Casa</button>
+            <button data-tipo="R2">Apartamento</button>
+            <button id="btnVolver">⬅</button>
         `;
+
         agregarListenerVolver();
         agregarListenerTipo();
     }
 
-    // Submenú Comercial
+    // Comercial
     function mostrarMenuComercial() {
         hudDinamico.innerHTML = `
-            <table>
-                <tr>
-                    <td><button data-tipo="C1">Tienda</button></td>
-                    <td><button data-tipo="C2">Centro Comercial</button></td>
-                    <td><button id="btnVolver">⬅ Volver</button></td>
-                </tr>
-            </table>
+            <button data-tipo="C1">Tienda</button>
+            <button data-tipo="C2">Centro Comercial</button>
+            <button id="btnVolver">⬅</button>
         `;
+
         agregarListenerVolver();
         agregarListenerTipo();
     }
 
-    // Submenú Industrial
+    // Industrial
     function mostrarMenuIndustrial() {
         hudDinamico.innerHTML = `
-            <table>
-                <tr>
-                    <td><button data-tipo="I1">Fábrica</button></td>
-                    <td><button data-tipo="I2">Granja</button></td>
-                    <td><button id="btnVolver">⬅ Volver</button></td>
-                </tr>
-            </table>
+            <button data-tipo="I1">Fábrica</button>
+            <button data-tipo="I2">Granja</button>
+            <button id="btnVolver">⬅</button>
         `;
+
         agregarListenerVolver();
         agregarListenerTipo();
     }
 
-    // Botón volver siempre regresa al menú principal de construcción
+    // Servicios
+    function mostrarMenuServicio() {
+        hudDinamico.innerHTML = `
+            <button data-tipo="S1">Policía</button>
+            <button data-tipo="S2">Bomberos</button>
+            <button data-tipo="S3">Hospital</button>
+            <button id="btnVolver">⬅</button>
+        `;
+
+        agregarListenerVolver();
+        agregarListenerTipo();
+    }
+
+    // Utilidades
+    function mostrarMenuUtilidad() {
+        hudDinamico.innerHTML = `
+            <button data-tipo="U1">Planta Eléctrica</button>
+            <button data-tipo="U2">Planta Agua</button>
+            <button id="btnVolver">⬅</button>
+        `;
+
+        agregarListenerVolver();
+        agregarListenerTipo();
+    }
+
+    // Parque
+    function mostrarMenuParque() {
+        hudDinamico.innerHTML = `
+            <button data-tipo="P1">Parque</button>
+            <button id="btnVolver">⬅</button>
+        `;
+
+        agregarListenerVolver();
+        agregarListenerTipo();
+    }
+
+    function mostrarMenuVia(){
+        hudDinamico.innerHTML = `
+            <button data-tipo="r">Carretera</button>
+            <button id="btnVolver">⬅</button>
+        `;
+
+        agregarListenerVolver();
+        agregarListenerTipo();
+    }
+
     function agregarListenerVolver() {
         const btnVolver = document.getElementById("btnVolver");
+
         btnVolver.addEventListener("click", function() {
             hudDinamico.innerHTML = "";
             mostrarMenuConstruccion();
         });
     }
 
-    
     function agregarListenerTipo() {
         hudDinamico.addEventListener("click", function listener(e) {
+
             if (e.target.dataset.tipo) {
-                
-                 tipoElegido=e.target.dataset.tipo;
-                
-                hudDinamico.removeEventListener("click", listener); 
+
+                tipoElegido = e.target.dataset.tipo;
+
+                hudDinamico.removeEventListener("click", listener);
             }
+
         });
     }
 

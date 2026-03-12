@@ -1,135 +1,217 @@
 document.addEventListener("DOMContentLoaded", function() {
+
     const ciudad = cargarCiudad();
+    let mensajeAusuario = document.getElementById("mensajeAusuario");
+    
 
-    const casillas=document.getElementsByClassName("casilla");
+   activarEventosCasillas(ciudad);
 
-   
+function activarEventosCasillas(ciudad){
+    const casillas = document.getElementsByClassName("casilla");
+
     for (let i = 0; i < casillas.length; i++) {
-    casillas[i].addEventListener("click", function () {
 
-        const x = this.dataset.x;
-        const y = this.dataset.y;
-        if(modo==="construccion"){
-        modalidadConstruccion(ciudad,x,y,tipoElegido);
+        casillas[i].addEventListener("click", function(){
+
+            const x = parseInt(this.dataset.x);
+            const y = parseInt(this.dataset.y);
+
+            modalidadConstruccion(ciudad, x, y, tipoElegido);
+
+        });
+
+    }
+
+}
+    function modalidadConstruccion(ciudad, x, y, tipoElegido){
+
+        const objeto = objetoVacio(tipoElegido);
+        const costo = objeto.getCostoConstruccion();
+
+        const validacion = validarConstruccion(costo, x, y, ciudad, tipoElegido);
+
+        if(validacion){
+
+            mensajeAusuario.innerHTML = `
+                <div> 
+                    <label>Ingrese un nombre para el edificio</label>
+                    <input type="text" id="nombreEdificio" value="${objeto.nombre}">
+                    <button id="confirmarNombre">Confirmar</button>
+                </div>
+            `;
+
+            const confirmarNombre = document.getElementById("confirmarNombre");
+
+            confirmarNombre.addEventListener("click", function(){
+
+                const nombreEdificio = document
+                    .getElementById("nombreEdificio")
+                    .value
+                    .trim();
+
+                mensajeAusuario.innerHTML = "";
+
+                construir(ciudad, x, y, objeto, tipoElegido, nombreEdificio);
+
+            });
+
         }
-    });
-}   
-    function modalidadConstruccion(ciudad,x,y,tipoElegido){
 
-       const costo=obtenerCosto(tipoElegido);
+        else{
 
-       const validacion=validarConstruccion(costo,x,y,ciudad,tipoElegido);
+            mensajeAusuario.innerHTML = `
+                <div> 
+                    <p>No tienes suficiente dinero o no hay vía cercana</p>
+                </div>
+            `;
 
-    }   
+            setTimeout(function(){
+                mensajeAusuario.innerHTML = "";
+            },4000);
 
-    function obtenerCosto(tipoElegido){
+        }
 
+    }
+
+    function objetoVacio(tipoElegido){
+
+        let edificio;
+        console.log("Tipo elegido:", tipoElegido);
+        if (tipoElegido === "r") {
+            edificio = Via.crearVia();
+        }
+
+        else if (tipoElegido === "R1") {
+            edificio = Edificio_Residencial.crearCasa();
+        }
+
+        else if (tipoElegido === "R2") {
+            edificio = Edificio_Residencial.crearApartamento();
+        }
+
+        else if (tipoElegido === "C1") {
+            edificio = Edificio_Comercial.crearTienda();
+        }
+
+        else if (tipoElegido === "C2") {
+            edificio = Edificio_Comercial.crearCentroComercial();
+        }
+
+        else if (tipoElegido === "I1"){
+            edificio = Edificio_Industrial.crearFabrica();
+        }
+
+        else if (tipoElegido === "I2") {
+            edificio = Edificio_Industrial.crearGranja();
+        }
+
+        else if (tipoElegido === "S1") {
+            edificio = Edificio_Servicio.crearEstacionPolicia();
+        }
+
+        else if (tipoElegido === "S2") {
+            edificio = Edificio_Servicio.crearEstacionBomberos();
+        }
+
+        else if (tipoElegido === "S3") {
+            edificio = Edificio_Servicio.crearHospital();
+        }
+
+        else if (tipoElegido === "U1") {
+            edificio = Edificio_Servicio.crearPlantaElectrica();
+        }
+
+        else if (tipoElegido === "U2") {
+            edificio = Edificio_Servicio.crearPlantaAgua();
+        }
+
+        else if (tipoElegido === "P1") {
+            edificio=Parque.crearParque();
+
+        }
         
 
-    let costo = 0;
+        return edificio;
 
-    if (tipoElegido === "r") {
-        costo = 100; // vía
     }
 
-    else if (tipoElegido === "R1") {
-        costo = 1000; // Casa
-    }
+    function validarConstruccion(costo, x, y, ciudad, tipoElegido){
 
-    else if (tipoElegido === "R2") {
-        costo = 3000; // Apartamento
-    }
-
-    else if (tipoElegido === "C1") {
-        costo = 2000; // Tienda
-    }
-
-    else if (tipoElegido === "C2") {
-        costo = 8000; // Centro Comercial
-    }
-
-    else if (tipoElegido === "I1") {
-        costo = 5000; // Fábrica
-    }
-
-    else if (tipoElegido === "I2") {
-        costo = 3000; // Granja
-    }
-
-    else if (tipoElegido === "S1") {
-        costo = 4000; // Estación Policía
-    }
-
-    else if (tipoElegido === "S2") {
-        costo = 4000; // Estación Bomberos
-    }
-
-    else if (tipoElegido === "S3") {
-        costo = 6000; // Hospital
-    }
-
-    else if (tipoElegido === "U1") {
-        costo = 10000; // Planta Eléctrica
-    }
-
-    else if (tipoElegido === "U2") {
-        costo = 8000; // Planta de Agua
-    }
-
-    else if (tipoElegido === "P1") {
-        costo = 1500; // Parque
-    }
-
-    return costo;
-}
-   
-function validarConstruccion(costo,x,y,ciudad,tipoElegido){
-
-    if(ciudad.mapa.matriz[x][y]!=="g" || ciudad.dinero<costo || !tieneViaAdyacente(x,y,ciudad,tipoElegido)){
-        return false;
-    }
-    return true;
-}
-
-function tieneViaAdyacente(x,y,ciudad,tipoElegido){
-     if (tipoElegido === "r") {
-        return true;
-    }
-
-    const mapa = ciudad.mapa.matriz;
-    const tamaño = ciudad.mapa.tamanio;
-
-    const direcciones = [
-        [-1, 0], // arriba
-        [1, 0],  // abajo
-        [0, -1], // izquierda
-        [0, 1]   // derecha
-    ];
-
-    for (let i = 0; i < direcciones.length; i++) {
-
-        const nuevaX = x + direcciones[i][0];
-        const nuevaY = y + direcciones[i][1];
-
-        if (
-            nuevaX >= 0 && nuevaY >= 0 &&
-            nuevaX < tamaño && nuevaY < tamaño
-        ) {
-            if (mapa[nuevaX][nuevaY] === "r") {
-                return true;
-            }
+        if(
+            ciudad.mapa.matriz[x][y] !== "g" ||
+            ciudad.dinero < costo ||
+            !tieneViaAdyacente(x,y,ciudad,tipoElegido)
+        ){
+            return false;
         }
+
+        return true;
+
     }
 
-    return false;
-}
+    function tieneViaAdyacente(x,y,ciudad,tipoElegido){
 
+        if (tipoElegido === "r") {
+            return true;
+        }
 
+        const mapa = ciudad.mapa.matriz;
+        const tamaño = ciudad.mapa.tamanio;
 
+        const direcciones = [
+            [-1,0],
+            [1,0],
+            [0,-1],
+            [0,1]
+        ];
 
-    
-    
+        for (let i = 0; i < direcciones.length; i++) {
 
-   
-    
+            const nuevaX = x + direcciones[i][0];
+            const nuevaY = y + direcciones[i][1];
+
+            if(
+                nuevaX >= 0 &&
+                nuevaY >= 0 &&
+                nuevaX < tamaño &&
+                nuevaY < tamaño
+            ){
+                if(mapa[nuevaX][nuevaY] === "r"){
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+
+    }
+
+    function construir(ciudad,x,y,objeto,tipoElegido,nombreEdificio){
+
+        ciudad.mapa.matriz[x][y] = tipoElegido;
+
+        objeto.setNombre(nombreEdificio);
+
+        ciudad.dinero -= objeto.costoConstruccion;
+
+        ciudad.edificios.push(objeto);
+
+        mensajeAusuario.innerHTML = `
+            <div>
+                <p>Construcción exitosa</p>
+            </div>
+        `;
+
+        setTimeout(function(){
+            mensajeAusuario.innerHTML = "";
+        },5000);
+
+        CiudadStorage.guardar(ciudad);
+        mostrarDatosCiudad(ciudad);
+       renderizarMapa(ciudad);
+       activarEventosCasillas(ciudad);
+
+    }
+
 });
