@@ -9,42 +9,44 @@ class Edificio_Industrial extends Edificio{
     static contadorGranja = 1;
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y ,produccion, empleos){
-        super("Edificio_Industrial",nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
+        super(nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
         this._produccion = produccion;
         this._empleos = empleos;
     }
 
-    static crearFabrica(nombreIndustria,x,y){
+    static crearFabrica(nombreIndustria,x,y,codigoMapa){
         const nombreFinal = nombreIndustria && nombreIndustria.trim()
             ? nombreIndustria.trim()
             : `Fabrica ${Edificio_Industrial.contadorFabrica++}`;
 
-        const Fabrica = new Edificio_Industrial(nombreFinal, tipoIndustrial.Fabrica, 5000, 15, 20,x,y, 800, 15);
-        return Fabrica;
+        const fabrica = new Edificio_Industrial(nombreFinal, tipoIndustrial.Fabrica, 5000, 15, 20,x,y, 800, 15);
+        fabrica.setCodigoMapa(codigoMapa);
+        return fabrica;
     }
 
-    static crearGranja(nombreIndustria,x,y){
+    static crearGranja(nombreIndustria,x,y,codigoMapa){
         const nombreFinal = nombreIndustria && nombreIndustria.trim()
             ? nombreIndustria.trim()
             : `Granja ${Edificio_Industrial.contadorGranja++}`;
 
-        const Granja = new Edificio_Industrial(nombreFinal, tipoIndustrial.Granja, 3000, 10, 0,x,y, 50, 8);
-        return Granja;
+        const granja = new Edificio_Industrial(nombreFinal, tipoIndustrial.Granja, 3000, 10, 0,x,y, 50, 8);
+        granja.setCodigoMapa(codigoMapa);
+        return granja;
     }
 
-    get produccion(){
+    getProduccion(){
         return this._produccion;
     }
 
-    set produccion(valor){
+    setProduccion(valor){
         this._produccion = valor;
     }
 
-    get empleos(){
+    getEmpleos(){
         return this._empleos;
     }
 
-    set empleos(valor){
+    setEmpleos(valor){
         this._empleos = valor;
     }
 }

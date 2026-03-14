@@ -26,7 +26,7 @@ function activarEventosCasillas(ciudad){
     function modalidadConstruccion(ciudad, x, y, tipoElegido){
 
         const objeto = objetoVacio(tipoElegido,x,y);
-        const costo = objeto.getCostoConstruccion();
+        const costo = objeto.costoConstruccion;
 
         const validacion = validarConstruccion(costo, x, y, ciudad, tipoElegido);
 
@@ -76,65 +76,65 @@ function activarEventosCasillas(ciudad){
  function objetoVacio(tipoElegido, x, y) {
 
     let edificio;
-    console.log("Tipo elegido:", tipoElegido);
+    
 
     // VIA
     if (tipoElegido === "r") {
-        edificio = Via.crearVia(null, x, y);
+        edificio = Via.crearVia(null, x, y,tipoElegido);
     }
 
     // RESIDENCIAL
     else if (tipoElegido === "R1") {
-        edificio = Edificio_Residencial.crearCasa(null, x, y);
+        edificio = Edificio_Residencial.crearCasa(null, x, y,tipoElegido);
     }
 
     else if (tipoElegido === "R2") {
-        edificio = Edificio_Residencial.crearApartamento(null, x, y);
+        edificio = Edificio_Residencial.crearApartamento(null, x, y,tipoElegido);
     }
 
     // COMERCIAL
     else if (tipoElegido === "C1") {
-        edificio = Edificio_Comercial.crearTienda(null, x, y);
+        edificio = Edificio_Comercial.crearTienda(null, x, y,tipoElegido);
     }
 
     else if (tipoElegido === "C2") {
-        edificio = Edificio_Comercial.crearCenrtoComercial(null, x, y);
+        edificio = Edificio_Comercial.crearCenrtoComercial(null, x, y,tipoElegido);
     }
 
     // INDUSTRIAL
     else if (tipoElegido === "I1") {
-        edificio = Edificio_Industrial.crearFabrica(null, x, y);
+        edificio = Edificio_Industrial.crearFabrica(null, x, y,tipoElegido);
     }
 
     else if (tipoElegido === "I2") {
-        edificio = Edificio_Industrial.crearGranja(null, x, y);
+        edificio = Edificio_Industrial.crearGranja(null, x, y,tipoElegido);
     }
 
     // SERVICIOS
     else if (tipoElegido === "S1") {
-        edificio = Edificio_Servicios.crearEstacionPolicia(null, x, y);
+        edificio = Edificio_Servicios.crearEstacionPolicia(null, x, y,tipoElegido);
     }
 
     else if (tipoElegido === "S2") {
-        edificio = Edificio_Servicios.crearEstacionBomberos(null, x, y);
+        edificio = Edificio_Servicios.crearEstacionBomberos(null, x, y,tipoElegido);
     }
 
     else if (tipoElegido === "S3") {
-        edificio = Edificio_Servicios.crearHospital(null, x, y);
+        edificio = Edificio_Servicios.crearHospital(null, x, y,tipoElegido);
     }
 
     // UTILIDADES
     else if (tipoElegido === "U1") {
-        edificio = Planta_Utilidad.crearPlantaElectrica(null, x, y);
+        edificio = Planta_Utilidad.crearPlantaElectrica(null, x, y,tipoElegido);
     }
 
     else if (tipoElegido === "U2") {
-        edificio = Planta_Utilidad.crearPlantaAgua(null, x, y);
+        edificio = Planta_Utilidad.crearPlantaAgua(null, x, y,tipoElegido);
     }
 
     // PARQUE
     else if (tipoElegido === "P1") {
-        edificio = Parque.crearParque(null, x, y);
+        edificio = Parque.crearParque(null, x, y,tipoElegido);
     }
 
     return edificio;
@@ -195,10 +195,12 @@ function activarEventosCasillas(ciudad){
     function construir(ciudad,x,y,objeto,tipoElegido,nombreEdificio){
 
         ciudad.mapa.matriz[x][y] = tipoElegido;
+        console.log("objeto", objeto);
+        console.log("Dinero antes:", ciudad.dinero);
+        console.log("Costo:", objeto.costoConstruccion);
+        objeto.nombre=nombreEdificio;
 
-        objeto.setNombre(nombreEdificio);
-
-        ciudad.dinero-=(Number(objeto.getCostoConstruccion()));
+        ciudad.dinero-=objeto.costoConstruccion;
        
         ciudad.edificios.push(objeto);
 

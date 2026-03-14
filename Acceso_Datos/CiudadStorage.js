@@ -10,8 +10,9 @@ class CiudadStorage {
             let e = ciudad.edificios[i];
 
              let edificioSimple = {
-                tipo: e.tipo,//error aqui que corrijo mañana
-                nombre: e.nombre,
+                codigoMapa: e.codigoMapa,
+
+                nombre: e.getNombre,
                 x: e.x,
                 y: e.y
     };
@@ -41,7 +42,7 @@ class CiudadStorage {
         if (!datos) return null;
 
         const ciudadPlano = JSON.parse(datos);
-   
+        const edificios=ciudadPlano.edificios;
 
         // Reconstruir mapa
         const mapa = new Mapa(ciudadPlano.tamanioMapa);
@@ -59,68 +60,69 @@ class CiudadStorage {
             Number(ciudadPlano.puntuacion)
         );
         ciudad.mapa=mapa;
-        for (let i = 0; i < ciudadPlano.edificios.length; i++) {
+ if (ciudadPlano.edificios) {
+    for (let i = 0; i < edificios.length; i++) {
 
-    let e = ciudadPlano.edificios[i];
-    let edificio;
+        let e = ciudadPlano.edificios[i];
+        let edificio;
 
     // RESIDENCIAL
-    if (e.tipo === "R1") {
-        edificio = Edificio_Residencial.crearCasa(e.nombre, e.x, e.y);
+    if (e.codigoMapa === "R1") {
+        edificio = Edificio_Residencial.crearCasa(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
-    else if (e.tipo === "R2") {
-        edificio = Edificio_Residencial.crearApartamento(e.nombre, e.x, e.y);
+    else if (e.codigoMapa=== "R2") {
+        edificio = Edificio_Residencial.crearApartamento(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
     // COMERCIAL
-    else if (e.tipo === "C1") {
-        edificio = Edificio_Comercial.crearTienda(e.nombre, e.x, e.y);
+    else if (e.codigoMapa === "C1") {
+        edificio = Edificio_Comercial.crearTienda(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
-    else if (e.tipo === "C2") {
-        edificio = Edificio_Comercial.crearCenrtoComercial(e.nombre, e.x, e.y);
+    else if (e.codigoMapa === "C2") {
+        edificio = Edificio_Comercial.crearCenrtoComercial(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
     // INDUSTRIAL
-    else if (e.tipo === "I1") {
-        edificio = Edificio_Industrial.crearFabrica(e.nombre, e.x, e.y);
+    else if (e.codigoMapa=== "I1") {
+        edificio = Edificio_Industrial.crearFabrica(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
-    else if (e.tipo === "I2") {
-        edificio = Edificio_Industrial.crearGranja(e.nombre, e.x, e.y);
+    else if (e.codigoMapa === "I2") {
+        edificio = Edificio_Industrial.crearGranja(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
     // SERVICIOS
-    else if (e.tipo === "S1") {
-        edificio = Edificio_Servicios.crearEstacionPolicia(e.nombre, e.x, e.y);
+    else if (e.codigoMapa=== "S1") {
+        edificio = Edificio_Servicios.crearEstacionPolicia(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
-    else if (e.tipo === "S2") {
-        edificio = Edificio_Servicios.crearEstacionBomberos(e.nombre, e.x, e.y);
+    else if (e.codigoMapa === "S2") {
+        edificio = Edificio_Servicios.crearEstacionBomberos(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
-    else if (e.tipo === "S3") {
-        edificio = Edificio_Servicios.crearHospital(e.nombre, e.x, e.y);
+    else if (e.codigoMapa === "S3") {
+        edificio = Edificio_Servicios.crearHospital(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
     // UTILIDADES
-    else if (e.tipo === "U1") {
-        edificio = Planta_Utilidad.crearPlantaElectrica(e.nombre, e.x, e.y);
+    else if (e.codigoMapa=== "U1") {
+        edificio = Planta_Utilidad.crearPlantaElectrica(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
-    else if (e.tipo === "U2") {
-        edificio = Planta_Utilidad.crearPlantaAgua(e.nombre, e.x, e.y);
+    else if (e.codigoMapa === "U2") {
+        edificio = Planta_Utilidad.crearPlantaAgua(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
     // PARQUE
-    else if (e.tipo === "P1") {
-        edificio = Parque.crearParque(e.nombre, e.x, e.y);
+    else if (e.codigoMapa === "P1") {
+        edificio = Parque.crearParque(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
     // VIA
-    else if (e.tipo === "r") {
-        edificio = Via.crearVia(e.nombre, e.x, e.y);
+    else if (e.codigoMapa === "r") {
+        edificio = Via.crearVia(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
     if (edificio) {
@@ -128,6 +130,7 @@ class CiudadStorage {
     }
 }
         return ciudad;
+    }
     }
 
     static limpiar() {

@@ -9,33 +9,35 @@ class Edificio_Residencial extends Edificio{
     static contadorApartamentos = 1;
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad, x,y,capacidad){
-        super("Edificio_Residencial",nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
+        super(nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
         this._capacidad = capacidad;
     }
 
-    static crearCasa(nombreResidencia,x,y){
+    static crearCasa(nombreResidencia,x,y,codigoMapa){
         const nombreFinal = nombreResidencia && nombreResidencia.trim()
             ? nombreResidencia.trim()
             : `Casa ${Edificio_Residencial.contadorCasas++}`;
 
         const casa = new Edificio_Residencial(nombreFinal, tipoResidencia.Casa, 1000, 3, 5,x,y, 4);
+        casa.setCodigoMapa(codigoMapa);
         return casa;
     }
 
-    static crearApartamento(nombreResidencia,x,y){
+    static crearApartamento(nombreResidencia,x,y,codigoMapa){
         const nombreFinal = nombreResidencia && nombreResidencia.trim()
             ? nombreResidencia.trim()
             : `Apartamento ${Edificio_Residencial.contadorApartamentos++}`;
 
         const apartamento = new Edificio_Residencial(nombreFinal, tipoResidencia.Apartamento, 3000, 10, 15,x,y, 12);
+        apartamento.setCodigoMapa(codigoMapa);
         return apartamento;
     }
 
-    get capacidad(){
+    getCapacidad(){
         return this._capacidad;
     }
 
-    set capacidad(valor){
+    setCapacidad(valor){
         this._capacidad = valor;
     }
 }
