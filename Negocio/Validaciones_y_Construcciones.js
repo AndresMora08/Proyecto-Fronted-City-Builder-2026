@@ -1,30 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
 
-    const ciudad = cargarCiudad();
-    let mensajeAusuario = document.getElementById("mensajeAusuario");
     
 
-   activarEventosCasillas(ciudad);
-
-function activarEventosCasillas(ciudad){
-    const casillas = document.getElementsByClassName("casilla");
-
-    for (let i = 0; i < casillas.length; i++) {
-
-        casillas[i].addEventListener("click", function(){
-
-            const x = parseInt(this.dataset.x);
-            const y = parseInt(this.dataset.y);
-
-            modalidadConstruccion(ciudad, x, y, tipoElegido);
-
-        });
-
-    }
-
-}
     function modalidadConstruccion(ciudad, x, y, tipoElegido){
-
+        const mensajeAusuario = document.getElementById("mensajeAusuario");
         const objeto = objetoVacio(tipoElegido,x,y);
         const costo = objeto.costoConstruccion;
 
@@ -50,6 +28,7 @@ function activarEventosCasillas(ciudad){
                     .trim();
 
                 mensajeAusuario.innerHTML = "";
+                
 
                 construir(ciudad, x, y, objeto, tipoElegido, nombreEdificio);
 
@@ -213,12 +192,13 @@ function activarEventosCasillas(ciudad){
         setTimeout(function(){
             mensajeAusuario.innerHTML = "";
         },5000);
-
+        document.getElementById("mapaContainer").classList.remove("modo-construccion");
+        modalidad="ninguna";
+        
         CiudadStorage.guardar(ciudad);
         mostrarDatosCiudad(ciudad);
        renderizarMapa(ciudad);
-       activarEventosCasillas(ciudad);
+       
 
     }
 
-});

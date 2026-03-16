@@ -18,8 +18,8 @@ class Edificio_Industrial extends Edificio{
         const nombreFinal = nombreIndustria && nombreIndustria.trim()
             ? nombreIndustria.trim()
             : `Fabrica ${Edificio_Industrial.contadorFabrica++}`;
-
-        const fabrica = new Edificio_Industrial(nombreFinal, tipoIndustrial.Fabrica, 5000, 15, 20,x,y, 800, 15);
+        const lista=[];
+        const fabrica = new Edificio_Industrial(nombreFinal, tipoIndustrial.Fabrica, 5000, 15, 20,x,y, 800, lista);
         fabrica.setCodigoMapa(codigoMapa);
         return fabrica;
     }
@@ -28,8 +28,8 @@ class Edificio_Industrial extends Edificio{
         const nombreFinal = nombreIndustria && nombreIndustria.trim()
             ? nombreIndustria.trim()
             : `Granja ${Edificio_Industrial.contadorGranja++}`;
-
-        const granja = new Edificio_Industrial(nombreFinal, tipoIndustrial.Granja, 3000, 10, 0,x,y, 50, 8);
+        const lista=[];
+        const granja = new Edificio_Industrial(nombreFinal, tipoIndustrial.Granja, 3000, 10, 0,x,y, 50, lista);
         granja.setCodigoMapa(codigoMapa);
         return granja;
     }

@@ -1,15 +1,23 @@
-
+let modalidad="ninguna";
 let tipoElegido;
 document.addEventListener("DOMContentLoaded", function() {
-
+    const ciudad=cargarCiudad();
     const hudAcciones = document.getElementById("hudAcciones");
     const hudDinamico = document.getElementById("hudDinamico");
     const btnConstruir = document.getElementById("btnConstruir");
+    const btnDemoler=document.getElementById("btnDemoler");
 
     btnConstruir.addEventListener("click", function() {
          hudAcciones.style.display = "none";
         hudDinamico.style.display = "flex";
         mostrarMenuConstruccion();
+    });
+
+    btnDemoler.addEventListener("click", function(){
+
+        hudAcciones.style.display="none";
+        hudDinamico.style.display="flex";
+        mostrarMenuDemolicion();
     });
 
     // Menú principal de construcción
@@ -34,11 +42,12 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("btnParque").addEventListener("click", mostrarMenuParque);
         document.getElementById("btnVia").addEventListener("click", mostrarMenuVia);
 
-        document.getElementById("btnVolver").addEventListener("click", function() {
-            hudDinamico.innerHTML = "";
+        document.getElementById("btnVolver").addEventListener("click", volver);
+    }
+    function volver(){
+        hudDinamico.innerHTML = "";
             hudDinamico.style.display = "none";
             hudAcciones.style.display = "flex";
-        });
     }
 
     // Residencial
@@ -136,13 +145,47 @@ document.addEventListener("DOMContentLoaded", function() {
         hudDinamico.addEventListener("click", function listener(e) {
 
             if (e.target.dataset.tipo) {
-
+                document.getElementById("mapaContainer").classList.add("modo-construccion");
                 tipoElegido = e.target.dataset.tipo;
-
+                modalidad="construccion";
+                
                 hudDinamico.removeEventListener("click", listener);
             }
 
         });
     }
 
+ function mostrarMenuDemolicion(){
+
+        hudDinamico.innerHTML=`
+        <p > seleccione el edificio o via a demoler con un click sobre ellos</p>
+        <button id="btnVolver">⬅</button>
+        `;
+         document.getElementById("btnVolver").addEventListener("click", volver);
+        modalidad="demolicion";
+    }
+
+    const mapaContainer=document.getElementById("mapaContainer");
+mapaContainer.addEventListener("click", function(e){
+
+    const casilla = e.target.closest(".casilla");
+
+    if(!casilla) return;
+
+    const x = parseInt(casilla.dataset.x);
+    const y = parseInt(casilla.dataset.y);
+
+    if(modalidad==="construccion"){
+        modalidadConstruccion(ciudad,x,y,tipoElegido);
+    }
+    else if(modalidad==="demolicion"){
+        modalidadDemolicion(ciudad,x,y);
+    }
+
 });
+
+});
+
+
+  
+

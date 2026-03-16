@@ -128,6 +128,9 @@ body {
 #mapaContainer td {
     padding: 0;
 }
+#mapaContainer.modo-construccion .casilla{
+    cursor: url("../../Assets/images/cursores/transparent-image-maker-png-3-removebg-preview.png") 16 16 ,pointer;
+}
 
 .pasto{
     background-image: url("../../Assets/images/istockphoto-2191688361-612x612.jpg");

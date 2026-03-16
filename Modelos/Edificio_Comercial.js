@@ -17,8 +17,8 @@ class Edificio_Comercial extends Edificio{
         const nombreFinal = nombreComercio && nombreComercio.trim()
             ? nombreComercio.trim()
             : `Tienda ${Edificio_Comercial.contadorTienda++}`;
-
-        const tienda = new Edificio_Comercial(nombreFinal, tipoComercio.Tienda, 2000, 0, 8,x,y, 500, 6);
+        const lista=[];
+        const tienda = new Edificio_Comercial(nombreFinal, tipoComercio.Tienda, 2000, 0, 8,x,y, 500, lista);
         tienda.setCodigoMapa(codigoMapa);
         return tienda;
     }
@@ -27,8 +27,8 @@ class Edificio_Comercial extends Edificio{
         const nombreFinal = nombreComercio && nombreComercio.trim()
             ? nombreComercio.trim()
             : `Centro comercial ${Edificio_Comercial.contadorCentroComercial++}`;
-
-        const CentroComercial = new Edificio_Comercial(nombreFinal, tipoComercio.CentroComercial, 8000, 0, 25,x,y, 2000, 20);
+        const lista=[]
+        const CentroComercial = new Edificio_Comercial(nombreFinal, tipoComercio.CentroComercial, 8000, 0, 25,x,y, 2000, lista);
         CentroComercial.setCodigoMapa(codigoMapa);
         return CentroComercial;
     }
