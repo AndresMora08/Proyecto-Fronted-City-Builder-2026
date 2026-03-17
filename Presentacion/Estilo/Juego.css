@@ -179,38 +179,64 @@ body {
     transform: translateY(-1px);
 }
 
-#hudAcciones {
+#hudAcciones, #hudConstruir, #hudConstruirEdificios, #hudResidencias, #hudConstruirVias, #hudConstruirParques, #hudComercios, #hudIndustrias, #hudServicios, #hudUtilidades{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding: 10px;
     width: 100%;
-    gap: 5px;
-    flex-wrap: wrap;
+    --hud-gap: 8px;
+    gap: var(--hud-gap);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
 }
 
+#hudAcciones button, #hudConstruir button, #hudConstruirEdificios button, #hudResidencias button, #hudConstruirVias button, #hudConstruirParques button, #hudComercios button, #hudIndustrias button, #hudServicios button, #hudUtilidades button{
+    flex: 0 0 calc((100% - (var(--hud-gap) * 3)) / 4);
+    scroll-snap-align: start;
+}
+.btn-volver {background-image: url("../../Assets/images/menu/retroceso-rapido.png"); }
 #btnConstruir { background-image: url("../../Assets/images/menu/herramientas-de-construccion.png"); }
 #btnDemoler { background-image: url("../../Assets/images/menu/excavadora.png"); }
 #btnRuta { background-image: url("../../Assets/images/menu/ruta.png"); }
 #btnConfig { background-image: url("../../Assets/images/menu/engranajes.png"); }
 
-#hudConstruir {
-    display: none; 
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    width: 100%;
-    gap: 5px;
-    flex-wrap: wrap;
-}
+#btnEdificios  {background-image: url("../../Assets/images/construir/edificios.png"); }
+    #btnResidencias {background-image: url("../../Assets/images/construir/edificios/apartamentos.png");}
+        #casa {background-image: url("../../Assets/images/construir/edificios/residencias/casa.png");}
+        #apartamento {background-image: url("../../Assets/images/construir/edificios/residencias/apartamento.png");}
+
+    #btnComercios {background-image: url("../../Assets/images/construir/edificios/carro-de-la-carretilla.png");}
+        #centroComercial{background-image: url("../../Assets/images/construir/edificios/comercios/centro-comercial.png");}
+        #tienda{background-image: url("../../Assets/images/construir/edificios/comercios/tienda.png");}
+
+    #btnIndustrias {background-image: url("../../Assets/images/construir/edificios/industrial.png");}
+        #fabrica {background-image: url("../../Assets/images/construir/edificios//industrias/fabrica.png");}
+        #granja {background-image: url("../../Assets/images/construir/edificios/industrias/granero.png");}
+
+    #btnServicios {background-image: url("../../Assets/images/construir/edificios/primer-respondedor.png");}
+        #policia {background-image: url("../../Assets/images/construir/edificios/servicios/comisaria-de-policia.png");}
+        #bomberos {background-image: url("../../Assets/images/construir/edificios/servicios/estacion-de-bomberos.png");}
+        #hospital {background-image: url("../../Assets/images/construir/edificios/servicios/hospital.png");}
+
+    #btnUtilidades {background-image: url("../../Assets/images/construir/edificios/energia-del-agua.png");}
+        #agua {background-image: url("../../Assets/images/construir/edificios//utilidades/planta-de-energia.png");}
+        #electrica {background-image: url("../../Assets/images/construir/edificios/utilidades/poder.png");}
+
+#btnVias {background-image: url("../../Assets/images/construir/autopista.png"); }
+    #carrera {background-image: url("../../Assets/images/construir/vias/la-carretera.png");}
+    #calle {background-image: url("../../Assets/images/construir/vias/calle-de-doble-sentido.png");}
+    
+#btnParques {background-image: url("../../Assets/images/construir/parques/parque.png"); }
 
 .hidden {
     display: none !important;
 }
 
-#btnResiden {background-image: url("../../Assets/images/construir/apartamentos.png");}
-#btnComer {background-image: url("../../Assets/images/construir/centro-comercial.png");}
-#btnIndus {background-image: url("../../Assets/images/construir/fabrica.png");}
+
 
 /*-----------------TIPOS DE PANTALLAS-----------------*/
 
@@ -305,12 +331,16 @@ body{
 /* BOTONES */
 
 #hudAcciones{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-
+    display:flex;
+    flex-wrap:nowrap;
+    --hud-gap: 10px;
+    gap: var(--hud-gap);
     width:100%;
     padding:15px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
 }
 
 .huds button{

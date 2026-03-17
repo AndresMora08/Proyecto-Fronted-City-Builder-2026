@@ -17,25 +17,121 @@ function inicializarJuego() {
 
 // FUNCIÓN DE MENUS PARA EL HUD
 function configurarMenus() {
-    const hudAcciones = document.getElementById('hudAcciones');
-    const hudConstruir = document.getElementById('hudConstruir');
-    const btnConstruir = document.getElementById('btnConstruir');
-    const btnVolver = document.getElementById('btnVolver');
+    //huds
+    const huds = {
+        acciones: document.getElementById('hudAcciones'),
+        construir: document.getElementById('hudConstruir'),
+        edificios: document.getElementById('hudConstruirEdificios'),
+            residencias: document.getElementById('hudResidencias'),
+            comercios: document.getElementById('hudComercios'),
+            industrias: document.getElementById('hudIndustrias'),
+            servicios: document.getElementById('hudServicios'),
+            utilidades: document.getElementById('hudUtilidades'),
+        vias: document.getElementById('hudConstruirVias'),
+        parques: document.getElementById('hudConstruirParques'),
+        
+    };
 
-    if (btnConstruir && hudAcciones && hudConstruir) {
-        btnConstruir.addEventListener('click', () => {
-            hudAcciones.style.display = 'none';   // Escondemos el principal
-            hudConstruir.style.display = 'flex';  // Mostramos construir
+    //botones
+    const btns = {
+        abrirConstruir: document.getElementById('btnConstruir'),
+        btnEdificios: document.getElementById('btnEdificios'),
+            btnResidencias: document.getElementById('btnResidencias'),
+            btnComercios: document.getElementById('btnComercios'),
+            btnIndustrias: document.getElementById('btnIndustrias'),
+            btnServicios: document.getElementById('btnServicios'),
+            btnUtilidades: document.getElementById('btnUtilidades'),
+        btnVias: document.getElementById('btnVias'),
+        btnParques: document.getElementById('btnParques')
+    };
+
+    const botonesVolver = document.querySelectorAll('.btn-volver');
+    let menuAnterior = null;
+
+    //ocultar menús
+    function ocultarTodo() {
+        Object.values(huds).forEach(hud => {
+            if (hud) hud.classList.add('hidden');
         });
     }
 
-    if (btnVolver) {
-        btnVolver.addEventListener('click', () => {
-            hudConstruir.style.display = 'none';  // Escondemos construir
-            hudAcciones.style.display = 'flex';   // Mostramos el principal
-        });
+    function mostrarSolo(nombreHud) {
+        ocultarTodo();
+        const hud = huds[nombreHud];
+        if (hud) hud.classList.remove('hidden');
     }
+
+    // --- ESTADO INICIAL ---
+    // Ocultamos todos menos el de acciones al empezar
+    ocultarTodo();
+    if (huds.acciones) huds.acciones.classList.remove('hidden');
+
+    // --- EVENTOS ---
+
+    // Principal -> Menú Construir
+    btns.abrirConstruir?.addEventListener('click', () => {
+        menuAnterior = 'acciones';
+        mostrarSolo('construir');
+    });
+
+    // Menú Construir -> Submenús
+    btns.btnEdificios?.addEventListener('click', () => {
+        menuAnterior = 'construir';
+        mostrarSolo('edificios');
+
+        btns.btnResidencias?.addEventListener('click', () => {
+            menuAnterior = 'edificios'
+            mostrarSolo('residencias');
+        }); 
+        btns.btnComercios?.addEventListener('click', () => {
+            menuAnterior = 'edificios'
+            mostrarSolo('comercios');
+        });
+         btns.btnIndustrias?.addEventListener('click', () => {
+            menuAnterior = 'edificios'
+            mostrarSolo('industrias');
+        });
+         btns.btnServicios?.addEventListener('click', () => {
+            menuAnterior = 'edificios'
+            mostrarSolo('servicios');
+        });
+         btns.btnUtilidades?.addEventListener('click', () => {
+            menuAnterior = 'edificios'
+            mostrarSolo('utilidades');
+        });
+    });
+
+    btns.btnVias?.addEventListener('click', () => {
+        menuAnterior = 'construir';
+        mostrarSolo('vias');
+    });
+
+    btns.btnParques?.addEventListener('click', () => {
+        menuAnterior = 'construir';
+        mostrarSolo('parques');
+    });
+
+    // Botón Volver
+    botonesVolver.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const destino = btn.dataset.back;
+            if (destino && huds[destino]) {
+                mostrarSolo(destino);
+                menuAnterior = null;
+                return;
+            }
+
+            if (menuAnterior && huds[menuAnterior]) {
+                mostrarSolo(menuAnterior);
+                menuAnterior = null;
+                return;
+            }
+
+            mostrarSolo('acciones');
+        });
+    });
 }
+
 function intentarBloqueoOrientacionMovil() {
     const esMovil = /Android|iPhone|iPod/i.test(navigator.userAgent);
 
@@ -139,7 +235,3 @@ function obtenerClaseCelda(valor) {
 
     return "";
 }
-
-
-
-

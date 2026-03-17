@@ -34,13 +34,56 @@
             <button id="btnRuta"></button>
             <button id="btnConfig"></button>
         </div>
-        <div id="hudConstruir">
-            <button id="btnResiden"></button>
-            <button id="btnComer"></button>
-            <button id="btnIndus"></button>
-            <button id="btnVolver">⬅ Volver</button>
-        </div>
-            
+            <div id="hudConstruir">
+                <button class="btn-volver" data-back="acciones"></button>
+                <button id="btnEdificios"></button>
+                <button id="btnVias"></button>
+                <button id="btnParques"></button>
+            </div>
+                <div id="hudConstruirEdificios"> 
+                    <button class="btn-volver" data-back="construir"></button>
+                    <button id="btnResidencias"></button>
+                    <button id="btnComercios"></button>
+                    <button id="btnIndustrias"></button>
+                    <button id="btnServicios"></button>
+                    <button id="btnUtilidades"></button>
+                </div>
+                    <div id="hudResidencias">
+                        <button class="btn-volver" data-back="edificios"></button>
+                        <button id="casa"></button>
+                        <button id="apartamento"></button>
+                    </div>
+                    <div id="hudComercios">
+                        <button class="btn-volver" data-back="edificios"></button>
+                        <button id="tienda"></button>
+                        <button id="centroComercial"></button>
+                    </div>
+                    <div id="hudIndustrias">
+                        <button class="btn-volver" data-back="edificios"></button>
+                        <button id="fabrica"></button>
+                        <button id="granja"></button>
+                    </div>
+                    <div id="hudServicios">
+                        <button class="btn-volver" data-back="edificios"></button>
+                        <button id="policia"></button>
+                        <button id="bomberos"></button>
+                        <button id="hospital"></button>
+                    </div>
+                    <div id="hudUtilidades">
+                        <button class="btn-volver" data-back="edificios"></button>
+                        <button id="electrica"></button>
+                        <button id="agua"></button>
+                    </div>
+
+                <div id="hudConstruirVias">
+                    <button id="calle"></button>
+                    <button id="carrera"></button>
+                    <button class="btn-volver" data-back="construir"></button>
+                </div>
+                <div id="hudConstruirParques">
+                    <button id="parque"></button>
+                    <button class="btn-volver" data-back="construir"></button>
+                </div>
     </div>
 
 </body>

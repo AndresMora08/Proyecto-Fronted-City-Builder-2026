@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const hudDinamico = document.getElementById("hudDinamico");
     const btnConstruir = document.getElementById("btnConstruir");
 
+    if (!hudAcciones || !hudDinamico || !btnConstruir) {
+        return;
+    }
    
     
 
