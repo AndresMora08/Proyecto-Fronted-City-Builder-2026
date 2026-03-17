@@ -1,24 +1,25 @@
+console.log("Demoliciones.js cargado");
 
-console.log("Demoliciones.js  cargado");
 function modalidadDemolicion(ciudad,x,y){
 
-    const mensajeAusuario=document.getElementById("mensajeAusuario");
+    const mensajeAusuario = document.getElementById("mensajeAusuario");
         
-    if(ciudad.mapa.matriz[x][y]!=="g"){
+    if(ciudad.mapa.matriz[x][y] !== "g"){
                     
-        for(let i=0;i<ciudad.edificios.length;i++){
+        for(let i = 0; i < ciudad.edificios.length; i++){
                         
-            if(ciudad.edificios[i].x===x && ciudad.edificios[i].y===y){
+            if(ciudad.edificios[i].x === x && ciudad.edificios[i].y === y){
                             
                 const edificio = ciudad.edificios[i];
 
-                mensajeAusuario.innerHTML=`<div>
+                mensajeAusuario.innerHTML = `
+                <div>
                 <p>¿Demoler ${edificio.nombre}?</p>
                 <button id="btnSIdemoler">SI</button>
                 <button id="btnNOdemoler">NO</button>
                 </div>`;
 
-                verificarAfectados(ciudad,x,y,i,mensajeAusuario);
+                verificarAfectados(ciudad,i,mensajeAusuario);
                             
                 document.getElementById("btnSIdemoler")
                 .addEventListener("click",function(){
@@ -27,8 +28,8 @@ function modalidadDemolicion(ciudad,x,y){
 
                 document.getElementById("btnNOdemoler")
                 .addEventListener("click",function(){
-                    mensajeAusuario.innerHTML="";
-                    modalidad="ninguna";
+                    mensajeAusuario.innerHTML = "";
+                    modalidad = "ninguna";
                 });
                             
                 break;
@@ -38,89 +39,86 @@ function modalidadDemolicion(ciudad,x,y){
     }
 }
 
+function verificarAfectados(ciudad,i,mensajeAusuario){
 
+    const edificio = ciudad.edificios[i];
 
-function verificarAfectados(ciudad,x,y,i,mensajeAusuario){
+    if(edificio.ciudadanosViviendo && edificio.ciudadanosViviendo.length > 0){
 
-    const edificioElegido=ciudad.edificios[i];
-    const edificioCodigo=edificioElegido.codigoMapa;
-            
-    if(edificioCodigo==="R1"|| edificioCodigo==="R2"){
+        mensajeAusuario.innerHTML += `
+        <div>
+        <p>Habrá ciudadanos afectados (pérdida de residencia)</p>
+        </div>`;
 
-        if(edificioElegido.capacidad && edificioElegido.capacidad.length>0){
-
-            mensajeAusuario.innerHTML+=`<div>
-            <p>Habrá ciudadanos afectados (pérdida de residencia)</p>
-            </div>`;
-
-        }
-                
     }
 
-    else if(edificioCodigo==="C1"||edificioCodigo==="C2"|| edificioCodigo==="I1"|| edificioCodigo==="I2"){
+    if(edificio.ciudadanosEmpleados && edificio.ciudadanosEmpleados.length > 0){
 
-        if(edificioElegido.empleos && edificioElegido.empleos.length>0){
-
-            mensajeAusuario.innerHTML+=`<div>
-            <p>Habrá ciudadanos afectados (pérdida de empleo)</p>
-            </div>`;
-
-        }
+        mensajeAusuario.innerHTML += `
+        <div>
+        <p>Habrá ciudadanos afectados (pérdida de empleo)</p>
+        </div>`;
 
     }
 
 }
 
-
-
 function demoler(ciudad,x,y,i){
 
-    const mensajeAusuario=document.getElementById("mensajeAusuario");
+    const mensajeAusuario = document.getElementById("mensajeAusuario");
 
-    const edificio=ciudad.edificios[i];
+    const edificio = ciudad.edificios[i];
 
-    const costo=edificio.costoConstruccion;
-    const recuperado=(costo/2);
+    const costo = edificio.costoConstruccion;
+    const recuperado = costo / 2;
 
-    
+    /* liberar ciudadanos de vivienda */
 
-    if(edificio.capacidad){
+    if(edificio.ciudadanosViviendo){
 
-        for(let j=0;j<edificio.capacidad.length;j++){
+        for(let j = 0; j < edificio.ciudadanosViviendo.length; j++){
 
-            const ciudadano=edificio.capacidad[j];
+            const ciudadano = edificio.ciudadanosViviendo[j];
 
             if(ciudadano){
-                ciudadano.vivienda=null;
+                ciudadano.vivienda = null;
             }
 
         }
 
+        edificio.ciudadanosViviendo = [];
     }
 
+    /* liberar ciudadanos de empleo */
 
+    if(edificio.ciudadanosEmpleados){
 
-    if(edificio.empleos){
+        for(let j = 0; j < edificio.ciudadanosEmpleados.length; j++){
 
-        for(let j=0;j<edificio.empleos.length;j++){
-
-            const ciudadano=edificio.empleos[j];
+            const ciudadano = edificio.ciudadanosEmpleados[j];
 
             if(ciudadano){
-                ciudadano.empleo=null;
+                ciudadano.empleo = null;
             }
 
         }
 
+        edificio.ciudadanosEmpleados = [];
     }
 
-    ciudad.mapa.matriz[x][y]="g";
+    /* actualizar mapa */
+
+    ciudad.mapa.matriz[x][y] = "g";
+
+    /* eliminar edificio */
 
     ciudad.edificios.splice(i,1);
 
-    ciudad.dinero+=recuperado;
+    /* devolver dinero */
 
-    mensajeAusuario.innerHTML=`
+    ciudad.dinero += recuperado;
+
+    mensajeAusuario.innerHTML = `
     <div>
     <p>Edificio demolido</p>
     <p>Dinero recuperado: ${recuperado}</p>
@@ -128,13 +126,15 @@ function demoler(ciudad,x,y,i){
     `;
 
     setTimeout(function(){
-        mensajeAusuario.innerHTML="";
+        mensajeAusuario.innerHTML = "";
     },4000);
 
-    modalidad="ninguna";
+    modalidad = "ninguna";
     
     CiudadStorage.guardar(ciudad);
+
     mostrarDatosCiudad(ciudad);
+
     renderizarMapa(ciudad);
 
 }
