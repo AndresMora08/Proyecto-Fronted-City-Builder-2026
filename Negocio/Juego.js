@@ -12,7 +12,7 @@ function inicializarJuego() {
 
     mostrarDatosCiudad(ciudad);
     renderizarMapa(ciudad);
-    configurarMenus();
+    
 }
 
 // FUNCIÓN DE MENUS PARA EL HUD
@@ -132,6 +132,7 @@ function configurarMenus() {
     });
 }
 
+
 function intentarBloqueoOrientacionMovil() {
     const esMovil = /Android|iPhone|iPod/i.test(navigator.userAgent);
 
@@ -221,17 +222,43 @@ function renderizarMapa(ciudad) {
 
     tablaHTML += "</table>";
     mapaContainer.innerHTML = tablaHTML;
+    
+
+    
 }
+
+
 function obtenerClaseCelda(valor) {
 
-    if (valor === "g") return "grass";
-    if (valor === "r") return "road";
-    if (valor === "R1" || valor === "R2") return "residential";
-    if (valor === "C1" || valor === "C2") return "commercial";
-    if (valor === "I1" || valor === "I2") return "industrial";
-    if (valor === "S1" || valor === "S2" || valor === "S3") return "service";
-    if (valor === "U1" || valor === "U2") return "utility";
-    if (valor === "P1") return "park";
+   if (valor === "g") return "pasto";
+
+if (valor === "r") return "via";
+
+if (valor === "R1") return "casa";
+
+if (valor === "R2") return "apartamento";
+
+if (valor === "C1") return "tienda";
+
+if (valor === "C2") return "centro_comercial";
+
+if (valor === "I1") return "fabrica";
+
+if (valor === "I2") return "granja";
+
+if (valor === "S1") return "estacion_policia";
+
+if (valor === "S2") return "estacion_bomberos";
+
+if (valor === "S3") return "hospital";
+
+if (valor === "U1") return "planta_electrica";
+
+if (valor === "U2") return "planta_agua";
+
+if (valor === "P1") return "parque";
+
+return "";
 
     return "";
 }

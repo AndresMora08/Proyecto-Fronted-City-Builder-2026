@@ -14,8 +14,12 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("Por favor completa todos los campos correctamente.");
             return;
         }
-
-       
+//
+       if (tamanio < 15 || tamanio > 30) {
+             alert("El tamaño del mapa debe estar entre 15 y 30.");
+                 return;
+            }
+            
         const alcalde = new Alcalde(nombreAlcalde);
         const mapa = new Mapa(tamanio);
         const ciudad = new Ciudad(nombreCiudad);

@@ -4,29 +4,62 @@ const tipoIndustrial = {
 }
 
 class Edificio_Industrial extends Edificio{
+
     static contadorFabrica = 1;
     static contadorGranja = 1;
 
-    constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad, produccion, empleos){
-        super("Edificio_Industrial",nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad);
-        this.produccion = produccion;
-        this.empleos = empleos;
+    constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y ,produccion, ciudadanosEmpleados,capacidadMaxima){
+        super(nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
+        this._produccion = produccion;
+        this._ciudadanosEmpleados = ciudadanosEmpleados;
+        this.capacidadMaxima=capacidadMaxima;
     }
-    crearFabrica(nombreIndustria){
+
+    static crearFabrica(nombreIndustria,x,y,codigoMapa){
         const nombreFinal = nombreIndustria && nombreIndustria.trim()
             ? nombreIndustria.trim()
             : `Fabrica ${Edificio_Industrial.contadorFabrica++}`;
-
-        const Fabrica = new Edificio_Industrial(nombreFinal, tipoIndustrial.Fabrica, 5000, 15, 20, 800, 15);
-        return Fabrica;
+        const lista=[];
+        const fabrica = new Edificio_Industrial(nombreFinal, tipoIndustrial.Fabrica, 5000, 15, 20,x,y, 800, lista,15);
+        fabrica.setCodigoMapa(codigoMapa);
+        return fabrica;
     }
 
-    crearGranja(nombreIndustria){
+    static crearGranja(nombreIndustria,x,y,codigoMapa){
         const nombreFinal = nombreIndustria && nombreIndustria.trim()
             ? nombreIndustria.trim()
             : `Granja ${Edificio_Industrial.contadorGranja++}`;
+        const lista=[];
+        const granja = new Edificio_Industrial(nombreFinal, tipoIndustrial.Granja, 3000, 10, 0,x,y, 50, lista,8);
+        granja.setCodigoMapa(codigoMapa);
+        return granja;
+    }
+    agregarEmpleado(ciudadano){
 
-        const Granja = new Edificio_Industrial(nombreFinal, tipoIndustrial.Granja, 3000, 10, 0, 50, 8);
-        return Granja;
+      if(this._ciudadanosEmpleados.length >= this.capacidadMaxima){
+        return false;
+        }
+
+        this._ciudadanosEmpleados.push(ciudadano);
+
+         ciudadano.empleo = this;
+
+          return true;
+    }
+
+    getProduccion(){
+        return this._produccion;
+    }
+
+    setProduccion(valor){
+        this._produccion = valor;
+    }
+
+    getEmpleos(){
+        return this._empleos;
+    }
+
+    setEmpleos(valor){
+        this._empleos = valor;
     }
 }
