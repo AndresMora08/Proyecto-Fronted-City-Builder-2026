@@ -11,12 +11,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const tamanio = parseInt(document.getElementById("tamanioInput").value.trim());
 
         if (!nombreCiudad || !nombreAlcalde || !region || isNaN(tamanio)) {
-            alert("Por favor completa todos los campos correctamente.");
+            UIAlertas.alertaCamposIncompletos();
             return;
         }
 //
        if (tamanio < 15 || tamanio > 30) {
-             alert("El tamaño del mapa debe estar entre 15 y 30.");
+             UIAlertas.alertaTamanoMapa();
                  return;
             }
             

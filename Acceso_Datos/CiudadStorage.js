@@ -81,7 +81,7 @@ class CiudadStorage {
     }
 
     else if (e.codigoMapa === "C2") {
-        edificio = Edificio_Comercial.crearCenrtoComercial(e.nombre, e.x, e.y,e.codigoMapa);
+        edificio = Edificio_Comercial.crearCentroComercial(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
     // INDUSTRIAL

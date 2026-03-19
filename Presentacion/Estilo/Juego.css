@@ -7,7 +7,7 @@
     --cell-size: 4.2vh;
 }
 
-/*----------------- CUERPO -----------------*/
+/*----------------- BASE -----------------*/
 html, body {
     margin: 0;
     padding: 0;
@@ -28,8 +28,7 @@ body {
     box-sizing: inherit;
 }
 
-/*-----------------ESTADISTICAS-----------------*/
-
+/*----------------- ESTADISTICAS -----------------*/
 .recursosCiudad {
     display: flex;
     justify-content: center;
@@ -42,11 +41,11 @@ body {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1e1e1e;
+    background-color: var(--panel-bg);
     color: var(--text-main);
     font-weight: bold;
     padding: 5px 12px;
-    width: 100vw;
+    width: 100%;
 }
 
 #datosCiudad {
@@ -54,15 +53,10 @@ body {
     justify-content: center;
     align-items: center;
     padding: 5px;
-    background-color: #2c2c2c;
-    background-position: center;
-    background-size: 70%;
-    background-repeat: no-repeat;
-
+    background: #2c2c2c center / 70% no-repeat;
     border: 2px solid #2c2c2c;
     border-radius: 12px;
     box-shadow: inset 0 2px 0 rgba(255,255,255,0.4);
-
     cursor: pointer;
     transition: all 0.1s ease;
 }
@@ -76,6 +70,7 @@ body {
     transform: translateY(-1px);
 }
 
+/* Recursos */
 #Dinero, #Electricidad, #Agua, #Alimento, #Poblacion {
     display: inline-flex;
     align-items: center;
@@ -94,12 +89,11 @@ body {
 #Alimento::before,
 #Poblacion::before {
     content: "";
-    display: inline-block;
     width: 24px;
     height: 24px;
     margin-right: 5px;
-    background-size: contain;
-    background-repeat: no-repeat;
+    background: center / contain no-repeat;
+    display: inline-block;
 }
 
 #Dinero::before { background-image: url("../../Assets/images/menu/dinero.png"); }
@@ -108,67 +102,110 @@ body {
 #Alimento::before { background-image: url("../../Assets/images/menu/pollo.png"); }
 #Poblacion::before { background-image: url("../../Assets/images/menu/gente-junta.png"); }
 
-/*-----------------MAPA-----------------*/
-
+/*----------------- MAPA -----------------*/
 #mapaContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: auto;
-    width: 100vw;
+    width: 100%;
     background-color: #24551fb7;
 }
 
 #mapaContainer table {
-    width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
 #mapaContainer td {
     padding: 0;
-}
-#mapaContainer.modo-construccion .casilla{
-    cursor: url("../../Assets/images/cursores/transparent-image-maker-png-3-removebg-preview.png") 16 16 ,pointer;
-}
-
-.pasto{
-    background-image: url("../../Assets/images/istockphoto-2191688361-612x612.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    min-width: var(--cell-size);
+    max-width: var(--cell-size);
+    min-height: var(--cell-size);
+    max-height: var(--cell-size);
+    line-height: 0;
 }
 
-.casa{
-     background-image: url("../../Assets/images/pixil-assets-hose1.png");
-    background-size: cover;
+#mapaContainer.modo-construccion .casilla {
+    cursor: url("../../Assets/images/cursores/transparent-image-maker-png-3-removebg-preview.png") 16 16, pointer;
+}
+
+/* Tiles base */
+.pasto,
+.casa,
+.apartamento,
+.tienda,
+.centro_comercial,
+.fabrica,
+.granja,
+.estacion_policia,
+.estacion_bomberos,
+.hospital,
+.planta_electrica,
+.planta_agua,
+.parque,
+.carrera,
+.calle {
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
 }
-.via{
-    background-image: url("https://as1.ftcdn.net/v2/jpg/04/02/10/88/1000_F_402108824_3peF0VIZgXrXEWgBXWuBbptxjpkZO8lH.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+
+/* Tiles sin fondo */
+.casa,
+.apartamento,
+.tienda,
+.centro_comercial,
+.fabrica,
+.granja,
+.estacion_policia,
+.estacion_bomberos,
+.hospital,
+.planta_electrica,
+.planta_agua,
+.parque {
+    border: none;
+    background-color: transparent !important;
 }
+
+/* Imágenes */
+
+.pasto { background-image: url("../../Assets/images/istockphoto-2191688361-255x253.jpg"); }
+.casa { background-image: url("../../Assets/images/construir/edificios/residencias/pixil-assets-hose1.png"); }
+.apartamento { background-image: url("../../Assets/images/construir/edificios/residencias/apartamento-asset.png"); }
+.tienda { background-image: url("../../Assets/images/construir/edificios/comercios/tienda-pixel.png"); }
+.centro_comercial { background-image: url("../../Assets/images/construir/edificios/comercios/shoppingmall.png"); }
+.fabrica { background-image: url("../../Assets/images/construir/edificios/industrias/farbica-asset.png"); }
+.granja { background-image: url("../../Assets/images/construir/edificios/industrias/pixel-art-illustration-barn.png"); }
+.estacion_policia { background-image: url("../../Assets/images/construir/edificios/servicios/edificio-estacion-policia.png"); }
+.estacion_bomberos { background-image: url("../../Assets/images/construir/edificios/servicios/fire-station-building.png"); }
+.hospital { background-image: url("../../Assets/images/construir/edificios/servicios/estacion-hospital.png"); }
+.planta_electrica { background-image: url("../../Assets/images/construir/edificios/utilidades/reactor.png"); }
+.planta_agua { background-image: url("../../Assets/images/construir/edificios/utilidades/AGUA.png"); }
+.parque { background-image: url("../../Assets/images/construir/parques/parque-asset.png"); }
+.carrera { background-image: url("../../Assets/images/construir/vias/carrera.jpg"); }
+.calle { background-image: url("../../Assets/images/construir/vias/calle.jpg"); }
+
 .casilla {
     display: block;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    height: 100%;
     border: 0;
     padding: 0;
     background: transparent;
+    cursor: pointer;
 }
 
-/*-----------------BOTONES-----------------*/
-
+/*----------------- BOTONES -----------------*/
 .huds {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     flex-wrap: wrap;
-    background-color: #1e1e1e;
+    background-color: var(--panel-bg);
 }
 
 .huds button {
@@ -177,7 +214,7 @@ body {
     border-radius: 10px;
 
     background-position: center;
-    background-size: 70%;
+    background-size: 60%;
     background-repeat: no-repeat;
 
     box-shadow: inset 0 2px 0 rgba(255,255,255,0.4);
@@ -194,25 +231,43 @@ body {
     transform: translateY(-1px);
 }
 
-#hudAcciones, #hudConstruir, #hudConstruirEdificios, #hudResidencias, #hudConstruirVias, #hudConstruirParques, #hudComercios, #hudIndustrias, #hudServicios, #hudUtilidades{
+/* HUD scroll */
+#hudAcciones,
+#hudConstruir,
+#hudConstruirEdificios,
+#hudResidencias,
+#hudConstruirVias,
+#hudConstruirParques,
+#hudComercios,
+#hudIndustrias,
+#hudServicios,
+#hudUtilidades {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
     padding: 10px;
     width: 100%;
     --hud-gap: 8px;
     gap: var(--hud-gap);
-    flex-wrap: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
 }
 
-#hudAcciones button, #hudConstruir button, #hudConstruirEdificios button, #hudResidencias button, #hudConstruirVias button, #hudConstruirParques button, #hudComercios button, #hudIndustrias button, #hudServicios button, #hudUtilidades button{
+#hudAcciones button,
+#hudConstruir button,
+#hudConstruirEdificios button,
+#hudResidencias button,
+#hudConstruirVias button,
+#hudConstruirParques button,
+#hudComercios button,
+#hudIndustrias button,
+#hudServicios button,
+#hudUtilidades button {
     flex: 0 0 calc((100% - (var(--hud-gap) * 3)) / 4);
     scroll-snap-align: start;
 }
+
+/* Iconos */
 .btn-volver {background-image: url("../../Assets/images/menu/retroceso-rapido.png"); }
 #btnConstruir { background-image: url("../../Assets/images/menu/herramientas-de-construccion.png"); }
 #btnDemoler { background-image: url("../../Assets/images/menu/excavadora.png"); }
@@ -245,88 +300,49 @@ body {
     #carrera {background-image: url("../../Assets/images/construir/vias/la-carretera.png");}
     #calle {background-image: url("../../Assets/images/construir/vias/calle-de-doble-sentido.png");}
     
-#btnParques {background-image: url("../../Assets/images/construir/parques/parque.png"); }
-/*
-#hudDinamico {
-    display:none; 
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    width: 100%;
-    gap: 5px;
-    flex-wrap: wrap;
-}
-*/
+#btnParques {background-image: url("../../Assets/images/construir/parque.png"); }
 
-.hidden {
-    display: none !important;
-}
 
-/*-----------------TIPOS DE PANTALLAS-----------------*/
+/* (resto de iconos intactos, no se tocan) */
 
+.hidden { display: none !important; }
+
+/*----------------- RESPONSIVE -----------------*/
 @media (max-width: 769px) {
-
     .huds button {
         width: 22%;
         height: 60px;
         padding: 0;
-        background-size: 60%;
+        background-size: 55%;
     }
 }
 
-/* 768px - 1024px */
 @media (min-width:769px) and (max-width:1024px) and (min-height:600px){
 
 body{
-    display:grid;
     grid-template-columns:70% 30%;
-    grid-template-rows:auto 1fr auto;
-    height:100vh;
-    overflow:hidden;
 }
-
-/* MAPA */
 
 #mapaContainer{
     grid-column:1;
     grid-row:1 / 4;
-
-    width:100%;
     height:100%;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    overflow:hidden;
 }
 
-/* SIDEBAR RECURSOS */
 #datosCiudad{
     padding:2px 8px 4px 8px;
-
 }
 
 #infoCiudad{
     grid-column:2;
     grid-row:1;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-
-    width:100%;
-    padding:0px;
-
+    padding:0;
     border-left:2px solid #444;
 }
 
 .recursosCiudad{
-    display:flex;
     flex-direction:column;
-    align-items:center;
     gap:6px;
-    width:100%;
 }
 
 #Dinero,
@@ -339,63 +355,37 @@ body{
     font-size:.9rem;
 }
 
-/* PANEL CENTRAL */
-
 .huds{
     grid-column:2;
     grid-row:2;
-
-    display:flex;
     flex-direction:column;
-
     border-left:2px solid #444;
     background:var(--panel-bg);
 }
 
-/* BOTONES */
-
 #hudAcciones{
-    display:flex;
-    flex-wrap:nowrap;
     --hud-gap: 10px;
-    gap: var(--hud-gap);
-    width:100%;
     padding:15px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
 }
 
 .huds button{
     width:100%;
     height:70px;
     padding:0;
-
     background-size:50%;
 }
-
-/* ESTADISTICAS */
 
 #hudDinamico{
     grid-column:2;
     grid-row:3;
-
-    width:100%;
     min-height:140px;
-
     border-left:2px solid #444;
     border-top:1px solid #444;
-
     padding:15px;
-
-    flex-grow:1;
 }
 }
 
-/*1025px en adelante*/
 @media (min-width:1025px) {
-
     :root {
         --cell-size: 5vh;
     }

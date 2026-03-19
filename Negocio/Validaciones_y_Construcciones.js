@@ -1,64 +1,28 @@
+function modalidadConstruccion(ciudad, x, y, tipoElegido){
+    const objeto = objetoVacio(tipoElegido,x,y);
+    const costo = objeto.costoConstruccion;
 
-    
+    const origen = encontrarOrigenConstruccion(costo, x, y, ciudad, tipoElegido);
 
-    function modalidadConstruccion(ciudad, x, y, tipoElegido){
-        const mensajeAusuario = document.getElementById("mensajeAusuario");
-        const objeto = objetoVacio(tipoElegido,x,y);
-        const costo = objeto.costoConstruccion;
-
-        const validacion = validarConstruccion(costo, x, y, ciudad, tipoElegido);
-
-        if(validacion){
-
-            mensajeAusuario.innerHTML = `
-                <div> 
-                    <label>Ingrese un nombre para el edificio</label>
-                    <input type="text" id="nombreEdificio" value="${objeto.nombre}">
-                    <button id="confirmarNombre">Confirmar</button>
-                </div>
-            `;
-
-            const confirmarNombre = document.getElementById("confirmarNombre");
-
-            confirmarNombre.addEventListener("click", function(){
-
-                const nombreEdificio = document
-                    .getElementById("nombreEdificio")
-                    .value
-                    .trim();
-
-                mensajeAusuario.innerHTML = "";
-                
-
-                construir(ciudad, x, y, objeto, tipoElegido, nombreEdificio);
-
-            });
-
-        }
-
-        else{
-
-            mensajeAusuario.innerHTML = `
-                <div> 
-                    <p>No tienes suficiente dinero o no hay vía cercana</p>
-                </div>
-            `;
-
-            setTimeout(function(){
-                mensajeAusuario.innerHTML = "";
-            },4000);
-
-        }
-
+    if(origen){
+        UIConstruccion.mostrarPromptNombreEdificio(objeto.nombre, function(nombreEdificio) {
+            construir(ciudad, origen.x, origen.y, objeto, tipoElegido, nombreEdificio);
+        });
     }
+    else{
+        UIConstruccion.mostrarErrorConstruccion();
+    }
+}
 
- function objetoVacio(tipoElegido, x, y) {
+function objetoVacio(tipoElegido, x, y) {
 
     let edificio;
     
-
     // VIA
-    if (tipoElegido === "r") {
+    if (tipoElegido === "r" || tipoElegido === "r1" || tipoElegido === "r2") {
+        edificio = Via.crearVia(null, x, y,tipoElegido);
+    }
+    else if(tipoElegido === "r1") {
         edificio = Via.crearVia(null, x, y,tipoElegido);
     }
 
@@ -77,7 +41,7 @@
     }
 
     else if (tipoElegido === "C2") {
-        edificio = Edificio_Comercial.crearCenrtoComercial(null, x, y,tipoElegido);
+        edificio = Edificio_Comercial.crearCentroComercial(null, x, y,tipoElegido);
     }
 
     // INDUSTRIAL
@@ -119,86 +83,131 @@
     return edificio;
 }
 
-    function validarConstruccion(costo, x, y, ciudad, tipoElegido){
+function encontrarOrigenConstruccion(costo, x, y, ciudad, tipoElegido){
 
-        if(
-            ciudad.mapa.matriz[x][y] !== "g" ||
-            ciudad.dinero < costo ||
-            !tieneViaAdyacente(x,y,ciudad,tipoElegido)
-        ){
-            return false;
+    const tamano = obtenerTamanoEdificio(tipoElegido);
+
+    if (ciudad.dinero < costo) return null;
+    if (ciudad.mapa.matriz[x][y] !== "g") return null;
+
+    for (let dx = 0; dx < tamano.alto; dx++) {
+        for (let dy = 0; dy < tamano.ancho; dy++) {
+            const origenX = x - dx;
+            const origenY = y - dy;
+
+            if (!espacioDisponible(origenX, origenY, ciudad, tamano)) continue;
+            if (!tieneViaAdyacente(origenX, origenY, ciudad, tipoElegido, tamano)) continue;
+
+            return { x: origenX, y: origenY };
         }
-
-        return true;
-
     }
 
-    function tieneViaAdyacente(x,y,ciudad,tipoElegido){
+    return null;
 
-        if (tipoElegido === "r") {
-            return true;
-        }
+}
 
-        const mapa = ciudad.mapa.matriz;
-        const tamaño = ciudad.mapa.tamanio;
+function espacioDisponible(x, y, ciudad, tamano) {
+    const mapa = ciudad.mapa.matriz;
+    const tamanio = ciudad.mapa.tamanio;
 
-        const direcciones = [
-            [-1,0],
-            [1,0],
-            [0,-1],
-            [0,1]
-        ];
+    for (let dx = 0; dx < tamano.alto; dx++) {
+        for (let dy = 0; dy < tamano.ancho; dy++) {
+            const nx = x + dx;
+            const ny = y + dy;
 
-        for (let i = 0; i < direcciones.length; i++) {
-
-            const nuevaX = x + direcciones[i][0];
-            const nuevaY = y + direcciones[i][1];
-
-            if(
-                nuevaX >= 0 &&
-                nuevaY >= 0 &&
-                nuevaX < tamaño &&
-                nuevaY < tamaño
-            ){
-                if(mapa[nuevaX][nuevaY] === "r"){
-                    return true;
-                }
+            if (nx < 0 || ny < 0 || nx >= tamanio || ny >= tamanio) {
+                return false;
             }
 
+            if (mapa[nx][ny] !== "g") {
+                return false;
+            }
         }
-
-        return false;
-
     }
 
-    function construir(ciudad,x,y,objeto,tipoElegido,nombreEdificio){
+    return true;
+}
 
-        ciudad.mapa.matriz[x][y] = tipoElegido;
-        console.log("objeto", objeto);
-        console.log("Dinero antes:", ciudad.dinero);
-        console.log("Costo:", objeto.costoConstruccion);
-        objeto.nombre=nombreEdificio;
+function tieneViaAdyacente(x,y,ciudad,tipoElegido,tamanoEdificio){
 
-        ciudad.dinero-=objeto.costoConstruccion;
+    if (window.TamanosEdificios && TamanosEdificios.esVia(tipoElegido)) {
+        return true;
+    }
+
+    const mapa = ciudad.mapa.matriz;
+    const tamanioMapa = ciudad.mapa.tamanio;
+
+    const direcciones = [
+        [-1,0],
+        [1,0],
+        [0,-1],
+        [0,1]
+    ];
+
+    for (let dx = 0; dx < tamanoEdificio.alto; dx++) {
+        for (let dy = 0; dy < tamanoEdificio.ancho; dy++) {
+            const celdaX = x + dx;
+            const celdaY = y + dy;
+
+            for (let i = 0; i < direcciones.length; i++) {
+
+                const nuevaX = celdaX + direcciones[i][0];
+                const nuevaY = celdaY + direcciones[i][1];
+
+                if(
+                    nuevaX >= 0 &&
+                    nuevaY >= 0 &&
+                    nuevaX < tamanioMapa &&
+                    nuevaY < tamanioMapa
+                ){
+                    if(mapa[nuevaX][nuevaY] === "r" || mapa[nuevaX][nuevaY] === "r1" || mapa[nuevaX][nuevaY] === "r2"){
+                        return true;
+                    }
+                }
+
+            }
+        }
+    }
+
+    return false;
+
+}
+
+function construir(ciudad,x,y,objeto,tipoElegido,nombreEdificio){
+
+    const tamano = obtenerTamanoEdificio(tipoElegido);
+    objeto.x = x;
+    objeto.y = y;
+
+    for (let dx = 0; dx < tamano.alto; dx++) {
+        for (let dy = 0; dy < tamano.ancho; dy++) {
+            const nx = x + dx;
+            const ny = y + dy;
+            ciudad.mapa.matriz[nx][ny] = (dx === 0 && dy === 0) ? tipoElegido : "o";
+        }
+    }
+    console.log("objeto", objeto);
+    console.log("Dinero antes:", ciudad.dinero);
+    console.log("Costo:", objeto.costoConstruccion);
+    objeto.nombre=nombreEdificio;
+
+    ciudad.dinero-=objeto.costoConstruccion;
        
-        ciudad.edificios.push(objeto);
+    ciudad.edificios.push(objeto);
 
-        mensajeAusuario.innerHTML = `
-            <div>
-                <p>Construcción exitosa</p>
-            </div>
-        `;
-
-        setTimeout(function(){
-            mensajeAusuario.innerHTML = "";
-        },5000);
-        document.getElementById("mapaContainer").classList.remove("modo-construccion");
-        modalidad="ninguna";
+    UIConstruccion.mostrarExitoConstruccion();
+    document.getElementById("mapaContainer").classList.remove("modo-construccion");
+    modalidad="ninguna";
         
-        CiudadStorage.guardar(ciudad);
-        mostrarDatosCiudad(ciudad);
-       renderizarMapa(ciudad);
-       
+    CiudadStorage.guardar(ciudad);
+    mostrarDatosCiudad(ciudad);
+    UIMapa.renderizarMapa(ciudad);
+}
 
+function obtenerTamanoEdificio(tipoElegido) {
+    if (window.TamanosEdificios && typeof TamanosEdificios.obtenerTamano === "function") {
+        return TamanosEdificios.obtenerTamano(tipoElegido);
     }
 
+    return { ancho: 1, alto: 1 };
+}

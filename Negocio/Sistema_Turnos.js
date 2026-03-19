@@ -8,10 +8,6 @@ mostrarDatosCiudad(ciudad);
 CiudadStorage.guardar(ciudad);
 }
 
-
-
-
-
 function calcularProduccion(ciudad){
 
     let produccion = {
@@ -53,7 +49,6 @@ function calcularProduccion(ciudad){
 
     return produccion;
 }
-
 
 function calcularConsumo(ciudad){
 
@@ -105,8 +100,6 @@ function creacionNuevosCiudadanos(ciudad){
     }
 }
 
-
-
 function calcularCapacidad(ciudad){
 
     let capacidadResidencial=0;
@@ -137,7 +130,6 @@ function calcularFelicidadPromedio(ciudad){
 
     return felicidadPromedio;
 }
-
 
 function verificarEmpleosDisponibles(ciudad){
 let empleosDisponibles=0;
@@ -229,4 +221,3 @@ function actualizarFelicidadGeneral(ciudad){
 function actualizarPuntaje(){
     //falta hacer el archivo puntuacion y esto para que se actualice
 }
-

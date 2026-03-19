@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>City Builder</title>
     
+    <script defer src="../../Negocio/Tamanos_Edificios.js"></script>
     <script defer src="../../Acceso_Datos/CiudadStorage.js" ></script>
+    <script defer src="../Js/UiAlertas.js"></script>
+    <script defer src="../Js/UiMensajes.js"></script>
+    <script defer src="../Js/UiMapa.js"></script>
     <script defer src="../../Negocio/Juego.js"></script>
     <script defer src="../../Modelos/Alcalde.js"></script>
     <script defer src="../../Modelos/Ciudad.js"></script>
@@ -18,10 +22,13 @@
     <script defer src="../../Modelos/Parque.js"></script>
     <script defer src="../../Modelos/Planta_Utilidad.js"></script>
     <script defer src="../../Modelos/Via.js"></script>
+    <script defer src="../Js/UiConstruccion.js"></script>
     <script defer src="../../Negocio/Validaciones_y_Construcciones.js"></script>
+    <script defer src="../Js/UiDemolicion.js"></script>
     <script defer src="../../Negocio/Demoliciones.js"></script>
     <script defer src="../../Negocio/Menu_Acciones.js"></script>
     <link rel="stylesheet" href="../Estilo/Juego.css">
+    <link rel="stylesheet" href="../Estilo/alertas.css">
 </head>
 <body>
 
@@ -38,6 +45,8 @@
 
     <div id="mapaContainer"></div>
 
+    <div id="mensajeAusuario"></div>
+    
     <div class="huds">
         <div id="hudAcciones"> 
             <button id="btnConstruir"></button>
@@ -91,20 +100,12 @@
                     <button id="carrera"></button>
                     <button class="btn-volver" data-back="construir"></button>
                 </div>
-                <div id="hudConstruirParques">
+<!--              <div id="hudConstruirParques">
                     <button id="parque"></button>
                     <button class="btn-volver" data-back="construir"></button>
                 </div>
-
-        <!-- 
-
-         <div id="hudDinamico"></div> 
-         -->
-
+-->  
     </div>
-
-    <div id="mensajeAusuario"></div>
     
-
 </body>
 </html>

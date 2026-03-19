@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", inicializarJuego);
 
-
-
 function inicializarJuego() {
     intentarBloqueoOrientacionMovil();
     configurarAlertaOrientacionMovil();
@@ -10,9 +8,13 @@ function inicializarJuego() {
 
     if (!ciudad) return;
 
+    if (window.TamanosEdificios && typeof TamanosEdificios.sincronizarMatriz === "function") {
+        TamanosEdificios.sincronizarMatriz(ciudad);
+    }
+
     mostrarDatosCiudad(ciudad);
-    renderizarMapa(ciudad);
-    
+    UIMapa.renderizarMapa(ciudad);
+    configurarMenus();
 }
 
 // FUNCIÓN DE MENUS PARA EL HUD
@@ -28,7 +30,6 @@ function configurarMenus() {
             servicios: document.getElementById('hudServicios'),
             utilidades: document.getElementById('hudUtilidades'),
         vias: document.getElementById('hudConstruirVias'),
-        parques: document.getElementById('hudConstruirParques'),
         
     };
 
@@ -41,8 +42,7 @@ function configurarMenus() {
             btnIndustrias: document.getElementById('btnIndustrias'),
             btnServicios: document.getElementById('btnServicios'),
             btnUtilidades: document.getElementById('btnUtilidades'),
-        btnVias: document.getElementById('btnVias'),
-        btnParques: document.getElementById('btnParques')
+        btnVias: document.getElementById('btnVias')
     };
 
     const botonesVolver = document.querySelectorAll('.btn-volver');
@@ -106,11 +106,6 @@ function configurarMenus() {
         mostrarSolo('vias');
     });
 
-    btns.btnParques?.addEventListener('click', () => {
-        menuAnterior = 'construir';
-        mostrarSolo('parques');
-    });
-
     // Botón Volver
     botonesVolver.forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -131,7 +126,6 @@ function configurarMenus() {
         });
     });
 }
-
 
 function intentarBloqueoOrientacionMovil() {
     const esMovil = /Android|iPhone|iPod/i.test(navigator.userAgent);
@@ -154,7 +148,7 @@ function configurarAlertaOrientacionMovil() {
         const estaHorizontal = window.matchMedia("(orientation: landscape)").matches;
 
         if (estaHorizontal && !alertaMostradaEnHorizontal) {
-            alert("Para jugar, gira tu dispositivo a orientacion vertical.");
+            UIAlertas.alertaOrientacionMovil();
             alertaMostradaEnHorizontal = true;
             return;
         }
@@ -168,11 +162,12 @@ function configurarAlertaOrientacionMovil() {
     window.addEventListener("resize", validarOrientacion);
     validarOrientacion();
 }
+
 function cargarCiudad() {
     const ciudad = CiudadStorage.cargar();
 
     if (!ciudad) {
-        alert("No hay partida guardada. Crea una nueva ciudad.");
+        UIAlertas.alertaSinPartida();
         window.location.href = "Crear_Ciudad.html";
         return null;
     }
@@ -182,6 +177,7 @@ function cargarCiudad() {
 
     return ciudad;
 }
+
 function mostrarDatosCiudad(ciudad) {
     const nombre = document.getElementById("datosCiudad");
     if (nombre) nombre.textContent = ciudad.nombreCiudad;
@@ -195,70 +191,4 @@ function mostrarDatosCiudad(ciudad) {
     actualizar("Agua", ciudad.agua);
     actualizar("Alimento", ciudad.alimento);
     actualizar("Poblacion", ciudad.poblacion); 
-}
-
-function renderizarMapa(ciudad) {
-    const mapaContainer = document.getElementById("mapaContainer");
-    let tablaHTML = "<table>";
-
-    for (let i = 0; i < ciudad.mapa.tamanio; i++) {
-        tablaHTML += "<tr>";
-
-        for (let j = 0; j < ciudad.mapa.tamanio; j++) {
-
-            const valor = ciudad.mapa.matriz[i][j];
-            const clase = obtenerClaseCelda(valor);
-
-            tablaHTML += 
-          `
-                <td class="${clase}">
-                    <button class="casilla" data-x="${i}" data-y="${j}" ></button>
-                </td>
-            `;
-        }
-
-        tablaHTML += "</tr>";
-    }
-
-    tablaHTML += "</table>";
-    mapaContainer.innerHTML = tablaHTML;
-    
-
-    
-}
-
-
-function obtenerClaseCelda(valor) {
-
-   if (valor === "g") return "pasto";
-
-if (valor === "r") return "via";
-
-if (valor === "R1") return "casa";
-
-if (valor === "R2") return "apartamento";
-
-if (valor === "C1") return "tienda";
-
-if (valor === "C2") return "centro_comercial";
-
-if (valor === "I1") return "fabrica";
-
-if (valor === "I2") return "granja";
-
-if (valor === "S1") return "estacion_policia";
-
-if (valor === "S2") return "estacion_bomberos";
-
-if (valor === "S3") return "hospital";
-
-if (valor === "U1") return "planta_electrica";
-
-if (valor === "U2") return "planta_agua";
-
-if (valor === "P1") return "parque";
-
-return "";
-
-    return "";
 }
