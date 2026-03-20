@@ -1,11 +1,15 @@
-﻿const OPENWEATHER_API_KEY = clave;
+const OPENWEATHER_API_KEY = (window.API_KEYS && window.API_KEYS.OPENWEATHER) || "";
 
 const obtenerClima = async (lat, lon) => {
+    if (!OPENWEATHER_API_KEY) {
+        console.warn("OPENWEATHER_API_KEY no configurada.");
+        return null;
+    }
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=es`;
 
     try {
         const respuesta = await fetch(url);
-        if (!respuesta.ok) throw new Error("Error en la petición");
+        if (!respuesta.ok) throw new Error("Error en la petici�n");
 
         const datos = await respuesta.json();
 
@@ -28,11 +32,15 @@ async function obtenerCoordenadasCiudad(nombreCiudad, region) {
 
     const regionLimpia = (region || "").trim();
     const consulta = regionLimpia ? `${nombre},${regionLimpia}` : nombre;
+    if (!OPENWEATHER_API_KEY) {
+        console.warn("OPENWEATHER_API_KEY no configurada.");
+        return null;
+    }
     const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(consulta)}&limit=1&appid=${OPENWEATHER_API_KEY}`;
 
     try {
         const respuesta = await fetch(url);
-        if (!respuesta.ok) throw new Error("Error en la peticiÃ³n de geocoding");
+        if (!respuesta.ok) throw new Error("Error en la petición de geocoding");
         const resultados = await respuesta.json();
         if (!Array.isArray(resultados) || resultados.length === 0) return null;
 
@@ -45,7 +53,7 @@ async function obtenerCoordenadasCiudad(nombreCiudad, region) {
             estado: resultado.state || ""
         };
     } catch (error) {
-        console.error("Hubo un problema con la geocodificaciÃ³n:", error);
+        console.error("Hubo un problema con la geocodificación:", error);
         return null;
     }
 }
@@ -54,15 +62,16 @@ function actualizarUIClima(datos) {
     if (!datos) return;
 
     // Actualizamos los textos normales
-    document.getElementById('climaTemp').textContent = `${Math.round(datos.temperatura)}°C`;
+    document.getElementById('climaTemp').textContent = `${Math.round(datos.temperatura)}�C`;
     document.getElementById('climaCondicion').textContent = datos.descripcion;
     document.getElementById('climaHumedad').textContent = `${datos.humedad}%`;
     document.getElementById('climaViento').textContent = `${datos.viento} km/h`;
 
-    // LÓGICA VISUAL: Solo cambiamos el atributo en el contenedor padre
+    // L�GICA VISUAL: Solo cambiamos el atributo en el contenedor padre
     const contenedor = document.getElementById('widgetClima');
     if (contenedor) {
         contenedor.setAttribute('data-clima', datos.estadoPrincipal);
     }
-    // datos.estadoPrincipal será "Rain", "Clear", "Clouds", etc.
+    // datos.estadoPrincipal ser� "Rain", "Clear", "Clouds", etc.
 }
+

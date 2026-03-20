@@ -1,5 +1,5 @@
-﻿const NEWS_CONFIG = {
-    apiKey: clave,
+const NEWS_CONFIG = {
+    apiKey: (window.API_KEYS && window.API_KEYS.NEWSAPI) || "",
     country: 'co',
     lastUpdate: null
 };
@@ -47,6 +47,9 @@ async function solicitarNoticiasColombia() {
 }
 
 async function solicitarTopHeadlinesCO() {
+    if (!NEWS_CONFIG.apiKey) {
+        return { articles: [], message: "NewsAPI key no configurada." };
+    }
     const params = new URLSearchParams({
         country: NEWS_CONFIG.country,
         pageSize: '8',
@@ -255,3 +258,5 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchRegionalNews();
     setInterval(fetchRegionalNews, 1800000); // 30 minutos
 });
+
+
