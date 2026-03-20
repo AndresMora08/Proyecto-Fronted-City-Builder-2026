@@ -21,26 +21,26 @@ function calcularProduccion(ciudad){
 
         const edificio = ciudad.edificios[i];
 
-        if(edificio.ingresos){
+        if(edificio._ingresos){
             
-            produccion.dinero += edificio.ingresos;
+            produccion.dinero += edificio._ingresos;
         }
 
-        if(edificio.produccion){
-            if(edificio.tipo==="Fabrica"){
-                 produccion.dinero+=edificio.produccion
+        if(edificio._produccion){
+            if(edificio._tipo==="Fabrica"){
+                 produccion.dinero+=edificio._produccion
              }
 
-            if(edificio.tipo === "Planta Electrica"){
-                produccion.electricidad += edificio.produccion;
+            if(edificio._tipo === "Planta Electrica"){
+                produccion.electricidad += edificio._produccion;
             }
 
-            if(edificio.tipo === "Planta de agua"){
-                produccion.agua += edificio.produccion;
+            if(edificio._tipo === "Planta de agua"){
+                produccion.agua += edificio._produccion;
             }
 
-            if(edificio.tipo === "Granja"){
-                produccion.alimento += edificio.produccion;
+            if(edificio._tipo === "Granja"){
+                produccion.alimento += edificio._produccion;
             }
 
         }
@@ -61,8 +61,8 @@ function calcularConsumo(ciudad){
 
         const edificio = ciudad.edificios[i];
 
-        consumo.electricidad += edificio.consumoElectricidad;
-        consumo.agua += edificio.consumoAgua;
+        consumo.electricidad += edificio._consumoElectricidad;
+        consumo.agua += edificio._consumoAgua;
 
     }
 
@@ -106,8 +106,8 @@ function calcularCapacidad(ciudad){
 
     for(let i=0;i<ciudad.edificios.length;i++){
         const edificio=ciudad.edificios[i];
-         if(edificio.tipo==="Casa"||edificio.tipo==="Apartamento"){
-            capacidadResidencial+=edificio.capacidadMaxima;
+         if(edificio._tipo==="Casa"||edificio._tipo==="Apartamento"){
+            capacidadResidencial+=edificio._capacidadMaxima;
          }
     }
 
@@ -121,7 +121,7 @@ function calcularFelicidadPromedio(ciudad){
     if(ciudad.ciudadanos.length>0){
         for(let i=0;i<ciudad.ciudadanos.length;i++){
             const ciudadano=ciudad.ciudadanos[i];
-            felicidadTotal+=ciudadano.nivelFelicidad;
+            felicidadTotal+=ciudadano._nivelFelicidad;
         }
             felicidadPromedio=felicidadTotal/ciudad.ciudadanos.length;
     }else{
@@ -136,8 +136,8 @@ let empleosDisponibles=0;
 for(let i=0;i<ciudad.edificios.length;i++){
     const edificio=ciudad.edificios[i];
 
-    if(edificio.ciudadanosEmpleados){
-        empleosDisponibles+=edificio.capacidadMaxima-edificio.ciudadanosEmpleados.length;
+    if(edificio._ciudadanosEmpleados){
+        empleosDisponibles+=edificio._capacidadMaxima-edificio._ciudadanosEmpleados.length;
 
     }
     if(empleosDisponibles>0){
@@ -155,7 +155,7 @@ function asignarViviendas(ciudad){
 
         const ciudadano = ciudad.ciudadanos[i];
 
-        if(ciudadano.vivienda){
+        if(ciudadano._vivienda){
             continue;
         }
 
@@ -163,7 +163,7 @@ function asignarViviendas(ciudad){
 
             const edificio = ciudad.edificios[j];
 
-            if(edificio.tipo === "Casa" || edificio.tipo === "Apartamento"){
+            if(edificio._tipo === "Casa" || edificio._tipo === "Apartamento"){
 
                 const agregado = edificio.agregarResidente(ciudadano);
 
@@ -178,13 +178,14 @@ function asignarViviendas(ciudad){
     }
 
 }
+
 function asignarEmpleos(ciudad){
 
     for(let i = 0; i < ciudad.ciudadanos.length; i++){
 
         const ciudadano = ciudad.ciudadanos[i];
 
-        if(ciudadano.empleo){
+        if(ciudadano._empleo){
             continue;
         }
 
@@ -192,7 +193,7 @@ function asignarEmpleos(ciudad){
 
             const edificio = ciudad.edificios[j];
 
-            if(edificio.ciudadanosEmpleados){
+            if(edificio._ciudadanosEmpleados){
 
                 const agregado = edificio.agregarEmpleado(ciudadano);
 

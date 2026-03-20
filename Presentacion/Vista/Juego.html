@@ -27,11 +27,12 @@
     <script defer src="../Js/UiDemolicion.js"></script>
     <script defer src="../../Negocio/Demoliciones.js"></script>
     <script defer src="../../Negocio/Menu_Acciones.js"></script>
+    <script defer src="../../Negocio/Apis/Clima.js"></script>
+    <script defer src="../../Negocio/Apis/Noticias.js"></script>
     <link rel="stylesheet" href="../Estilo/Juego.css">
     <link rel="stylesheet" href="../Estilo/alertas.css">
 </head>
 <body>
-
     <div id="infoCiudad">
         <h1 id="datosCiudad"></h1>
         <div class="recursosCiudad">
@@ -42,10 +43,39 @@
             <span id="Poblacion"></span>
         </div> 
     </div>
-
+    <div class="Clima" id="widgetClima">
+        <div class="clima-principal">
+            <span id="climaIcono"></span> <span id="climaTemp">--°C</span>
+        </div>
+        <div class="clima-detalles">
+            <div class="dato-clima">
+                <strong>Estado:</strong> <span id="climaCondicion">Cargando...</span>
+            </div>
+            <div class="dato-clima">
+                <strong>Humedad:</strong> <span id="climaHumedad">--%</span>
+            </div>
+            <div class="dato-clima">
+                <strong>Viento:</strong> <span id="climaViento">-- km/h</span>
+            </div>
+        </div>
+    </div>
     <div id="mapaContainer"></div>
 
     <div id="mensajeAusuario"></div>
+    
+    <div id="news-panel" class="city-builder-ui">
+        <div id="nr">
+            🛰 NEWS
+        </div>
+        
+        <div id="news-list">
+            <div class="news-ticker">
+                <div class="news-track" id="news-track">
+                    <!-- noticias se insertan aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
     
     <div class="huds">
         <div id="hudAcciones"> 
@@ -100,12 +130,6 @@
                     <button id="carrera"></button>
                     <button class="btn-volver" data-back="construir"></button>
                 </div>
-<!--              <div id="hudConstruirParques">
-                    <button id="parque"></button>
-                    <button class="btn-volver" data-back="construir"></button>
-                </div>
--->  
     </div>
-    
 </body>
 </html>

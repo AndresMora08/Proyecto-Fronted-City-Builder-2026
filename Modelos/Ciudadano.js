@@ -3,11 +3,11 @@ class Ciudadano{
 static contadorCiudadanos=1;
 
     constructor(id, nivelFelicidad){
-        this.id=id;
-        this.nivelFelicidad=nivelFelicidad;
+        this._id = id;
+        this._nivelFelicidad = nivelFelicidad;
 
-        this.vivienda=null;
-        this.empleo=null;
+        this._vivienda = null;
+        this._empleo = null;
     }
 
      static crearCiudadano(){
@@ -23,7 +23,7 @@ actualizarFelicidadIndividual(ciudad){
 
     /* vivienda */
 
-    if(this.vivienda !== null){
+    if(this._vivienda !== null){
         factoresPositivos += 20;
     }else{
         factoresNegativos += 20;
@@ -31,7 +31,7 @@ actualizarFelicidadIndividual(ciudad){
 
     /* empleo */
 
-    if(this.empleo !== null){
+    if(this._empleo !== null){
         factoresPositivos += 15;
     }else{
         factoresNegativos += 15;
@@ -39,10 +39,10 @@ actualizarFelicidadIndividual(ciudad){
 
     /* servicios y parques */
 
-    if(this.vivienda !== null){
+    if(this._vivienda !== null){
 
-        const xCasa = this.vivienda.x;
-        const yCasa = this.vivienda.y;
+        const xCasa = this._vivienda._x;
+        const yCasa = this._vivienda._y;
 
         for(let i = 0; i < ciudad.edificios.length; i++){
 
@@ -51,23 +51,23 @@ actualizarFelicidadIndividual(ciudad){
             const distancia = calcularDistancia(
                 xCasa,
                 yCasa,
-                edificio.x,
-                edificio.y
+                edificio._x,
+                edificio._y
             );
 
             /* servicios */
 
-            if(edificio.radio !== undefined){
+            if(edificio._radio !== undefined){
 
-                if(distancia <= edificio.radio){
-                    factoresPositivos += edificio.beneficio;
+                if(distancia <= edificio._radio){
+                    factoresPositivos += edificio._beneficio;
                 }
 
             }
 
             /* parques */
 
-            if(edificio.tipo === "Parque"){
+            if(edificio._tipo === "Parque"){
                 factoresPositivos += 5;
             }
 
@@ -75,7 +75,7 @@ actualizarFelicidadIndividual(ciudad){
 
     }
 
-    this.nivelFelicidad = factoresPositivos - factoresNegativos;
+    this._nivelFelicidad = factoresPositivos - factoresNegativos;
 
 }
 

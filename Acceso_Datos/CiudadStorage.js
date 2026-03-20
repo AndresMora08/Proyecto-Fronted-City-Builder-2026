@@ -10,25 +10,28 @@ class CiudadStorage {
             let e = ciudad.edificios[i];
 
              let edificioSimple = {
-                codigoMapa: e.codigoMapa,
+                codigoMapa: e._codigoMapa,
 
-                nombre: e.getNombre,
-                x: e.x,
-                y: e.y
+                nombre: e._nombre,
+                x: e._x,
+                y: e._y
     };
 
     edificiosPlano.push(edificioSimple);
 }
         const ciudadPlano = {
             nombreCiudad: ciudad.nombreCiudad,
+            region: ciudad.region || "",
+            latitud: ciudad.latitud,
+            longitud: ciudad.longitud, 
             dinero: ciudad.dinero,
             electricidad: ciudad.electricidad,
             agua: ciudad.agua,
             alimento: ciudad.alimento,
             poblacion: ciudad.poblacion,
             puntuacion: ciudad.puntuacion,
-            tamanioMapa: ciudad.mapa.tamanio,
-            matrizMapa: ciudad.mapa.matriz,
+            tamanioMapa: ciudad.mapa._tamanio,
+            matrizMapa: ciudad.mapa._matriz,
             edificios:edificiosPlano
 
 
@@ -46,18 +49,21 @@ class CiudadStorage {
 
         // Reconstruir mapa
         const mapa = new Mapa(ciudadPlano.tamanioMapa);
-        mapa.matriz = ciudadPlano.matrizMapa;
+        mapa._matriz = ciudadPlano.matrizMapa;
         
 
         // Reconstruir ciudad
         const ciudad = new Ciudad(
             ciudadPlano.nombreCiudad,
+            ciudadPlano.latitud,
+            ciudadPlano.longitud,
             Number(ciudadPlano.dinero),
             Number(ciudadPlano.electricidad),
             Number(ciudadPlano.agua),
             Number(ciudadPlano.alimento),
             Number(ciudadPlano.poblacion),
-            Number(ciudadPlano.puntuacion)
+            Number(ciudadPlano.puntuacion),
+            ciudadPlano.region || ""
         );
         ciudad.mapa=mapa;
  if (ciudadPlano.edificios) {
@@ -129,8 +135,8 @@ class CiudadStorage {
         ciudad.edificios.push(edificio);
     }
 }
-        return ciudad;
     }
+     return ciudad;
     }
 
     static limpiar() {

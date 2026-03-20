@@ -1,9 +1,9 @@
 class Alcalde{
 
     constructor(nombreAlcalde){
-        this.nombreAlcalde=nombreAlcalde;
+        this._nombreAlcalde = nombreAlcalde;
 
-        this.ciudad=null;
+        this._ciudad = null;
     }
 
     

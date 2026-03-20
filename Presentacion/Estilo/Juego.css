@@ -18,7 +18,7 @@ html, body {
 
 body {
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto auto 1fr ;
     background: var(--surface-bg);
     font-family: sans-serif;
     box-sizing: border-box;
@@ -70,6 +70,75 @@ body {
     transform: translateY(-1px);
 }
 
+/* WIDGET CLIMA */
+
+.Clima {
+    top: 0px;
+    right: 0px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0px;
+    border-radius: 8px;
+    border: 2px solid #555;
+    font-family: 'Arial', sans-serif;
+    min-width: 100%;
+    max-height: 110px;
+    z-index: 1000;
+    margin: 0;
+}
+
+.clima-principal {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0px;
+}
+
+.clima-detalles {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.dato-clima strong {
+    color: #aaa;
+}
+
+/* Estilo base para el icono */
+#climaIcono::before,
+.clima-icono::before {
+    font-size: 2rem;
+    display: block;
+    content: "🌡️"; /* Icono por defecto */
+}
+
+/* Mapeo de estados a iconos en CSS */
+[data-clima="Rain"] #climaIcono::before,
+[data-clima="Drizzle"] #climaIcono::before,
+[data-clima="Thunderstorm"] #climaIcono::before,
+[data-clima="Rain"] .clima-icono::before,
+[data-clima="Drizzle"] .clima-icono::before,
+[data-clima="Thunderstorm"] .clima-icono::before {
+    content: "🌧️";
+}
+
+[data-clima="Clear"] #climaIcono::before,
+[data-clima="Clear"] .clima-icono::before {
+    content: "☀️";
+}
+
+[data-clima="Clouds"] #climaIcono::before,
+[data-clima="Clouds"] .clima-icono::before {
+    content: "☁️";
+}
+
+[data-clima="Snow"] #climaIcono::before,
+[data-clima="Snow"] .clima-icono::before {
+    content: "❄️";
+}
+
 /* Recursos */
 #Dinero, #Electricidad, #Agua, #Alimento, #Poblacion {
     display: inline-flex;
@@ -83,11 +152,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#Dinero::before,
-#Electricidad::before,
-#Agua::before,
-#Alimento::before,
-#Poblacion::before {
+#Dinero::before,#Electricidad::before,#Agua::before,#Alimento::before,#Poblacion::before {
     content: "";
     width: 24px;
     height: 24px;
@@ -110,11 +175,11 @@ body {
     overflow: auto;
     width: 100%;
     background-color: #24551fb7;
+    margin: 0;
 }
 
 #mapaContainer table {
     border-collapse: collapse;
-    table-layout: fixed;
 }
 
 #mapaContainer td {
@@ -198,11 +263,237 @@ body {
     cursor: pointer;
 }
 
+/*WIDGET NOTICIAS - BARRA TICKER*/
+#news-panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+
+    background: linear-gradient(90deg, #1a1a1a, #2c2c2c);
+    border-top: 3px solid #0099ff;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+
+    font-family: 'Orbitron', sans-serif;
+    color: #eaeaea;
+    overflow: hidden;
+}
+
+/* brillo dinámico */
+#news-panel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+    animation: shine 6s infinite;
+}
+
+@keyframes shine {
+    100% { left: 100%; }
+}
+
+/* etiqueta NEWS */
+#nr {
+    color: #00ccff;
+    font-weight: bold;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* contenedor */
+#news-list {
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ticker individual */
+.news-ticker-single {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.news-single-item {
+    display: inline-block;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.news-single-item.animate {
+    animation: news-single var(--news-item-duration, 7000ms) linear 1;
+}
+
+@keyframes news-single {
+    from { transform: translateX(var(--news-start, 100%)); }
+    to { transform: translateX(var(--news-end, -100%)); }
+}
+
+.news-no-link {
+    pointer-events: none;
+}
+
+/* ticker */
+.news-ticker {
+    width: 100%;
+    overflow: hidden;
+
+    /* fade en bordes */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.news-track {
+    display: flex;
+    gap: 70px;
+    white-space: nowrap;
+    animation: news-ticker 20s linear infinite;
+}
+
+@keyframes news-ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* noticias */
+.news-ticker-item {
+    color: #ccc;
+    font-size: 1rem;
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.news-ticker-item.important {
+    color: #00ccff;
+    font-weight: bold;
+    opacity: 1;
+}
+
+.news-sep {
+    color: #555;
+}
+
+/* interacción */
+#news-panel:hover .news-track {
+    animation-play-state: paused;
+}
+
+#news-panel:hover .news-ticker-item {
+    opacity: 0.4;
+}
+
+.news-ticker-item:hover {
+    opacity: 1 !important;
+    color: #ffffff;
+}
+
+/*----------------- ALERTAS EN JUEGO -----------------*/
+#mensajeAusuario {
+    position: fixed;
+    left: 50%;
+    bottom: 130px;
+    transform: translateX(-50%);
+    z-index: 9998;
+    width: min(520px, 92vw);
+    pointer-events: none;
+}
+
+#mensajeAusuario > div {
+    pointer-events: auto;
+    background: linear-gradient(180deg, #222, #141414);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-left: 4px solid #00ccff;
+    color: #f1f1f1;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 14px 30px rgba(0,0,0,0.55);
+    font-family: "Segoe UI", Arial, sans-serif;
+    animation: msg-in 160ms ease-out;
+}
+
+#mensajeAusuario p {
+    margin: 0 0 10px 0;
+    font-size: 0.98rem;
+    line-height: 1.4;
+    color: #e3e3e3;
+}
+
+#mensajeAusuario label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: #d8d8d8;
+}
+
+#mensajeAusuario input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: #0f0f0f;
+    color: #ffffff;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+#mensajeAusuario button {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,153,255,0.45);
+    background: linear-gradient(180deg, #0f7bd4, #0c5da5);
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+#mensajeAusuario button:hover {
+    background: linear-gradient(180deg, #1a8ee8, #0e6bbd);
+    box-shadow: 0 8px 18px rgba(0,153,255,0.35);
+    transform: translateY(-1px);
+}
+
+#mensajeAusuario button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+#btnNOdemoler {
+    border-color: rgba(255,255,255,0.2);
+    background: linear-gradient(180deg, #3a3a3a, #2b2b2b);
+}
+
+#btnNOdemoler:hover {
+    background: linear-gradient(180deg, #4a4a4a, #343434);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+@keyframes msg-in {
+    from { transform: translateY(6px) scale(0.98); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
 /*----------------- BOTONES -----------------*/
 .huds {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
     flex-wrap: wrap;
     background-color: var(--panel-bg);
@@ -309,6 +600,14 @@ body {
 
 /*----------------- RESPONSIVE -----------------*/
 @media (max-width: 769px) {
+  #mapaContainer {
+        width: 100vw;
+        justify-content: center;
+        padding: 0;
+        --cell-size: calc(100vw / var(--map-size, 15));
+    }
+    
+
     .huds button {
         width: 22%;
         height: 60px;

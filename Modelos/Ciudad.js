@@ -1,24 +1,52 @@
 class Ciudad{
 
-    constructor(nombreCiudad, dinero=50000, electricidad=0, agua=0, alimento=0, poblacion=0, puntuacion=0){
-    this.nombreCiudad = nombreCiudad;
-    this.dinero =Number(dinero);
-    this.electricidad = Number(electricidad);
-    this.agua = Number(agua);
-    this.alimento =Number (alimento);
-    this.poblacion = Number(poblacion);
-    this.puntuacion =Number (puntuacion);
+    constructor(nombreCiudad, latitud, longitud, dinero=50000, electricidad=0, agua=0, alimento=0, poblacion=0, puntuacion=0, region=""){
 
-    this.ciudadanos=[];
-    this.edificios=[];
-    this.mapa=null;
+        this._nombreCiudad = nombreCiudad;
+        this._latitud = latitud; 
+        this._longitud = longitud;
+        this._region = region;
+
+        this._dinero = Number(dinero);
+        this._electricidad = Number(electricidad);
+        this._agua = Number(agua);
+        this._alimento = Number(alimento);
+        this._poblacion = Number(poblacion);
+        this._puntuacion = Number(puntuacion);
+
+        // Propiedades iniciales
+        this._ciudadanos = [];
+        this._edificios = [];
+        this._mapa = null;
     }
- get nombreCiudad(){
+    get nombreCiudad(){
         return this._nombreCiudad;
+    }
+    get latitud(){ 
+        return this._latitud; 
+    }
+
+    set latitud(v){
+         this._latitud = v; 
+    }
+    
+    get longitud() { 
+        return this._longitud; 
+    }
+    set longitud(v) { 
+        this._longitud = v; 
     }
 
     set nombreCiudad(valor){
         this._nombreCiudad = valor;
+    }
+
+    get region() {
+        return this._region;
+    }
+
+    set region(valor) {
+        this._region = valor;
     }
 
     get dinero(){

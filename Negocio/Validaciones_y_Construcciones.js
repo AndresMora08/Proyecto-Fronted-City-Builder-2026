@@ -1,11 +1,11 @@
 function modalidadConstruccion(ciudad, x, y, tipoElegido){
     const objeto = objetoVacio(tipoElegido,x,y);
-    const costo = objeto.costoConstruccion;
+    const costo = objeto._costoConstruccion;
 
     const origen = encontrarOrigenConstruccion(costo, x, y, ciudad, tipoElegido);
 
     if(origen){
-        UIConstruccion.mostrarPromptNombreEdificio(objeto.nombre, function(nombreEdificio) {
+        UIConstruccion.mostrarPromptNombreEdificio(objeto._nombre, function(nombreEdificio) {
             construir(ciudad, origen.x, origen.y, objeto, tipoElegido, nombreEdificio);
         });
     }
@@ -88,7 +88,7 @@ function encontrarOrigenConstruccion(costo, x, y, ciudad, tipoElegido){
     const tamano = obtenerTamanoEdificio(tipoElegido);
 
     if (ciudad.dinero < costo) return null;
-    if (ciudad.mapa.matriz[x][y] !== "g") return null;
+    if (ciudad.mapa._matriz[x][y] !== "g") return null;
 
     for (let dx = 0; dx < tamano.alto; dx++) {
         for (let dy = 0; dy < tamano.ancho; dy++) {
@@ -107,8 +107,8 @@ function encontrarOrigenConstruccion(costo, x, y, ciudad, tipoElegido){
 }
 
 function espacioDisponible(x, y, ciudad, tamano) {
-    const mapa = ciudad.mapa.matriz;
-    const tamanio = ciudad.mapa.tamanio;
+    const mapa = ciudad.mapa._matriz;
+    const tamanio = ciudad.mapa._tamanio;
 
     for (let dx = 0; dx < tamano.alto; dx++) {
         for (let dy = 0; dy < tamano.ancho; dy++) {
@@ -134,8 +134,8 @@ function tieneViaAdyacente(x,y,ciudad,tipoElegido,tamanoEdificio){
         return true;
     }
 
-    const mapa = ciudad.mapa.matriz;
-    const tamanioMapa = ciudad.mapa.tamanio;
+    const mapa = ciudad.mapa._matriz;
+    const tamanioMapa = ciudad.mapa._tamanio;
 
     const direcciones = [
         [-1,0],
@@ -176,22 +176,22 @@ function tieneViaAdyacente(x,y,ciudad,tipoElegido,tamanoEdificio){
 function construir(ciudad,x,y,objeto,tipoElegido,nombreEdificio){
 
     const tamano = obtenerTamanoEdificio(tipoElegido);
-    objeto.x = x;
-    objeto.y = y;
+    objeto._x = x;
+    objeto._y = y;
 
     for (let dx = 0; dx < tamano.alto; dx++) {
         for (let dy = 0; dy < tamano.ancho; dy++) {
             const nx = x + dx;
             const ny = y + dy;
-            ciudad.mapa.matriz[nx][ny] = (dx === 0 && dy === 0) ? tipoElegido : "o";
+            ciudad.mapa._matriz[nx][ny] = (dx === 0 && dy === 0) ? tipoElegido : "o";
         }
     }
     console.log("objeto", objeto);
     console.log("Dinero antes:", ciudad.dinero);
-    console.log("Costo:", objeto.costoConstruccion);
-    objeto.nombre=nombreEdificio;
+    console.log("Costo:", objeto._costoConstruccion);
+    objeto._nombre = nombreEdificio;
 
-    ciudad.dinero-=objeto.costoConstruccion;
+    ciudad.dinero-=objeto._costoConstruccion;
        
     ciudad.edificios.push(objeto);
 

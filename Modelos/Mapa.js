@@ -2,9 +2,9 @@ class Mapa{
 
     constructor(tamanio){
 
-        this.tamanio=tamanio;
+        this._tamanio = tamanio;
 
-        this.matriz=this.crearMatriz();
+        this._matriz = this.crearMatriz();
 
         
     }
@@ -13,11 +13,11 @@ class Mapa{
 
         let matriz = [];
 
-        for (let i = 0; i < this.tamanio; i++) {
+        for (let i = 0; i < this._tamanio; i++) {
 
             matriz[i] = [];
 
-            for (let j = 0; j < this.tamanio; j++) {
+            for (let j = 0; j < this._tamanio; j++) {
 
                 matriz[i][j] = "g";
 

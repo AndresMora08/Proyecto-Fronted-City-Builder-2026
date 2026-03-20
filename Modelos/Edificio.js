@@ -2,82 +2,82 @@ class Edificio{
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad, x, y) {
 
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.costoConstruccion = Number(costoConstruccion);
-        this.consumoAgua = Number(consumoAgua);
-        this.consumoElectricidad = Number(consumoElectricidad);
-        this.x = x;
-        this.y = y;
+        this._nombre = nombre;
+        this._tipo = tipo;
+        this._costoConstruccion = Number(costoConstruccion);
+        this._consumoAgua = Number(consumoAgua);
+        this._consumoElectricidad = Number(consumoElectricidad);
+        this._x = x;
+        this._y = y;
 
-        this.codigoMapa = null;
+        this._codigoMapa = null;
     }
 
     // GETTERS
 
     getNombre(){
-        return this.nombre;
+        return this._nombre;
     }
 
     getTipo(){
-        return this.tipo;
+        return this._tipo;
     }
 
     getCostoConstruccion(){
-        return this.costoConstruccion;
+        return this._costoConstruccion;
     }
 
     getConsumoAgua(){
-        return this.consumoAgua;
+        return this._consumoAgua;
     }
 
     getConsumoElectricidad(){
-        return this.consumoElectricidad;
+        return this._consumoElectricidad;
     }
 
     getX(){
-        return this.x;
+        return this._x;
     }
 
     getY(){
-        return this.y;
+        return this._y;
     }
 
     getCodigoMapa(){
-        return this.codigoMapa;
+        return this._codigoMapa;
     }
 
     // SETTERS
 
     setNombre(nombre){
-        this.nombre = nombre;
+        this._nombre = nombre;
     }
 
     setTipo(tipo){
-        this.tipo = tipo;
+        this._tipo = tipo;
     }
 
     setCostoConstruccion(costo){
-        this.costoConstruccion = costo;
+        this._costoConstruccion = costo;
     }
 
     setConsumoAgua(consumo){
-        this.consumoAgua = consumo;
+        this._consumoAgua = consumo;
     }
 
     setConsumoElectricidad(consumo){
-        this.consumoElectricidad = consumo;
+        this._consumoElectricidad = consumo;
     }
 
     setX(x){
-        this.x = x;
+        this._x = x;
     }
 
     setY(y){
-        this.y = y;
+        this._y = y;
     }
 
     setCodigoMapa(codigoMapa){
-        this.codigoMapa = codigoMapa;
+        this._codigoMapa = codigoMapa;
     }
 }

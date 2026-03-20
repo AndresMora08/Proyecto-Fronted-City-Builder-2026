@@ -2,13 +2,13 @@ console.log("Demoliciones.js cargado");
 
 function modalidadDemolicion(ciudad,x,y){
         
-    if(ciudad.mapa.matriz[x][y] !== "g"){
+    if(ciudad.mapa._matriz[x][y] !== "g"){
         const encontrado = buscarEdificioEnPosicion(ciudad, x, y);
         if (!encontrado) return;
 
         const { edificio, indice } = encontrado;
 
-        UIDemolicion.mostrarConfirmacionDemolicion(edificio.nombre, function() {
+        UIDemolicion.mostrarConfirmacionDemolicion(edificio._nombre, function() {
             demoler(ciudad, edificio, indice);
         }, function() {
             modalidad = "ninguna";
@@ -23,8 +23,8 @@ function verificarAfectados(ciudad,i){
 
     const edificio = ciudad.edificios[i];
 
-    const conResidencias = !!(edificio.ciudadanosViviendo && edificio.ciudadanosViviendo.length > 0);
-    const conEmpleos = !!(edificio.ciudadanosEmpleados && edificio.ciudadanosEmpleados.length > 0);
+    const conResidencias = !!(edificio._ciudadanosViviendo && edificio._ciudadanosViviendo.length > 0);
+    const conEmpleos = !!(edificio._ciudadanosEmpleados && edificio._ciudadanosEmpleados.length > 0);
 
     if (conResidencias || conEmpleos) {
         UIDemolicion.agregarAvisoAfectados(conResidencias, conEmpleos);
@@ -34,54 +34,54 @@ function verificarAfectados(ciudad,i){
 
 function demoler(ciudad, edificio, i){
 
-    const codigoMapa = edificio.codigoMapa || (ciudad.mapa.matriz[edificio.x] && ciudad.mapa.matriz[edificio.x][edificio.y]);
+    const codigoMapa = edificio._codigoMapa || (ciudad.mapa._matriz[edificio._x] && ciudad.mapa._matriz[edificio._x][edificio._y]);
     const tamano = obtenerTamanoEdificio(codigoMapa);
 
-    const costo = edificio.costoConstruccion;
+    const costo = edificio._costoConstruccion;
     const recuperado = costo / 2;
 
     /* liberar ciudadanos de vivienda */
 
-    if(edificio.ciudadanosViviendo){
+    if(edificio._ciudadanosViviendo){
 
-        for(let j = 0; j < edificio.ciudadanosViviendo.length; j++){
+        for(let j = 0; j < edificio._ciudadanosViviendo.length; j++){
 
-            const ciudadano = edificio.ciudadanosViviendo[j];
+            const ciudadano = edificio._ciudadanosViviendo[j];
 
             if(ciudadano){
-                ciudadano.vivienda = null;
+                ciudadano._vivienda = null;
             }
 
         }
 
-        edificio.ciudadanosViviendo = [];
+        edificio._ciudadanosViviendo = [];
     }
 
     /* liberar ciudadanos de empleo */
 
-    if(edificio.ciudadanosEmpleados){
+    if(edificio._ciudadanosEmpleados){
 
-        for(let j = 0; j < edificio.ciudadanosEmpleados.length; j++){
+        for(let j = 0; j < edificio._ciudadanosEmpleados.length; j++){
 
-            const ciudadano = edificio.ciudadanosEmpleados[j];
+            const ciudadano = edificio._ciudadanosEmpleados[j];
 
             if(ciudadano){
-                ciudadano.empleo = null;
+                ciudadano._empleo = null;
             }
 
         }
 
-        edificio.ciudadanosEmpleados = [];
+        edificio._ciudadanosEmpleados = [];
     }
 
     /* actualizar mapa */
 
     for (let dx = 0; dx < tamano.alto; dx++) {
         for (let dy = 0; dy < tamano.ancho; dy++) {
-            const nx = edificio.x + dx;
-            const ny = edificio.y + dy;
-            if (nx < 0 || ny < 0 || nx >= ciudad.mapa.tamanio || ny >= ciudad.mapa.tamanio) continue;
-            ciudad.mapa.matriz[nx][ny] = "g";
+            const nx = edificio._x + dx;
+            const ny = edificio._y + dy;
+            if (nx < 0 || ny < 0 || nx >= ciudad.mapa._tamanio || ny >= ciudad.mapa._tamanio) continue;
+            ciudad.mapa._matriz[nx][ny] = "g";
         }
     }
 
@@ -112,11 +112,11 @@ function buscarEdificioEnPosicion(ciudad, x, y) {
         const edificio = ciudad.edificios[i];
         if (!edificio) continue;
 
-        const codigoMapa = edificio.codigoMapa || (ciudad.mapa.matriz[edificio.x] && ciudad.mapa.matriz[edificio.x][edificio.y]);
+        const codigoMapa = edificio._codigoMapa || (ciudad.mapa._matriz[edificio._x] && ciudad.mapa._matriz[edificio._x][edificio._y]);
         const tamano = obtenerTamanoEdificio(codigoMapa);
 
-        const dentroX = x >= edificio.x && x < edificio.x + tamano.alto;
-        const dentroY = y >= edificio.y && y < edificio.y + tamano.ancho;
+        const dentroX = x >= edificio._x && x < edificio._x + tamano.alto;
+        const dentroY = y >= edificio._y && y < edificio._y + tamano.ancho;
 
         if (dentroX && dentroY) {
             return { edificio, indice: i };

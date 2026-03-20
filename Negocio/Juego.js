@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", inicializarJuego);
 
-function inicializarJuego() {
+async function inicializarJuego() {
     intentarBloqueoOrientacionMovil();
     configurarAlertaOrientacionMovil();
 
     const ciudad = cargarCiudad();
-
     if (!ciudad) return;
 
     if (window.TamanosEdificios && typeof TamanosEdificios.sincronizarMatriz === "function") {
@@ -15,6 +14,46 @@ function inicializarJuego() {
     mostrarDatosCiudad(ciudad);
     UIMapa.renderizarMapa(ciudad);
     configurarMenus();
+
+    // --- CLIMA ---
+    // Primera carga inmediata
+    gestionarActualizacionClima(ciudad);
+
+    // Configurar el intervalo de 30 minutos
+    setInterval(() => {
+        gestionarActualizacionClima(ciudad);
+    }, 1800000); // 1,800,000 ms = 30 minutos
+}
+
+// Nueva función de apoyo para no repetir código
+async function gestionarActualizacionClima(ciudad) {
+    const lat = Number(ciudad.latitud);
+    const lon = Number(ciudad.longitud);
+
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+        // Intentar reconstruir coordenadas desde el nombre de la ciudad (para partidas antiguas)
+        if (typeof obtenerCoordenadasCiudad === "function") {
+            const coords = await obtenerCoordenadasCiudad(ciudad.nombreCiudad, ciudad.region || "");
+            if (coords) {
+                ciudad.latitud = coords.lat;
+                ciudad.longitud = coords.lon;
+                if (window.CiudadStorage && typeof CiudadStorage.guardar === "function") {
+                    CiudadStorage.guardar(ciudad);
+                }
+            } else {
+                console.warn("No se pudieron obtener coordenadas para clima.");
+                return;
+            }
+        } else {
+            return;
+        }
+    }
+
+    console.log("Actualizando clima real...");
+    const datosClima = await obtenerClima(ciudad.latitud, ciudad.longitud);
+    if (datosClima) {
+        actualizarUIClima(datosClima);
+    }
 }
 
 // FUNCIÓN DE MENUS PARA EL HUD
@@ -78,7 +117,7 @@ function configurarMenus() {
     btns.btnEdificios?.addEventListener('click', () => {
         menuAnterior = 'construir';
         mostrarSolo('edificios');
-
+    });
         btns.btnResidencias?.addEventListener('click', () => {
             menuAnterior = 'edificios'
             mostrarSolo('residencias');
@@ -99,7 +138,6 @@ function configurarMenus() {
             menuAnterior = 'edificios'
             mostrarSolo('utilidades');
         });
-    });
 
     btns.btnVias?.addEventListener('click', () => {
         menuAnterior = 'construir';

@@ -43,7 +43,7 @@ class Edificio_Residencial extends Edificio{
 
         this._ciudadanosViviendo.push(ciudadano);
 
-        ciudadano.vivienda = this;
+        ciudadano._vivienda = this;
 
         return true;
 }
