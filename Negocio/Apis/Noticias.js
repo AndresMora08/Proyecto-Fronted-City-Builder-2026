@@ -85,7 +85,6 @@ async function solicitarTopHeadlinesCO() {
         return { articles: [], message: "Respuesta sin articulos." };
     }
 
-    // Normalizamos a { title, url }
     const normalized = data.articles
         .map(a => ({ title: a.title || '', url: a.url || '' }))
         .filter(a => a.title);
@@ -107,7 +106,6 @@ async function solicitarRssColombia() {
         }
     }
 
-    // Deduplicar por titulo
     const seen = new Set();
     const unique = [];
     for (const a of results) {
@@ -253,7 +251,6 @@ function renderNewsBoard(articles, mensajeVacio) {
     );
 }
 
-// Iniciar actualizacion
 document.addEventListener("DOMContentLoaded", () => {
     fetchRegionalNews();
     setInterval(fetchRegionalNews, 1800000); // 30 minutos

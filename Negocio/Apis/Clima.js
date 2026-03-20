@@ -9,7 +9,7 @@ const obtenerClima = async (lat, lon) => {
 
     try {
         const respuesta = await fetch(url);
-        if (!respuesta.ok) throw new Error("Error en la petición");
+        if (!respuesta.ok) throw new Error("Error en la peticion");
 
         const datos = await respuesta.json();
 
@@ -61,17 +61,14 @@ async function obtenerCoordenadasCiudad(nombreCiudad, region) {
 function actualizarUIClima(datos) {
     if (!datos) return;
 
-    // Actualizamos los textos normales
-    document.getElementById('climaTemp').textContent = `${Math.round(datos.temperatura)}°C`;
+    document.getElementById('climaTemp').textContent = `${Math.round(datos.temperatura)}Â°C`;
     document.getElementById('climaCondicion').textContent = datos.descripcion;
     document.getElementById('climaHumedad').textContent = `${datos.humedad}%`;
     document.getElementById('climaViento').textContent = `${datos.viento} km/h`;
 
-    // LÓGICA VISUAL: Solo cambiamos el atributo en el contenedor padre
     const contenedor = document.getElementById('widgetClima');
     if (contenedor) {
         contenedor.setAttribute('data-clima', datos.estadoPrincipal);
     }
-    // datos.estadoPrincipal será "Rain", "Clear", "Clouds", etc.
 }
 

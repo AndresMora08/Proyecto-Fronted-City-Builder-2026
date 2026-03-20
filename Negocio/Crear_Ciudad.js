@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //Validación
         if (!nombreC || !nombreA || isNaN(tam)) {
-            alert("Completa todos los campos"); // O usa tu UiAlertas.js
+            alert("Completa todos los campos");
             return;
         }
 
