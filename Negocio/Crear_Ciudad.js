@@ -19,10 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
         //Instanciar modelos
         const miMapa = new Mapa(tam);
 
-        const coordenadas = await obtenerCoordenadasCiudad(nombreC, region);
+        let coordenadas = await obtenerCoordenadasCiudad(region || nombreC, "");
         if (!coordenadas) {
-            alert("No se pudo encontrar la ciudad. Intenta con formato: Ciudad, Departamento, CO");
-            return;
+            coordenadas = { lat: NaN, lon: NaN };
         }
 
         const nuevaCiudad = new Ciudad(nombreC, coordenadas.lat, coordenadas.lon);

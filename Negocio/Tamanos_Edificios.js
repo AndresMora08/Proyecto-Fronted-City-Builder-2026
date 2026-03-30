@@ -1,22 +1,22 @@
 (function() {
     const TAMANOS = {
         R1: { ancho: 1, alto: 1 }, // Casa
-        R2: { ancho: 1, alto: 1 }, // Apartamento (asset 1x1)
+        R2: { ancho: 1, alto: 1 }, // Apartamento
         C1: { ancho: 1, alto: 1 }, // Tienda
-        C2: { ancho: 2, alto: 2 }, // Centro comercial
-        I1: { ancho: 2, alto: 1 }, // Fabrica
-        I2: { ancho: 1, alto: 1 }, // Granja
+        C2: { ancho: 2, alto: 2 }, // centro comercial
+        I1: { ancho: 2, alto: 1 }, // dabrica
+        I2: { ancho: 1, alto: 1 }, // granja
         S1: { ancho: 2, alto: 1 }, // Estacion policia
-        S2: { ancho: 2, alto: 1 }, // Estacion bomberos
-        S3: { ancho: 2, alto: 1 }, // Hospital
+        S2: { ancho: 2, alto: 1 }, // estacion bomberos
+        S3: { ancho: 2, alto: 1 }, // hospital
         U1: { ancho: 1, alto: 1 }, // Planta electrica
         U2: { ancho: 1, alto: 1 }, // Planta agua
-        P1: { ancho: 2, alto: 1 }, // Parque
-        r1: { ancho: 1, alto: 1 },
-        r2: { ancho: 1, alto: 1 }
+        P1: { ancho: 2, alto: 1 }, // parque
+        r1: { ancho: 1, alto: 1 }, // calle
+        r2: { ancho: 1, alto: 1 }  // carrera
     };
 
-    const CODIGOS_VIA = new Set(["r", "r1", "r2"]);
+    const CODIGOS_VIA = new Set(["r1", "r2"]);
 
     function obtenerTamano(codigo) {
         return TAMANOS[codigo] || { ancho: 1, alto: 1 };

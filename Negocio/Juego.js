@@ -14,15 +14,16 @@ async function inicializarJuego() {
     mostrarDatosCiudad(ciudad);
     UIMapa.renderizarMapa(ciudad);
     configurarMenus();
+    configurarBotonConfig();
 
-    // --- CLIMA ---
-    // Primera carga inmediata
+    // CLIMA 
+
     gestionarActualizacionClima(ciudad);
 
-    // Configurar el intervalo de 30 minutos
+    // 30 min
     setInterval(() => {
         gestionarActualizacionClima(ciudad);
-    }, 1800000); // 1,800,000 ms = 30 minutos
+    }, 1800000); 
 }
 
 // Nueva función de apoyo para no repetir código
@@ -30,10 +31,12 @@ async function gestionarActualizacionClima(ciudad) {
     const lat = Number(ciudad.latitud);
     const lon = Number(ciudad.longitud);
 
-    if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
-        // Intentar reconstruir coordenadas desde el nombre de la ciudad (para partidas antiguas)
+    const coordsInvalidas = !Number.isFinite(lat) || !Number.isFinite(lon) || (lat === 0 && lon === 0);
+    if (coordsInvalidas) {
+        // Intentar reconstruir coordenadas desde la region real (para partidas antiguas o nombres ficticios)
         if (typeof obtenerCoordenadasCiudad === "function") {
-            const coords = await obtenerCoordenadasCiudad(ciudad.nombreCiudad, ciudad.region || "");
+            const consulta = ciudad.region || ciudad.nombreCiudad;
+            const coords = await obtenerCoordenadasCiudad(consulta, "");
             if (coords) {
                 ciudad.latitud = coords.lat;
                 ciudad.longitud = coords.lon;
@@ -100,20 +103,17 @@ function configurarMenus() {
         if (hud) hud.classList.remove('hidden');
     }
 
-    // --- ESTADO INICIAL ---
-    // Ocultamos todos menos el de acciones al empezar
+
     ocultarTodo();
     if (huds.acciones) huds.acciones.classList.remove('hidden');
 
-    // --- EVENTOS ---
+    // EVENTOS
 
-    // Principal -> Menú Construir
     btns.abrirConstruir?.addEventListener('click', () => {
         menuAnterior = 'acciones';
         mostrarSolo('construir');
     });
 
-    // Menú Construir -> Submenús
     btns.btnEdificios?.addEventListener('click', () => {
         menuAnterior = 'construir';
         mostrarSolo('edificios');
@@ -162,6 +162,66 @@ function configurarMenus() {
 
             mostrarSolo('acciones');
         });
+    });
+}
+
+function configurarBotonConfig() {
+    const btnConfig = document.getElementById("btnConfig");
+    if (!btnConfig) return;
+
+    // Input oculto para cargar mapas desde .txt
+    let inputArchivo = document.getElementById("inputMapaTxt");
+    if (!inputArchivo) {
+        inputArchivo = document.createElement("input");
+        inputArchivo.type = "file";
+        inputArchivo.accept = ".txt";
+        inputArchivo.id = "inputMapaTxt";
+        inputArchivo.style.display = "none";
+        document.body.appendChild(inputArchivo);
+    }
+
+    const leerArchivoTexto = (archivo) => {
+        return new Promise((resolve, reject) => {
+            const lector = new FileReader();
+            lector.onload = () => resolve(String(lector.result || ""));
+            lector.onerror = () => reject(lector.error || new Error("Error al leer archivo"));
+            lector.readAsText(archivo);
+        });
+    };
+
+    btnConfig.addEventListener("click", () => {
+        if (inputArchivo) {
+            inputArchivo.value = "";
+            inputArchivo.click();
+        }
+    });
+
+    inputArchivo.addEventListener("change", async () => {
+        const archivo = inputArchivo.files && inputArchivo.files[0];
+        if (!archivo) return;
+
+        if (!archivo.name.toLowerCase().endsWith(".txt")) {
+            if (window.UIAlertas && typeof UIAlertas.alertaCamposIncompletos === "function") {
+                UIAlertas.alertaCamposIncompletos();
+            } else {
+                alert("El archivo debe ser .txt");
+            }
+            return;
+        }
+
+        try {
+            const contenido = await leerArchivoTexto(archivo);
+            if (typeof window.importarMapaDesdeTxt === "function") {
+                window.importarMapaDesdeTxt(contenido, archivo.name);
+            } else if (window.UIMensajes && typeof UIMensajes.mostrarMensaje === "function") {
+                UIMensajes.mostrarMensaje("Archivo cargado. Importador pendiente de implementar.", 4000);
+            }
+        } catch (error) {
+            console.error("Error leyendo el archivo:", error);
+            if (window.UIMensajes && typeof UIMensajes.mostrarMensaje === "function") {
+                UIMensajes.mostrarMensaje("No se pudo leer el archivo.", 4000);
+            }
+        }
     });
 }
 

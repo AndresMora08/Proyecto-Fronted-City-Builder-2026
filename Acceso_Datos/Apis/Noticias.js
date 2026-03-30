@@ -86,7 +86,12 @@ async function solicitarTopHeadlinesCO() {
     }
 
     const normalized = data.articles
-        .map(a => ({ title: a.title || '', url: a.url || '' }))
+        .map(a => ({
+            title: a.title || '',
+            url: a.url || '',
+            image: a.urlToImage || '',
+            source: (a.source && a.source.name) ? a.source.name : ''
+        }))
         .filter(a => a.title);
 
     return { articles: normalized };
@@ -97,7 +102,7 @@ async function solicitarRssColombia() {
 
     for (const fuente of RSS_SOURCES) {
         try {
-            const items = await fetchRss(fuente.url);
+            const items = await fetchRss(fuente.url, fuente.name);
             for (const it of items) {
                 results.push(it);
             }
@@ -120,7 +125,7 @@ async function solicitarRssColombia() {
     return unique;
 }
 
-async function fetchRss(rssUrl) {
+async function fetchRss(rssUrl, sourceName) {
     const proxyUrls = [
         `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`,
         `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
@@ -153,18 +158,69 @@ async function fetchRss(rssUrl) {
     const xml = parser.parseFromString(xmlText, "text/xml");
     const items = Array.from(xml.querySelectorAll("item"));
 
+    const extractFirstImgFromHtml = (html) => {
+        if (!html) return '';
+        try {
+            const doc = new DOMParser().parseFromString(html, "text/html");
+            const img = doc.querySelector("img");
+            return img ? (img.getAttribute("src") || '') : '';
+        } catch {
+            return '';
+        }
+    };
+
+    const pickImageFromItem = (item) => {
+        const mediaContent = item.querySelector('media\\:content')?.getAttribute('url') || '';
+        if (mediaContent) return mediaContent;
+
+        const mediaThumb = item.querySelector('media\\:thumbnail')?.getAttribute('url') || '';
+        if (mediaThumb) return mediaThumb;
+
+        const enclosure = item.querySelector('enclosure');
+        if (enclosure) {
+            const type = enclosure.getAttribute('type') || '';
+            const url = enclosure.getAttribute('url') || '';
+            if (url && type.startsWith('image/')) return url;
+        }
+
+        const contentEncoded = item.querySelector('content\\:encoded')?.textContent || '';
+        const fromContent = extractFirstImgFromHtml(contentEncoded);
+        if (fromContent) return fromContent;
+
+        const description = item.querySelector('description')?.textContent || '';
+        const fromDesc = extractFirstImgFromHtml(description);
+        if (fromDesc) return fromDesc;
+
+        return '';
+    };
+
     return items
         .map(item => ({
             title: (item.querySelector("title")?.textContent || '').trim(),
-            url: (item.querySelector("link")?.textContent || '').trim()
+            url: (item.querySelector("link")?.textContent || '').trim(),
+            image: pickImageFromItem(item),
+            source: sourceName || ''
         }))
         .filter(a => a.title);
 }
 
 let newsRotationTimer = null;
+const NEWS_ROTATION_MS = 9000;
 const NEWS_SCROLL_SPEED_PX_PER_SEC = 90;
+const NEWS_PLACEHOLDER_IMAGE = "../../Assets/images/istockphoto-2191688361-255x253.jpg";
+let lastNewsItems = [];
+const NEWS_IMAGE_PROXY = (url) => `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
 
-function startNewsRotation(items) {
+function normalizeImageUrl(url) {
+    if (!url || typeof url !== "string") return "";
+    const trimmed = url.trim();
+    if (!trimmed) return "";
+    // Remove protocol for proxy to avoid mixed-content issues
+    const withoutProto = trimmed.replace(/^https?:\/\//, "");
+    return NEWS_IMAGE_PROXY(withoutProto);
+}
+
+function startNewsTicker(items) {
     const container = document.getElementById('news-list');
     if (!container) return;
 
@@ -222,6 +278,74 @@ function startNewsRotation(items) {
     updateItem();
 }
 
+function startNewsCard(items) {
+    const container = document.getElementById('news-list');
+    if (!container) return;
+
+    if (newsRotationTimer) {
+        clearInterval(newsRotationTimer);
+        newsRotationTimer = null;
+    }
+
+    let index = 0;
+
+    container.innerHTML = `
+        <a class="news-card" id="news-card" target="_blank" rel="noopener">
+            <div class="news-card-media">
+                <img class="news-card-img" alt="Imagen de noticia">
+            </div>
+            <div class="news-card-body">
+                <div class="news-card-title"></div>
+                <div class="news-card-desc"></div>
+            </div>
+            <div class="news-card-footer">
+                <div class="news-card-meta"></div>
+            </div>
+        </a>
+    `;
+
+    const cardEl = container.querySelector('#news-card');
+    const titleEl = container.querySelector('.news-card-title');
+    const descEl = container.querySelector('.news-card-desc');
+    const metaEl = container.querySelector('.news-card-meta');
+    const imgEl = container.querySelector('.news-card-img');
+
+    imgEl.addEventListener('error', () => {
+        imgEl.setAttribute('src', NEWS_PLACEHOLDER_IMAGE);
+    });
+
+    const updateItem = () => {
+        const item = items[index];
+        titleEl.textContent = item.title || 'Sin titulo';
+        if (descEl) {
+            descEl.textContent = item.description || '';
+        }
+        metaEl.textContent = item.source ? `Fuente: ${item.source}` : '';
+
+        if (item.url) {
+            cardEl.setAttribute('href', item.url);
+            cardEl.classList.remove('news-no-link');
+        } else {
+            cardEl.removeAttribute('href');
+            cardEl.classList.add('news-no-link');
+        }
+
+        const imageUrl = normalizeImageUrl(item.image);
+        if (imageUrl) {
+            cardEl.classList.remove('no-image');
+            imgEl.setAttribute('src', imageUrl);
+        } else {
+            cardEl.classList.remove('no-image');
+            imgEl.setAttribute('src', NEWS_PLACEHOLDER_IMAGE);
+        }
+
+        index = (index + 1) % items.length;
+    };
+
+    updateItem();
+    newsRotationTimer = setInterval(updateItem, NEWS_ROTATION_MS);
+}
+
 function renderNewsBoard(articles, mensajeVacio) {
     const container = document.getElementById('news-list');
     if (!container) return;
@@ -234,21 +358,25 @@ function renderNewsBoard(articles, mensajeVacio) {
         return;
     }
 
-    const items = articles
-        .slice(0, 8)
-        .map(a => {
-            const href = a.url ? `href="${a.url}" target="_blank"` : '';
-            return `<a class="news-ticker-item" ${href}>${a.title}</a>`;
-        });
+    const items = articles.slice(0, 8).map(a => ({
+        title: a.title,
+        url: a.url,
+        image: a.image || '',
+        source: a.source || ''
+    }));
 
-    if (items.length === 0) {
-        container.innerHTML = '<span class="news-empty">Sin noticias por ahora.</span>';
-        return;
+    lastNewsItems = items;
+    renderNewsByViewport();
+}
+
+function renderNewsByViewport() {
+    if (!lastNewsItems || lastNewsItems.length === 0) return;
+    const isDesktop = window.matchMedia && window.matchMedia('(min-width:1025px)').matches;
+    if (isDesktop) {
+        startNewsCard(lastNewsItems);
+    } else {
+        startNewsTicker(lastNewsItems);
     }
-
-    startNewsRotation(
-        articles.slice(0, 8).map(a => ({ title: a.title, url: a.url }))
-    );
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -256,4 +384,11 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(fetchRegionalNews, 1800000); // 30 minutos
 });
 
-
+if (window.matchMedia) {
+    const mq = window.matchMedia('(min-width:1025px)');
+    if (typeof mq.addEventListener === 'function') {
+        mq.addEventListener('change', renderNewsByViewport);
+    } else if (typeof mq.addListener === 'function') {
+        mq.addListener(renderNewsByViewport);
+    }
+}

@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
             UIMensajes.mostrarMensaje("Selecciona el edificio o via a demoler.", 4000);
         });
     }
-
+    
     const botonesTipo = [
         { id: "casa", tipo: "R1" },
         { id: "apartamento", tipo: "R2" },
@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
         { id: "hospital", tipo: "S3" },
         { id: "electrica", tipo: "U1" },
         { id: "agua", tipo: "U2" },
-        { id: "parque", tipo: "P1" },
         { id: "btnParques", tipo: "P1" },
         { id: "calle", tipo: "r1" },
         { id: "carrera", tipo: "r2" }

@@ -53,10 +53,15 @@
         mostrarAlerta("No hay partida guardada. Crea una nueva ciudad.");
     }
 
+    function alertaErrorMapa(mensaje) {
+        mostrarAlerta(mensaje || "El mapa no tiene un formato valido.", "Mapa invalido");
+    }
+
     window.UIAlertas = {
         alertaCamposIncompletos,
         alertaTamanoMapa,
         alertaOrientacionMovil,
-        alertaSinPartida
+        alertaSinPartida,
+        alertaErrorMapa
     };
 })();

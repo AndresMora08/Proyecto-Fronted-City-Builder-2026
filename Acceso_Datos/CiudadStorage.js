@@ -127,7 +127,7 @@ class CiudadStorage {
     }
 
     // VIA
-    else if (e.codigoMapa === "r") {
+    else if (e.codigoMapa === "r" || e.codigoMapa === "r1" || e.codigoMapa === "r2") {
         edificio = Via.crearVia(e.nombre, e.x, e.y,e.codigoMapa);
     }
 
