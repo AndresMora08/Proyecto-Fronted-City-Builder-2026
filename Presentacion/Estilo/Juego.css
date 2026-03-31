@@ -595,7 +595,8 @@ body {
 #hudComercios,
 #hudIndustrias,
 #hudServicios,
-#hudUtilidades {
+#hudUtilidades,
+#hudConfig{
     display: flex;
     align-items: center;
     padding: 10px;
@@ -616,7 +617,8 @@ body {
 #hudComercios button,
 #hudIndustrias button,
 #hudServicios button,
-#hudUtilidades button {
+#hudUtilidades button,
+#hudConfig button {
     flex: 0 0 calc((100% - (var(--hud-gap) * 3)) / 4);
     scroll-snap-align: start;
 }
@@ -858,7 +860,8 @@ body{
     #hudComercios,
     #hudIndustrias,
     #hudServicios,
-    #hudUtilidades {
+    #hudUtilidades,
+    #hudConfig {
         flex-direction: column;
         overflow: hidden;
         width: 100%;
@@ -876,7 +879,8 @@ body{
     #hudComercios button,
     #hudIndustrias button,
     #hudServicios button,
-    #hudUtilidades button {
+    #hudUtilidades button,
+    #hudConfig button {
         flex: 1 1 0;
         width: 100%;
         min-height: 70px;

@@ -23,7 +23,6 @@ async function inicializarJuego() {
     iniciarSistemaTurnos();
 
     // CLIMA 
-
     gestionarActualizacionClima(ciudad);
 
     // 30 min
@@ -32,14 +31,13 @@ async function inicializarJuego() {
     }, 1800000); 
 }
 
-// Nueva función de apoyo para no repetir código
+
 async function gestionarActualizacionClima(ciudad) {
     const lat = Number(ciudad.latitud);
     const lon = Number(ciudad.longitud);
 
     const coordsInvalidas = !Number.isFinite(lat) || !Number.isFinite(lon) || (lat === 0 && lon === 0);
     if (coordsInvalidas) {
-        // Intentar reconstruir coordenadas desde la region real (para partidas antiguas o nombres ficticios)
         if (typeof obtenerCoordenadasCiudad === "function") {
             const consulta = ciudad.region || ciudad.nombreCiudad;
             const coords = await obtenerCoordenadasCiudad(consulta, "");
@@ -65,38 +63,40 @@ async function gestionarActualizacionClima(ciudad) {
     }
 }
 
-// FUNCIÓN DE MENUS PARA EL HUD
+
 function configurarMenus() {
-    //huds
     const huds = {
         acciones: document.getElementById('hudAcciones'),
         construir: document.getElementById('hudConstruir'),
         edificios: document.getElementById('hudConstruirEdificios'),
-            residencias: document.getElementById('hudResidencias'),
-            comercios: document.getElementById('hudComercios'),
-            industrias: document.getElementById('hudIndustrias'),
-            servicios: document.getElementById('hudServicios'),
-            utilidades: document.getElementById('hudUtilidades'),
+        residencias: document.getElementById('hudResidencias'),
+        comercios: document.getElementById('hudComercios'),
+        industrias: document.getElementById('hudIndustrias'),
+        servicios: document.getElementById('hudServicios'),
+        utilidades: document.getElementById('hudUtilidades'),
         vias: document.getElementById('hudConstruirVias'),
-        
+
+        // ✅ NUEVO
+        config: document.getElementById('hudConfig')
     };
 
-    //botones
     const btns = {
         abrirConstruir: document.getElementById('btnConstruir'),
         btnEdificios: document.getElementById('btnEdificios'),
-            btnResidencias: document.getElementById('btnResidencias'),
-            btnComercios: document.getElementById('btnComercios'),
-            btnIndustrias: document.getElementById('btnIndustrias'),
-            btnServicios: document.getElementById('btnServicios'),
-            btnUtilidades: document.getElementById('btnUtilidades'),
-        btnVias: document.getElementById('btnVias')
+        btnResidencias: document.getElementById('btnResidencias'),
+        btnComercios: document.getElementById('btnComercios'),
+        btnIndustrias: document.getElementById('btnIndustrias'),
+        btnServicios: document.getElementById('btnServicios'),
+        btnUtilidades: document.getElementById('btnUtilidades'),
+        btnVias: document.getElementById('btnVias'),
+
+        // ✅ NUEVO
+        btnConfig: document.getElementById('btnConfig')
     };
 
     const botonesVolver = document.querySelectorAll('.btn-volver');
     let menuAnterior = null;
 
-    //ocultar menús
     function ocultarTodo() {
         Object.values(huds).forEach(hud => {
             if (hud) hud.classList.add('hidden');
@@ -108,7 +108,6 @@ function configurarMenus() {
         const hud = huds[nombreHud];
         if (hud) hud.classList.remove('hidden');
     }
-
 
     ocultarTodo();
     if (huds.acciones) huds.acciones.classList.remove('hidden');
@@ -124,36 +123,48 @@ function configurarMenus() {
         menuAnterior = 'construir';
         mostrarSolo('edificios');
     });
-        btns.btnResidencias?.addEventListener('click', () => {
-            menuAnterior = 'edificios'
-            mostrarSolo('residencias');
-        }); 
-        btns.btnComercios?.addEventListener('click', () => {
-            menuAnterior = 'edificios'
-            mostrarSolo('comercios');
-        });
-         btns.btnIndustrias?.addEventListener('click', () => {
-            menuAnterior = 'edificios'
-            mostrarSolo('industrias');
-        });
-         btns.btnServicios?.addEventListener('click', () => {
-            menuAnterior = 'edificios'
-            mostrarSolo('servicios');
-        });
-         btns.btnUtilidades?.addEventListener('click', () => {
-            menuAnterior = 'edificios'
-            mostrarSolo('utilidades');
-        });
+
+    btns.btnResidencias?.addEventListener('click', () => {
+        menuAnterior = 'edificios';
+        mostrarSolo('residencias');
+    });
+
+    btns.btnComercios?.addEventListener('click', () => {
+        menuAnterior = 'edificios';
+        mostrarSolo('comercios');
+    });
+
+    btns.btnIndustrias?.addEventListener('click', () => {
+        menuAnterior = 'edificios';
+        mostrarSolo('industrias');
+    });
+
+    btns.btnServicios?.addEventListener('click', () => {
+        menuAnterior = 'edificios';
+        mostrarSolo('servicios');
+    });
+
+    btns.btnUtilidades?.addEventListener('click', () => {
+        menuAnterior = 'edificios';
+        mostrarSolo('utilidades');
+    });
 
     btns.btnVias?.addEventListener('click', () => {
         menuAnterior = 'construir';
         mostrarSolo('vias');
     });
 
-    // Botón Volver
+    // ✅ NUEVO: abrir menú config
+    btns.btnConfig?.addEventListener('click', () => {
+        menuAnterior = 'acciones';
+        mostrarSolo('config');
+    });
+
+    // BOTÓN VOLVER
     botonesVolver.forEach((btn) => {
         btn.addEventListener('click', () => {
             const destino = btn.dataset.back;
+
             if (destino && huds[destino]) {
                 mostrarSolo(destino);
                 menuAnterior = null;
@@ -171,11 +182,9 @@ function configurarMenus() {
     });
 }
 
-function configurarBotonConfig() {
-    const btnConfig = document.getElementById("btnConfig");
-    if (!btnConfig) return;
 
-    // Input oculto para cargar mapas desde .txt
+function configurarBotonConfig() {
+
     let inputArchivo = document.getElementById("inputMapaTxt");
     if (!inputArchivo) {
         inputArchivo = document.createElement("input");
@@ -195,11 +204,12 @@ function configurarBotonConfig() {
         });
     };
 
-    btnConfig.addEventListener("click", () => {
-        if (inputArchivo) {
-            inputArchivo.value = "";
-            inputArchivo.click();
-        }
+
+    const btnImportar = document.getElementById("btnImportarTxt");
+
+    btnImportar?.addEventListener("click", () => {
+        inputArchivo.value = "";
+        inputArchivo.click();
     });
 
     inputArchivo.addEventListener("change", async () => {
@@ -217,11 +227,13 @@ function configurarBotonConfig() {
 
         try {
             const contenido = await leerArchivoTexto(archivo);
+
             if (typeof window.importarMapaDesdeTxt === "function") {
                 window.importarMapaDesdeTxt(contenido, archivo.name);
             } else if (window.UIMensajes && typeof UIMensajes.mostrarMensaje === "function") {
                 UIMensajes.mostrarMensaje("Archivo cargado. Importador pendiente de implementar.", 4000);
             }
+
         } catch (error) {
             console.error("Error leyendo el archivo:", error);
             if (window.UIMensajes && typeof UIMensajes.mostrarMensaje === "function") {
@@ -231,14 +243,14 @@ function configurarBotonConfig() {
     });
 }
 
+
 function intentarBloqueoOrientacionMovil() {
     const esMovil = /Android|iPhone|iPod/i.test(navigator.userAgent);
 
     if (!esMovil) return;
     if (!screen.orientation || typeof screen.orientation.lock !== "function") return;
 
-    screen.orientation.lock("portrait").catch(() => {
-    });
+    screen.orientation.lock("portrait").catch(() => {});
 }
 
 function configurarAlertaOrientacionMovil() {
@@ -267,6 +279,7 @@ function configurarAlertaOrientacionMovil() {
     validarOrientacion();
 }
 
+
 function cargarCiudad() {
     const ciudad = CiudadStorage.cargar();
 
@@ -282,9 +295,11 @@ function cargarCiudad() {
     return ciudad;
 }
 
+
 function mostrarDatosCiudad(ciudad) {
     const nombre = document.getElementById("datosCiudad");
     if (nombre) nombre.textContent = ciudad.nombreCiudad;
+
     const actualizar = (id, valor) => {
         const el = document.getElementById(id);
         if (el) el.textContent = valor;
