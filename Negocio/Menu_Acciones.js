@@ -1,10 +1,10 @@
 let modalidad = "ninguna";
 let tipoElegido = null;
-let ciudad = null;
+
 
 document.addEventListener("DOMContentLoaded", function() {
-    ciudad = cargarCiudad();
-    if (!ciudad) return;
+    
+    
 
     const mapaContainer = document.getElementById("mapaContainer");
 
@@ -60,10 +60,13 @@ document.addEventListener("DOMContentLoaded", function() {
             const y = parseInt(casilla.dataset.y, 10);
 
             if (modalidad === "construccion") {
+                console.log("CLICK:", { modalidad, tipoElegido, x, y });
                 if (!tipoElegido) return;
                 modalidadConstruccion(ciudad, x, y, tipoElegido);
             } else if (modalidad === "demolicion") {
                 modalidadDemolicion(ciudad, x, y);
+            }else{
+                 modalidadMuestraDatos(ciudad, x, y);
             }
         });
     }

@@ -1,142 +1,239 @@
-// CiudadStorage.js
 class CiudadStorage {
+
     static clave = "ciudadGuardada";
 
-    // Guardar ciudad en localStorage
+    // =========================
+    // GUARDAR
+    // =========================
     static guardar(ciudad) {
-        let edificiosPlano=[];
+
+        let listaCiudadanosPlano = [];
+
+        for (let i = 0; i < ciudad.ciudadanos.length; i++) {
+
+            let ciudadano = ciudad.ciudadanos[i];
+
+            let ciudadanoSimple = {
+                id: ciudadano.id,
+                nivelFelicidad: ciudadano.nivelFelicidad,
+                viviendaX: null,
+                viviendaY: null,
+                empleoX: null,
+                empleoY: null
+            };
+
+            if (ciudadano.vivienda) {
+                ciudadanoSimple.viviendaX = ciudadano.vivienda.x;
+                ciudadanoSimple.viviendaY = ciudadano.vivienda.y;
+            }
+
+            if (ciudadano.empleo) {
+                ciudadanoSimple.empleoX = ciudadano.empleo.x;
+                ciudadanoSimple.empleoY = ciudadano.empleo.y;
+            }
+
+            listaCiudadanosPlano.push(ciudadanoSimple);
+        }
+
+        let listaEdificiosPlano = [];
+
         for (let i = 0; i < ciudad.edificios.length; i++) {
 
-            let e = ciudad.edificios[i];
+            let edificio = ciudad.edificios[i];
 
-             let edificioSimple = {
-                codigoMapa: e._codigoMapa,
+            let edificioSimple = {
+                codigoMapa: edificio.codigoMapa,
+                nombre: edificio.nombre,
+                x: edificio.x,
+                y: edificio.y,
+                residentesIds: [],
+                empleadosIds: []
+            };
 
-                nombre: e._nombre,
-                x: e._x,
-                y: e._y
-    };
+            if (edificio.ciudadanosViviendo) {
+                for (let j = 0; j < edificio.ciudadanosViviendo.length; j++) {
+                    edificioSimple.residentesIds.push(edificio.ciudadanosViviendo[j].id);
+                }
+            }
 
-    edificiosPlano.push(edificioSimple);
-}
-        const ciudadPlano = {
+            if (edificio.ciudadanosEmpleados) {
+                for (let j = 0; j < edificio.ciudadanosEmpleados.length; j++) {
+                    edificioSimple.empleadosIds.push(edificio.ciudadanosEmpleados[j].id);
+                }
+            }
+
+            listaEdificiosPlano.push(edificioSimple);
+        }
+
+        let ciudadPlano = {
             nombreCiudad: ciudad.nombreCiudad,
-            region: ciudad.region || "",
-            latitud: ciudad.latitud,
-            longitud: ciudad.longitud, 
+            latitud: ciudad.latitud,        // <--- agregado
+            longitud: ciudad.longitud,      // <--- agregado
+            region: ciudad.region,          // <--- agregado
             dinero: ciudad.dinero,
             electricidad: ciudad.electricidad,
             agua: ciudad.agua,
             alimento: ciudad.alimento,
             poblacion: ciudad.poblacion,
             puntuacion: ciudad.puntuacion,
-            tamanioMapa: ciudad.mapa._tamanio,
-            matrizMapa: ciudad.mapa._matriz,
-            edificios:edificiosPlano
-
-
+            tamanioMapa: ciudad.mapa.tamanio,
+            matrizMapa: ciudad.mapa.matriz,
+            ciudadanos: listaCiudadanosPlano,
+            edificios: listaEdificiosPlano
         };
+
         localStorage.setItem(this.clave, JSON.stringify(ciudadPlano));
     }
 
-    // Cargar ciudad desde localStorage
+
+    // =========================
+    // CARGAR
+    // =========================
     static cargar() {
-        const datos = localStorage.getItem(this.clave);
+
+        let datos = localStorage.getItem(this.clave);
         if (!datos) return null;
 
-        const ciudadPlano = JSON.parse(datos);
-        const edificios=ciudadPlano.edificios;
+        let ciudadPlano = JSON.parse(datos);
 
-        // Reconstruir mapa
-        const mapa = new Mapa(ciudadPlano.tamanioMapa);
-        mapa._matriz = ciudadPlano.matrizMapa;
         
+        if (!ciudadPlano.ciudadanos) ciudadPlano.ciudadanos = [];
+        if (!ciudadPlano.edificios) ciudadPlano.edificios = [];
 
-        // Reconstruir ciudad
-        const ciudad = new Ciudad(
-            ciudadPlano.nombreCiudad,
-            ciudadPlano.latitud,
-            ciudadPlano.longitud,
-            Number(ciudadPlano.dinero),
-            Number(ciudadPlano.electricidad),
-            Number(ciudadPlano.agua),
-            Number(ciudadPlano.alimento),
-            Number(ciudadPlano.poblacion),
-            Number(ciudadPlano.puntuacion),
-            ciudadPlano.region || ""
-        );
-        ciudad.mapa=mapa;
- if (ciudadPlano.edificios) {
-    for (let i = 0; i < edificios.length; i++) {
+        // ===== MAPA =====
+        let mapa = new Mapa(ciudadPlano.tamanioMapa);
+        mapa.matriz = ciudadPlano.matrizMapa;
 
-        let e = ciudadPlano.edificios[i];
-        let edificio;
+        // ===== CIUDAD =====
+        let ciudad = new Ciudad(
+         ciudadPlano.nombreCiudad,      // nombreCiudad
+         ciudadPlano.latitud,           // latitud
+         ciudadPlano.longitud,          // longitud
+         ciudadPlano.dinero,            // dinero
+         ciudadPlano.electricidad,      // electricidad
+         ciudadPlano.agua,              // agua
+         ciudadPlano.alimento,          // alimento
+         ciudadPlano.poblacion,         // poblacion
+         ciudadPlano.puntuacion,        // puntuacion
+         ciudadPlano.region || ""       // region
+);
 
-    // RESIDENCIAL
-    if (e.codigoMapa === "R1") {
-        edificio = Edificio_Residencial.crearCasa(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+        ciudad.mapa = mapa;
+        ciudad.ciudadanos = [];
+        ciudad.edificios = [];
 
-    else if (e.codigoMapa=== "R2") {
-        edificio = Edificio_Residencial.crearApartamento(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+        // ===== CREAR CIUDADANOS =====
+        for (let i = 0; i < ciudadPlano.ciudadanos.length; i++) {
 
-    // COMERCIAL
-    else if (e.codigoMapa === "C1") {
-        edificio = Edificio_Comercial.crearTienda(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+            let datosCiudadano = ciudadPlano.ciudadanos[i];
 
-    else if (e.codigoMapa === "C2") {
-        edificio = Edificio_Comercial.crearCentroComercial(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+            let nuevo = new Ciudadano(
+                datosCiudadano.id,
+                datosCiudadano.nivelFelicidad
+            );
 
-    // INDUSTRIAL
-    else if (e.codigoMapa=== "I1") {
-        edificio = Edificio_Industrial.crearFabrica(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+            ciudad.ciudadanos.push(nuevo);
+        }
 
-    else if (e.codigoMapa === "I2") {
-        edificio = Edificio_Industrial.crearGranja(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+        // ===== CREAR EDIFICIOS =====
+        for (let i = 0; i < ciudadPlano.edificios.length; i++) {
 
-    // SERVICIOS
-    else if (e.codigoMapa=== "S1") {
-        edificio = Edificio_Servicios.crearEstacionPolicia(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+            let e = ciudadPlano.edificios[i];
+            let edificio = null;
 
-    else if (e.codigoMapa === "S2") {
-        edificio = Edificio_Servicios.crearEstacionBomberos(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+            if (e.codigoMapa === "R1") {
+                edificio = Edificio_Residencial.crearCasa(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "R2") {
+                edificio = Edificio_Residencial.crearApartamento(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "C1") {
+                edificio = Edificio_Comercial.crearTienda(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "C2") {
+                edificio = Edificio_Comercial.crearCentroComercial(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "I1") {
+                edificio = Edificio_Industrial.crearFabrica(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "I2") {
+                edificio = Edificio_Industrial.crearGranja(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "S1") {
+                edificio = Edificio_Servicios.crearEstacionPolicia(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "S2") {
+                edificio = Edificio_Servicios.crearEstacionBomberos(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "S3") {
+                edificio = Edificio_Servicios.crearHospital(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "U1") {
+                edificio = Planta_Utilidad.crearPlantaElectrica(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "U2") {
+                edificio = Planta_Utilidad.crearPlantaAgua(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "P1") {
+                edificio = Parque.crearParque(e.nombre, e.x, e.y, e.codigoMapa);
+            } else if (e.codigoMapa === "r") {
+                edificio = Via.crearVia(e.nombre, e.x, e.y, e.codigoMapa);
+            }
 
-    else if (e.codigoMapa === "S3") {
-        edificio = Edificio_Servicios.crearHospital(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+            if (edificio) {
+                
+                if (!edificio.ciudadanosViviendo) edificio.ciudadanosViviendo = [];
+                if (!edificio.ciudadanosEmpleados) edificio.ciudadanosEmpleados = [];
 
-    // UTILIDADES
-    else if (e.codigoMapa=== "U1") {
-        edificio = Planta_Utilidad.crearPlantaElectrica(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+                ciudad.edificios.push(edificio);
+            }
+        }
 
-    else if (e.codigoMapa === "U2") {
-        edificio = Planta_Utilidad.crearPlantaAgua(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+        // ===== FUNCION BUSCAR =====
+        function buscarCiudadanoPorId(lista, id) {
+            for (let i = 0; i < lista.length; i++) {
+                if (lista[i].id === id) return lista[i];
+            }
+            return null;
+        }
 
-    // PARQUE
-    else if (e.codigoMapa === "P1") {
-        edificio = Parque.crearParque(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+        function buscarEdificio(x, y) {
+            for (let i = 0; i < ciudad.edificios.length; i++) {
+                if (ciudad.edificios[i].x === x && ciudad.edificios[i].y === y) {
+                    return ciudad.edificios[i];
+                }
+            }
+            return null;
+        }
 
-    // VIA
-    else if (e.codigoMapa === "r" || e.codigoMapa === "r1" || e.codigoMapa === "r2") {
-        edificio = Via.crearVia(e.nombre, e.x, e.y,e.codigoMapa);
-    }
+        // ===== RESTAURAR RELACIONES =====
+        for (let i = 0; i < ciudadPlano.ciudadanos.length; i++) {
 
-    if (edificio) {
-        ciudad.edificios.push(edificio);
-    }
-}
-    }
-     return ciudad;
+            let datosC = ciudadPlano.ciudadanos[i];
+            let ciudadano = buscarCiudadanoPorId(ciudad.ciudadanos, datosC.id);
+
+            if (!ciudadano) continue;
+
+            if (datosC.viviendaX !== null) {
+                let casa = buscarEdificio(datosC.viviendaX, datosC.viviendaY);
+                if (casa) ciudadano.vivienda = casa;
+            }
+
+            if (datosC.empleoX !== null) {
+                let trabajo = buscarEdificio(datosC.empleoX, datosC.empleoY);
+                if (trabajo) ciudadano.empleo = trabajo;
+            }
+        }
+
+        // ===== ASIGNAR A EDIFICIOS =====
+        for (let i = 0; i < ciudadPlano.edificios.length; i++) {
+
+            let datosE = ciudadPlano.edificios[i];
+            let edificio = buscarEdificio(datosE.x, datosE.y);
+
+            if (!edificio) continue;
+
+            for (let j = 0; j < datosE.residentesIds.length; j++) {
+                let c = buscarCiudadanoPorId(ciudad.ciudadanos, datosE.residentesIds[j]);
+                if (c) edificio.ciudadanosViviendo.push(c);
+            }
+
+            for (let j = 0; j < datosE.empleadosIds.length; j++) {
+                let c = buscarCiudadanoPorId(ciudad.ciudadanos, datosE.empleadosIds[j]);
+                if (c) edificio.ciudadanosEmpleados.push(c);
+            }
+        }
+
+        return ciudad;
     }
 
     static limpiar() {

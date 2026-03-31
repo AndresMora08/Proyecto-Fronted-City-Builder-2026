@@ -23,7 +23,7 @@
         const mapaContainer = document.getElementById("mapaContainer");
         if (!mapaContainer) return;
 
-        const tamanio = ciudad.mapa._tamanio;
+        const tamanio = ciudad.mapa.tamanio;
         mapaContainer.style.setProperty("--map-size", tamanio);
         const { ocupados, origenes } = construirMapaOcupacion(ciudad, tamanio);
         let tablaHTML = "<table>";
@@ -46,7 +46,7 @@
                     rowspan = origen.tamano.alto;
                     colspan = origen.tamano.ancho;
                 } else {
-                    const valor = ciudad.mapa._matriz[i][j];
+                    const valor = ciudad.mapa.matriz[i][j];
                     if (valor !== "o") {
                         clase = obtenerClaseCelda(valor);
                     }
@@ -85,16 +85,16 @@
             const edificio = ciudad.edificios[i];
             if (!edificio) continue;
 
-            const codigo = edificio._codigoMapa || (ciudad.mapa._matriz[edificio._x] && ciudad.mapa._matriz[edificio._x][edificio._y]);
+            const codigo = edificio.codigoMapa || (ciudad.mapa.matriz[edificio.x] && ciudad.mapa.matriz[edificio.x][edificio.y]);
             if (!codigo) continue;
 
             const tamano = obtenerTamanoEdificio(codigo);
-            origenes[`${edificio._x},${edificio._y}`] = { codigo, tamano };
+            origenes[`${edificio.x},${edificio.y}`] = { codigo, tamano };
 
             for (let dx = 0; dx < tamano.alto; dx++) {
                 for (let dy = 0; dy < tamano.ancho; dy++) {
-                    const nx = edificio._x + dx;
-                    const ny = edificio._y + dy;
+                    const nx = edificio.x + dx;
+                    const ny = edificio.y + dy;
                     if (nx < 0 || ny < 0 || nx >= tamanio || ny >= tamanio) continue;
                     ocupados[nx][ny] = true;
                 }

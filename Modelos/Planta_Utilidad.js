@@ -10,7 +10,7 @@ class Planta_Utilidad extends Edificio{
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y, produccion){
         super(nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
-        this._produccion = produccion;
+        this.produccion = produccion;
     }
 
     static crearPlantaElectrica(nombrePlanta,x,y,codigoMapa){
@@ -34,10 +34,10 @@ class Planta_Utilidad extends Edificio{
     }
 
     getProduccion(){
-        return this._produccion;
+        return this.produccion;
     }
 
     setProduccion(valor){
-        this._produccion = valor;
+        this.produccion = valor;
     }
 }

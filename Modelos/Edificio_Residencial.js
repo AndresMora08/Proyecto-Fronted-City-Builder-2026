@@ -10,8 +10,8 @@ class Edificio_Residencial extends Edificio{
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad, x,y,ciudadanosViviendo,capacidadMaxima){
         super(nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
-        this._ciudadanosViviendo=ciudadanosViviendo;
-        this._capacidadMaxima=capacidadMaxima;
+        this.ciudadanosViviendo=ciudadanosViviendo;
+        this.capacidadMaxima=capacidadMaxima;
     }
 
     static crearCasa(nombreResidencia,x,y,codigoMapa){
@@ -37,13 +37,13 @@ class Edificio_Residencial extends Edificio{
 
     agregarResidente(ciudadano){
 
-        if(this._ciudadanosViviendo.length >= this._capacidadMaxima){
+        if(this.ciudadanosViviendo.length >= this.capacidadMaxima){
         return false;
         }
 
-        this._ciudadanosViviendo.push(ciudadano);
+        this.ciudadanosViviendo.push(ciudadano);
 
-        ciudadano._vivienda = this;
+        ciudadano.vivienda = this;
 
         return true;
 }

@@ -1,10 +1,13 @@
+let ciudad = null;
+
 document.addEventListener("DOMContentLoaded", inicializarJuego);
 
 async function inicializarJuego() {
     intentarBloqueoOrientacionMovil();
     configurarAlertaOrientacionMovil();
 
-    const ciudad = cargarCiudad();
+    ciudad = cargarCiudad();
+    console.log("Ciudad cargada:", ciudad);
     if (!ciudad) return;
 
     if (window.TamanosEdificios && typeof TamanosEdificios.sincronizarMatriz === "function") {
@@ -15,6 +18,9 @@ async function inicializarJuego() {
     UIMapa.renderizarMapa(ciudad);
     configurarMenus();
     configurarBotonConfig();
+    
+
+    iniciarSistemaTurnos();
 
     // CLIMA 
 

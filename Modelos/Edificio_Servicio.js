@@ -11,8 +11,8 @@ class Edificio_Servicios extends Edificio{
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y, radio, beneficio){
         super(nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
-        this._radio = radio;
-        this._beneficio = beneficio;
+        this.radio = radio;
+        this.beneficio = beneficio;
 
     }
 
@@ -48,20 +48,20 @@ class Edificio_Servicios extends Edificio{
      // GETTERS
 
     getRadio(){
-        return this._radio;
+        return this.radio;
     }
 
     getBeneficio(){
-        return this._beneficio;
+        return this.beneficio;
     }
 
     // SETTERS
 
     setRadio(radio){
-        this._radio = radio;
+        this.radio = radio;
     }
 
     setBeneficio(beneficio){
-        this._beneficio = beneficio;
+        this.beneficio = beneficio;
     }
 }

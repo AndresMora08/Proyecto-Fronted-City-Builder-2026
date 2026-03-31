@@ -10,9 +10,9 @@ class Edificio_Industrial extends Edificio{
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y ,produccion, ciudadanosEmpleados,capacidadMaxima){
         super(nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
-        this._produccion = produccion;
-        this._ciudadanosEmpleados = ciudadanosEmpleados;
-        this._capacidadMaxima = capacidadMaxima;
+        this.produccion = produccion;
+        this.ciudadanosEmpleados = ciudadanosEmpleados;
+        this.capacidadMaxima = capacidadMaxima;
     }
 
     static crearFabrica(nombreIndustria,x,y,codigoMapa){
@@ -36,30 +36,30 @@ class Edificio_Industrial extends Edificio{
     }
     agregarEmpleado(ciudadano){
 
-      if(this._ciudadanosEmpleados.length >= this._capacidadMaxima){
+      if(this.ciudadanosEmpleados.length >= this.capacidadMaxima){
         return false;
         }
 
-        this._ciudadanosEmpleados.push(ciudadano);
+        this.ciudadanosEmpleados.push(ciudadano);
 
-         ciudadano._empleo = this;
+         ciudadano.empleo = this;
 
           return true;
     }
 
     getProduccion(){
-        return this._produccion;
+        return this.produccion;
     }
 
     setProduccion(valor){
-        this._produccion = valor;
+        this.produccion = valor;
     }
 
     getEmpleos(){
-        return this._empleos;
+        return this.ciudadanosEmpleados;
     }
 
     setEmpleos(valor){
-        this._empleos = valor;
+        this.ciudadanosEmpleados = valor;
     }
 }

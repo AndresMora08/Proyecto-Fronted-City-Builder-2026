@@ -8,7 +8,7 @@ class Parque extends Edificio{
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y, aumentoFelicidad){
         super( nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y);
-        this._aumentoFelicidad = aumentoFelicidad;
+        this.aumentoFelicidad = aumentoFelicidad;
     }
 
     static crearParque(nombreParque,x,y,codigoMapa){
@@ -32,10 +32,10 @@ class Parque extends Edificio{
     }
 
     getAumentoFelicidad(){
-        return this._aumentoFelicidad;
+        return this.aumentoFelicidad;
     }
 
     setAumentoFelicidad(valor){
-        this._aumentoFelicidad = valor;
+        this.aumentoFelicidad = valor;
     }
 }

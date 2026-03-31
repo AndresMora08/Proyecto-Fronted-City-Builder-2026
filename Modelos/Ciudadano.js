@@ -1,87 +1,81 @@
-class Ciudadano{
+class Ciudadano {
 
-static contadorCiudadanos=1;
+    static contadorCiudadanos = 1;
 
     constructor(id, nivelFelicidad){
-        this._id = id;
-        this._nivelFelicidad = nivelFelicidad;
+        this.id = id;
 
-        this._vivienda = null;
-        this._empleo = null;
+        this.felicidadBase = nivelFelicidad; // ← guardas la inicial
+        this.nivelFelicidad = nivelFelicidad;
+
+        this.vivienda = null;
+        this.empleo = null;
     }
 
-     static crearCiudadano(){
-        const  random= Math.floor(Math.random() * (80 - 40 + 1)) + 40;
-        const ciudadano=new Ciudadano(this.contadorCiudadanos++,random);
-        return ciudadano;
+    static crearCiudadano(){
+        const random = Math.floor(Math.random() * (80 - 50 + 1)) + 50;
+        return new Ciudadano(this.contadorCiudadanos++, random);
     }
 
-actualizarFelicidadIndividual(ciudad){
+    actualizarFelicidadIndividual(ciudad){
 
-    let factoresPositivos = 0;
-    let factoresNegativos = 0;
+        let modificador = 0;
 
-    /* vivienda */
-
-    if(this._vivienda !== null){
-        factoresPositivos += 20;
-    }else{
-        factoresNegativos += 20;
-    }
-
-    /* empleo */
-
-    if(this._empleo !== null){
-        factoresPositivos += 15;
-    }else{
-        factoresNegativos += 15;
-    }
-
-    /* servicios y parques */
-
-    if(this._vivienda !== null){
-
-        const xCasa = this._vivienda._x;
-        const yCasa = this._vivienda._y;
-
-        for(let i = 0; i < ciudad.edificios.length; i++){
-
-            const edificio = ciudad.edificios[i];
-
-            const distancia = calcularDistancia(
-                xCasa,
-                yCasa,
-                edificio._x,
-                edificio._y
-            );
-
-            /* servicios */
-
-            if(edificio._radio !== undefined){
-
-                if(distancia <= edificio._radio){
-                    factoresPositivos += edificio._beneficio;
-                }
-
-            }
-
-            /* parques */
-
-            if(edificio._tipo === "Parque"){
-                factoresPositivos += 5;
-            }
-
+        /* vivienda */
+        if(this.vivienda !== null){
+            modificador += 20;
+        } else {
+            modificador -= 20;
         }
 
+        /* empleo */
+        if(this.empleo !== null){
+            modificador += 15;
+        } else {
+            modificador -= 15;
+        }
+
+        /* servicios y parques */
+        if(this.vivienda !== null){
+
+            const xCasa = this.vivienda.x;
+            const yCasa = this.vivienda.y;
+
+            for(let i = 0; i < ciudad.edificios.length; i++){
+
+                const edificio = ciudad.edificios[i];
+
+                if(edificio.x === undefined || edificio.y === undefined){
+                    continue;
+                }
+
+                const distancia = Ciudadano.calcularDistancia(
+                    xCasa,
+                    yCasa,
+                    edificio.x,
+                    edificio.y
+                );
+
+                if(edificio.radio !== undefined && edificio.beneficio !== undefined){
+                    if(distancia <= edificio.radio){
+                        modificador += edificio.beneficio;
+                    }
+                }
+
+                if(edificio.tipo === "Parque"){
+                    modificador += 5;
+                }
+            }
+        }
+
+        
+        this.nivelFelicidad = this.felicidadBase + modificador;
+
+        // limitar
+        this.nivelFelicidad = Math.max(0, Math.min(100, this.nivelFelicidad));
     }
 
-    this._nivelFelicidad = factoresPositivos - factoresNegativos;
-
-}
-
- calcularDistancia(x1,y1,x2,y2){
-
-    return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-
-}
+    static calcularDistancia(x1, y1, x2, y2){
+        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+    }
 }

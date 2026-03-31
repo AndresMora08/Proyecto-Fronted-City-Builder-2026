@@ -8,9 +8,9 @@ class Edificio_Comercial extends Edificio{
 
     constructor(nombre, tipo, costoConstruccion, consumoAgua, consumoElectricidad,x,y, ingresos, ciudadanosEmpleados,capacidadMaxima){
         super(nombre, tipo, costoConstruccion,consumoAgua,consumoElectricidad,x,y);
-        this._ingresos = ingresos;
-        this._ciudadanosEmpleados = ciudadanosEmpleados;
-        this._capacidadMaxima = capacidadMaxima;
+        this.ingresos = ingresos;
+        this.ciudadanosEmpleados = ciudadanosEmpleados;
+        this.capacidadMaxima = capacidadMaxima;
         
 
     }
@@ -36,33 +36,33 @@ class Edificio_Comercial extends Edificio{
     }
     agregarEmpleado(ciudadano){
 
-         if(this._ciudadanosEmpleados.length >= this._capacidadMaxima){
+         if(this.ciudadanosEmpleados.length >= this.capacidadMaxima){
         return false;
          }
 
-         this._ciudadanosEmpleados.push(ciudadano);
+         this.ciudadanosEmpleados.push(ciudadano);
 
-            ciudadano._empleo = this;
+            ciudadano.empleo = this;
 
             return true;
         }
      // GETTERS
 
     getIngresos(){
-        return this._ingresos;
+        return this.ingresos;
     }
 
     getEmpleos(){
-        return this._empleos;
+        return this.ciudadanosEmpleados;
     }
 
     // SETTERS
 
     setIngresos(ingresos){
-        this._ingresos = ingresos;
+        this.ingresos = ingresos;
     }
 
     setEmpleos(empleos){
-        this._empleos = empleos;
+        this.ciudadanosEmpleados = empleos;
     }
 }

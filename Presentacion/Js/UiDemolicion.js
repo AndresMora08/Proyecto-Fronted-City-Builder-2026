@@ -6,33 +6,38 @@
         if (el) el.innerHTML = "";
     }
 
-    function mostrarConfirmacionDemolicion(nombre, onSi, onNo) {
-        const el = getMensaje();
+function mostrarConfirmacionDemolicion(nombre, conResidencias, conEmpleos, onSi, onNo) {
+        const el = document.getElementById("mensajeAusuario");
         if (!el) return;
 
-        el.innerHTML = [
-            "<div>",
-            `  <p>�Demoler ${nombre}?</p>`,
-            "  <button id=\"btnSIdemoler\">SI</button>",
-            "  <button id=\"btnNOdemoler\">NO</button>",
-            "</div>"
-        ].join("");
-
-        const btnSi = document.getElementById("btnSIdemoler");
-        const btnNo = document.getElementById("btnNOdemoler");
-
-        if (btnSi) {
-            btnSi.addEventListener("click", function() {
-                if (typeof onSi === "function") onSi();
-            }, { once: true });
+        let avisos = "";
+        if (conResidencias) {
+            avisos += "<div><p>Habra ciudadanos afectados (perdida de residencia)</p></div>";
         }
-        if (btnNo) {
-            btnNo.addEventListener("click", function() {
-                limpiarMensaje();
-                if (typeof onNo === "function") onNo();
-            }, { once: true });
+        if (conEmpleos) {
+            avisos += "<div><p>Habra ciudadanos afectados (perdida de empleo)</p></div>";
         }
-    }
+
+        el.innerHTML = `
+            <div>
+                <p>¿Demoler ${nombre}?</p>
+                ${avisos}
+            <button id="btnSIdemoler">SI</button>
+            <button id="btnNOdemoler">NO</button>
+        </div>
+    `;
+
+  
+    document.getElementById("btnSIdemoler").onclick = function() {
+        el.innerHTML = "";
+        onSi(); // ejecuta demolición
+    };
+
+    document.getElementById("btnNOdemoler").onclick = function() {
+        el.innerHTML = "";
+        onNo(); // cancelar
+    };
+}
 
     function agregarAvisoAfectados(residencias, empleos) {
         const el = getMensaje();
@@ -67,4 +72,4 @@
         agregarAvisoAfectados,
         mostrarResultadoDemolicion
     };
-})();
+    })();
