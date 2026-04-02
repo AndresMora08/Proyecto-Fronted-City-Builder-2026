@@ -27,10 +27,11 @@
     }
 
     function sincronizarMatriz(ciudad) {
-        if (!ciudad || !ciudad.mapa || !ciudad.mapa._matriz) return;
+        if (!ciudad || !ciudad.mapa) return;
 
-        const matriz = ciudad.mapa._matriz;
-        const tamanio = ciudad.mapa._tamanio;
+        const matriz = ciudad.mapa.matriz;
+        const tamanio = ciudad.mapa.tamanio;
+        if (!matriz || !tamanio) return;
 
         for (let x = 0; x < tamanio; x++) {
             for (let y = 0; y < tamanio; y++) {
@@ -46,20 +47,29 @@
             const edificio = ciudad.edificios[i];
             if (!edificio) continue;
 
-            const codigo = edificio._codigoMapa || (matriz[edificio._x] && matriz[edificio._x][edificio._y]);
+            const codigo =
+                edificio._codigoMapa ||
+                edificio.codigoMapa ||
+                (matriz[edificio._x] && matriz[edificio._x][edificio._y]) ||
+                (matriz[edificio.x] && matriz[edificio.x][edificio.y]);
             if (!codigo) continue;
 
             const tamano = obtenerTamano(codigo);
             for (let dx = 0; dx < tamano.alto; dx++) {
                 for (let dy = 0; dy < tamano.ancho; dy++) {
-                    const nx = edificio._x + dx;
-                    const ny = edificio._y + dy;
+                    const baseX = edificio._x ?? edificio.x;
+                    const baseY = edificio._y ?? edificio.y;
+                    const nx = baseX + dx;
+                    const ny = baseY + dy;
                     if (nx < 0 || ny < 0 || nx >= tamanio || ny >= tamanio) continue;
 
                     matriz[nx][ny] = dx === 0 && dy === 0 ? codigo : "o";
                 }
             }
         }
+
+        ciudad.mapa.matriz = matriz;
+        ciudad.mapa.tamanio = tamanio;
     }
 
     window.TamanosEdificios = {

@@ -1,4 +1,4 @@
-const OPENWEATHER_API_KEY = (window.API_KEYS && window.API_KEYS.OPENWEATHER) || "";
+﻿const OPENWEATHER_API_KEY = (window.API_KEYS && window.API_KEYS.OPENWEATHER) || "";
 
 const obtenerClima = async (lat, lon) => {
     if (!OPENWEATHER_API_KEY) {
@@ -72,7 +72,7 @@ async function obtenerCoordenadasCiudad(nombreCiudad, region) {
 
         try {
             const respuesta = await fetch(url);
-            if (!respuesta.ok) throw new Error("Error en la petición de geocoding");
+            if (!respuesta.ok) throw new Error("Error en la peticion de geocoding");
             const resultados = await respuesta.json();
             if (!Array.isArray(resultados) || resultados.length === 0) continue;
 
@@ -85,7 +85,7 @@ async function obtenerCoordenadasCiudad(nombreCiudad, region) {
                 estado: resultado.state || ""
             };
         } catch (error) {
-            console.error("Hubo un problema con la geocodificación:", error);
+            console.error("Hubo un problema con la geocodificacion:", error);
             return null;
         }
     }
@@ -106,4 +106,3 @@ function actualizarUIClima(datos) {
         contenedor.setAttribute('data-clima', datos.estadoPrincipal);
     }
 }
-

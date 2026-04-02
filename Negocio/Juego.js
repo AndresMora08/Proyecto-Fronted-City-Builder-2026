@@ -1,4 +1,4 @@
-let ciudad = null;
+﻿let ciudad = null;
 
 document.addEventListener("DOMContentLoaded", inicializarJuego);
 
@@ -9,6 +9,15 @@ async function inicializarJuego() {
     ciudad = cargarCiudad();
     console.log("Ciudad cargada:", ciudad);
     if (!ciudad) return;
+
+    if (!ciudad.mapa || !Array.isArray(ciudad.mapa.matriz)) {
+        console.warn("Mapa invalido en la ciudad cargada. Creando uno nuevo.");
+        const tamanioFallback = Number(ciudad.tamanioMapa || ciudad.tamanio || 15);
+        ciudad.mapa = new Mapa(tamanioFallback);
+        if (window.CiudadStorage && typeof CiudadStorage.guardar === "function") {
+            CiudadStorage.guardar(ciudad);
+        }
+    }
 
     if (window.TamanosEdificios && typeof TamanosEdificios.sincronizarMatriz === "function") {
         TamanosEdificios.sincronizarMatriz(ciudad);
@@ -21,6 +30,7 @@ async function inicializarJuego() {
     
 
     iniciarSistemaTurnos();
+    iniciarUIProgresoTurno();
 
     // CLIMA 
     gestionarActualizacionClima(ciudad);
@@ -76,7 +86,7 @@ function configurarMenus() {
         utilidades: document.getElementById('hudUtilidades'),
         vias: document.getElementById('hudConstruirVias'),
 
-        // ✅ NUEVO
+        //  NUEVO
         config: document.getElementById('hudConfig')
     };
 
@@ -90,7 +100,7 @@ function configurarMenus() {
         btnUtilidades: document.getElementById('btnUtilidades'),
         btnVias: document.getElementById('btnVias'),
 
-        // ✅ NUEVO
+        //  NUEVO
         btnConfig: document.getElementById('btnConfig')
     };
 
@@ -154,13 +164,13 @@ function configurarMenus() {
         mostrarSolo('vias');
     });
 
-    // ✅ NUEVO: abrir menú config
+    //  NUEVO: abrir menu config
     btns.btnConfig?.addEventListener('click', () => {
         menuAnterior = 'acciones';
         mostrarSolo('config');
     });
 
-    // BOTÓN VOLVER
+    // BOTON VOLVER
     botonesVolver.forEach((btn) => {
         btn.addEventListener('click', () => {
             const destino = btn.dataset.back;
@@ -310,4 +320,59 @@ function mostrarDatosCiudad(ciudad) {
     actualizar("Agua", ciudad.agua);
     actualizar("Alimento", ciudad.alimento);
     actualizar("Poblacion", ciudad.poblacion); 
+
+    const elFelicidad = document.getElementById("Felicidad");
+    if (elFelicidad) {
+        let felicidadPromedio = -1;
+
+        if (typeof calcularFelicidadPromedio === "function") {
+            felicidadPromedio = calcularFelicidadPromedio(ciudad);
+        }
+
+        const porcentajeSeguro = felicidadPromedio === -1
+            ? 0
+            : Math.max(0, Math.min(100, felicidadPromedio));
+
+        elFelicidad.textContent = felicidadPromedio === -1
+            ? "--"
+            : `${porcentajeSeguro.toFixed(0)}%`;
+
+        elFelicidad.style.setProperty("--felicidad", `${porcentajeSeguro}%`);
+    }
+
+    const elPuntuacion = document.getElementById("Puntuacion");
+    if (elPuntuacion) {
+        elPuntuacion.textContent = `PTS: ${Number(ciudad.puntuacion || 0).toFixed(0)}`;
+    }
+}
+
+function iniciarUIProgresoTurno() {
+    const barra = document.querySelector("#turnoBarra .turno-progreso");
+    const texto = document.getElementById("turnoTiempo");
+
+    if (!barra || !texto) return;
+
+    const actualizar = () => {
+        if (typeof obtenerInfoTurno !== "function") return;
+
+        const info = obtenerInfoTurno();
+        if (!info || !info.proximoTurnoEn || !info.inicioTurnoEn) {
+            barra.style.width = "0%";
+            texto.textContent = "--s";
+            return;
+        }
+
+        const ahora = Date.now();
+        const restanteMs = Math.max(0, info.proximoTurnoEn - ahora);
+        const totalMs = Math.max(1, info.tiempoTurno || 1);
+
+        const progreso = Math.min(1, Math.max(0, 1 - (restanteMs / totalMs)));
+        barra.style.width = `${(progreso * 100).toFixed(1)}%`;
+
+        const restanteSeg = Math.ceil(restanteMs / 1000);
+        texto.textContent = `${restanteSeg}s`;
+    };
+
+    actualizar();
+    setInterval(actualizar, 200);
 }

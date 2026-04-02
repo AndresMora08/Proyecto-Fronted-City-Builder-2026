@@ -131,8 +131,8 @@
             return tieneViaAdyacente(x, y, ciudadTemp, codigo, tamano);
         }
 
-        const mapa = ciudadTemp.mapa._matriz;
-        const tamanioMapa = ciudadTemp.mapa._tamanio;
+        const mapa = ciudadTemp.mapa.matriz;
+        const tamanioMapa = ciudadTemp.mapa.tamanio;
         const direcciones = [
             [-1, 0],
             [1, 0],
@@ -167,29 +167,36 @@
             const edificio = ciudad.edificios[i];
             if (!edificio) continue;
 
-            costoTotal += Number(edificio._costoConstruccion || 0);
+            const costo = edificio.costoConstruccion ?? edificio._costoConstruccion ?? 0;
+            costoTotal += Number(costo);
 
-            if (edificio._ingresos) {
-                produccion.dinero += edificio._ingresos;
+            const ingresos = edificio.ingresos ?? edificio._ingresos ?? 0;
+            if (ingresos) {
+                produccion.dinero += Number(ingresos);
             }
 
-            if (edificio._produccion) {
-                if (edificio._tipo === "Fabrica") {
-                    produccion.dinero += edificio._produccion;
+            const produccionEd = edificio.produccion ?? edificio._produccion ?? 0;
+            const tipo = edificio.tipo ?? edificio._tipo ?? "";
+
+            if (produccionEd) {
+                if (tipo === "Fabrica") {
+                    produccion.dinero += Number(produccionEd);
                 }
-                if (edificio._tipo === "Planta electrica") {
-                    produccion.electricidad += edificio._produccion;
+                if (tipo === "Planta electrica") {
+                    produccion.electricidad += Number(produccionEd);
                 }
-                if (edificio._tipo === "Planta de agua") {
-                    produccion.agua += edificio._produccion;
+                if (tipo === "Planta de agua") {
+                    produccion.agua += Number(produccionEd);
                 }
-                if (edificio._tipo === "Granja") {
-                    produccion.alimento += edificio._produccion;
+                if (tipo === "Granja") {
+                    produccion.alimento += Number(produccionEd);
                 }
             }
 
-            consumo.electricidad += Number(edificio._consumoElectricidad || 0);
-            consumo.agua += Number(edificio._consumoAgua || 0);
+            const consumoElec = edificio.consumoElectricidad ?? edificio._consumoElectricidad ?? 0;
+            const consumoAgua = edificio.consumoAgua ?? edificio._consumoAgua ?? 0;
+            consumo.electricidad += Number(consumoElec);
+            consumo.agua += Number(consumoAgua);
         }
 
         const dineroBase = 50000;
@@ -286,20 +293,32 @@
             return;
         }
 
-        const ciudadTemp = { mapa: { _matriz: matriz, _tamanio: size } };
+        const ciudadTemp = { mapa: { matriz, tamanio: size } };
         for (let i = 0; i < edificios.length; i++) {
             const edificio = edificios[i];
-            if (!edificio || CODIGOS_VIA.has(edificio._codigoMapa)) continue;
+            if (!edificio) continue;
 
-            const tamano = obtenerTamanoCodigo(edificio._codigoMapa);
-            if (!validarViaAdyacente(ciudadTemp, edificio._codigoMapa, edificio._x, edificio._y, tamano)) {
-                mostrarErrorMapa(`El edificio ${edificio._codigoMapa} en (${edificio._x + 1},${edificio._y + 1}) no tiene via adyacente.`);
+            const codigo = edificio.codigoMapa || edificio._codigoMapa;
+            if (!codigo || CODIGOS_VIA.has(codigo)) continue;
+
+            const x = Number.isFinite(edificio.x) ? edificio.x : edificio._x;
+            const y = Number.isFinite(edificio.y) ? edificio.y : edificio._y;
+            const tamano = obtenerTamanoCodigo(codigo);
+
+            if (!Number.isFinite(x) || !Number.isFinite(y)) {
+                mostrarErrorMapa(`Coordenadas invalidas para ${codigo}.`);
+                return;
+            }
+
+            if (!validarViaAdyacente(ciudadTemp, codigo, x, y, tamano)) {
+                mostrarErrorMapa(`El edificio ${codigo} en (${x + 1},${y + 1}) no tiene via adyacente.`);
                 return;
             }
         }
 
         ciudad.mapa = new Mapa(size);
-        ciudad.mapa._matriz = matriz;
+        ciudad.mapa.matriz = matriz;
+        ciudad.mapa.tamanio = size;
         ciudad.edificios = edificios;
 
         calcularRecursosIniciales(ciudad);

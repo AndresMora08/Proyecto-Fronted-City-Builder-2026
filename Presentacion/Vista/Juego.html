@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -60,13 +60,23 @@
 
     <!-- INFO CIUDAD -->
     <div id="infoCiudad">
-        <h1 id="datosCiudad"></h1>
+        <div class="ciudad-header">
+            <h1 id="datosCiudad"></h1>
+            <div class="turno-inline">
+                <div id="turnoBarra" aria-hidden="true">
+                    <span class="turno-progreso"></span>
+                </div>
+                <span id="turnoTiempo">--s</span>
+            </div>
+        </div>
         <div class="recursosCiudad">
             <span id="Dinero"></span>
             <span id="Electricidad"></span>
             <span id="Agua"></span>
             <span id="Alimento"></span>
             <span id="Poblacion"></span>
+            <span id="Felicidad"></span>
+            <span id="Puntuacion"></span>
         </div> 
     </div>
 
@@ -100,7 +110,7 @@
 
     <!-- NOTICIAS -->
     <div id="news-panel" class="city-builder-ui">
-        <div id="nr">🛰 NEWS</div>
+        <div id="nr">📰 NEWS</div>
         <div id="news-list">
             <div class="news-ticker">
                 <div class="news-track" id="news-track"></div>
@@ -118,48 +128,40 @@
             <button id="btnConfig"></button>
         </div>
 
-            <div id="hudConfig" class="hidden">
-                
-
-                 <button id="btnConfigTurno" class="btn-menu">
+        <div id="hudConfig" class="hidden">
+            <button id="btnConfigTurno" class="btn-menu">
                 Configuración de Turno
-                 </button>
+            </button>
 
-                  <button id="btnConfigRecursos" class="btn-menu">
+            <button id="btnConfigRecursos" class="btn-menu">
                 Modificación de Recursos
-                  </button>
+            </button>
 
-                    <button id="btnConfigFelicidad" class="btn-menu">
+            <button id="btnConfigFelicidad" class="btn-menu">
                 Felicidad y Servicios
-                 </button>
+            </button>
 
-                    <button id="btnConfigExtra" class="btn-menu">
+            <button id="btnConfigExtra" class="btn-menu">
                 Configuración Extra
-                 </button>
+            </button>
 
-            
-                 <button id="btnImportarTxt" class="btn-menu">
+            <button id="btnImportarTxt" class="btn-menu">
                 Importar mapa (.txt)
-                 </button>
+            </button>
 
-            
-                    <button id="btnExportarMapa" class="btn-menu">
+            <button id="btnExportarMapa" class="btn-menu">
                 Exportar mapa (.txt)
-                  </button>
-
+            </button>
         </div>
 
-    </div>
-
-</div>
-        <div id="hudConstruir">
+        <div id="hudConstruir" class="hidden">
             <button class="btn-volver" data-back="acciones"></button>
             <button id="btnEdificios"></button>
             <button id="btnVias"></button>
             <button id="btnParques"></button>
         </div>
 
-        <div id="hudConstruirEdificios"> 
+        <div id="hudConstruirEdificios" class="hidden"> 
             <button class="btn-volver" data-back="construir"></button>
             <button id="btnResidencias"></button>
             <button id="btnComercios"></button>
@@ -168,38 +170,38 @@
             <button id="btnUtilidades"></button>
         </div>
 
-        <div id="hudResidencias">
+        <div id="hudResidencias" class="hidden">
             <button class="btn-volver" data-back="edificios"></button>
             <button id="casa"></button>
             <button id="apartamento"></button>
         </div>
 
-        <div id="hudComercios">
+        <div id="hudComercios" class="hidden">
             <button class="btn-volver" data-back="edificios"></button>
             <button id="tienda"></button>
             <button id="centroComercial"></button>
         </div>
 
-        <div id="hudIndustrias">
+        <div id="hudIndustrias" class="hidden">
             <button class="btn-volver" data-back="edificios"></button>
             <button id="fabrica"></button>
             <button id="granja"></button>
         </div>
 
-        <div id="hudServicios">
+        <div id="hudServicios" class="hidden">
             <button class="btn-volver" data-back="edificios"></button>
             <button id="policia"></button>
             <button id="bomberos"></button>
             <button id="hospital"></button>
         </div>
 
-        <div id="hudUtilidades">
+        <div id="hudUtilidades" class="hidden">
             <button class="btn-volver" data-back="edificios"></button>
             <button id="electrica"></button>
             <button id="agua"></button>
         </div>
 
-        <div id="hudConstruirVias">
+        <div id="hudConstruirVias" class="hidden">
             <button id="calle"></button>
             <button id="carrera"></button>
             <button class="btn-volver" data-back="construir"></button>
@@ -209,3 +211,5 @@
 
 </body>
 </html>
+
+

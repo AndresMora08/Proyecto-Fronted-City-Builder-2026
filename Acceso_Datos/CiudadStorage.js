@@ -94,15 +94,40 @@ class CiudadStorage {
         let datos = localStorage.getItem(this.clave);
         if (!datos) return null;
 
-        let ciudadPlano = JSON.parse(datos);
+        let ciudadPlano = null;
+        try {
+            ciudadPlano = JSON.parse(datos);
+        } catch (error) {
+            console.error("Datos de ciudad corruptos en storage:", error);
+            return null;
+        }
 
         
         if (!ciudadPlano.ciudadanos) ciudadPlano.ciudadanos = [];
         if (!ciudadPlano.edificios) ciudadPlano.edificios = [];
 
         // ===== MAPA =====
-        let mapa = new Mapa(ciudadPlano.tamanioMapa);
-        mapa.matriz = ciudadPlano.matrizMapa;
+        const tamanioMapa =
+            ciudadPlano.tamanioMapa ??
+            ciudadPlano.tamanio ??
+            ciudadPlano?._tamanio ??
+            ciudadPlano?.mapa?.tamanio ??
+            ciudadPlano?.mapa?._tamanio;
+
+        const matrizMapa =
+            ciudadPlano.matrizMapa ??
+            ciudadPlano.matriz ??
+            ciudadPlano?._matriz ??
+            ciudadPlano?.mapa?.matriz ??
+            ciudadPlano?.mapa?._matriz;
+
+        if (!tamanioMapa || !matrizMapa) {
+            console.warn("Datos de mapa incompletos en storage.");
+            return null;
+        }
+
+        let mapa = new Mapa(tamanioMapa);
+        mapa.matriz = matrizMapa;
 
         // ===== CIUDAD =====
         let ciudad = new Ciudad(

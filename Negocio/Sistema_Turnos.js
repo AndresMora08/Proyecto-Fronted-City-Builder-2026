@@ -2,6 +2,8 @@
 let tiempoTurno = 50000; // 10 segundos por defecto 3
 
 let idTurno = null;
+let proximoTurnoEn = null;
+let inicioTurnoEn = null;
 
 // Inicia el sistema de turnos (llamar cuando carga la ciudad)
 // Parámetro opcional: tiempo en milisegundos
@@ -16,6 +18,10 @@ function cambiarTiempoTurno(nuevoTiempo) {
 
 // Programa el próximo turno (se actualiza automáticamente si cambias tiempoTurno)
 function programarProximoTurno() {
+    const ahora = Date.now();
+    inicioTurnoEn = ahora;
+    proximoTurnoEn = ahora + tiempoTurno;
+
     idTurno = setTimeout(() => {
         if (ciudad) {
             ejecutarTurno(ciudad);
@@ -30,6 +36,14 @@ function detenerTurnos() {
         clearTimeout(idTurno);
         idTurno = null;
     }
+}
+
+function obtenerInfoTurno() {
+    return {
+        tiempoTurno,
+        proximoTurnoEn,
+        inicioTurnoEn
+    };
 }
 
 function ejecutarTurno(ciudad){

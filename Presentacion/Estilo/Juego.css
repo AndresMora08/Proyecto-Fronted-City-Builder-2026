@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --panel-bg: #1e1e1e;
     --surface-bg: #2c2c2c;
     --text-main: #ffffff;
@@ -70,6 +70,49 @@ body {
     transform: translateY(-1px);
 }
 
+.ciudad-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.turno-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    background: #252525;
+    border: 1px solid #3a3a3a;
+    border-radius: 10px;
+}
+
+#turnoBarra {
+    width: 120px;
+    height: 10px;
+    background: #3a3a3a;
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+}
+
+#turnoBarra .turno-progreso {
+    display: block;
+    height: 100%;
+    width: var(--turno-progreso, 0%);
+    background: linear-gradient(90deg, #00ccff, #2ecc71);
+    transition: width 120ms linear;
+}
+
+#turnoTiempo {
+    font-size: 0.85rem;
+    color: #e3e3e3;
+    font-weight: 600;
+    min-width: 38px;
+    text-align: right;
+}
+
 /* WIDGET CLIMA */
 
 .Clima {
@@ -111,7 +154,7 @@ body {
 .clima-icono::before {
     font-size: 2rem;
     display: block;
-    content: "🌡️"; /* Icono por defecto */
+    content: " NO DATA ";
 }
 
 /* Mapeo de estados a iconos en CSS */
@@ -140,7 +183,7 @@ body {
 }
 
 /* Recursos */
-#Dinero, #Electricidad, #Agua, #Alimento, #Poblacion {
+#Dinero, #Electricidad, #Agua, #Alimento, #Poblacion, #Felicidad, #Puntuacion {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -152,7 +195,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#Dinero::before,#Electricidad::before,#Agua::before,#Alimento::before,#Poblacion::before {
+#Dinero::before,#Electricidad::before,#Agua::before,#Alimento::before,#Poblacion::before,#Felicidad::before,#Puntuacion::before {
     content: "";
     width: 24px;
     height: 24px;
@@ -166,6 +209,16 @@ body {
 #Agua::before { background-image: url("../../Assets/images/menu/gota-de-agua.png"); }
 #Alimento::before { background-image: url("../../Assets/images/menu/pollo.png"); }
 #Poblacion::before { background-image: url("../../Assets/images/menu/gente-junta.png"); }
+#Felicidad::before { background-image: url("../../Assets/images/menu/felicidad.png"); }
+#Puntuacion::before { background-image: url("../../Assets/images/menu/puntuacion.png"); }
+
+#Felicidad {
+    background: linear-gradient(
+        90deg,
+        rgba(46, 204, 113, 0.55) var(--felicidad, 0%),
+        #333 var(--felicidad, 0%)
+    );
+}
 
 /*----------------- MAPA -----------------*/
 #mapaContainer {
@@ -235,7 +288,7 @@ body {
     background-color: transparent !important;
 }
 
-/* Imágenes */
+/* Imagenes */
 
 .pasto { background-image: url("../../Assets/images/istockphoto-2191688361-255x253.jpg"); }
 .casa { background-image: url("../../Assets/images/construir/edificios/residencias/pixil-assets-hose1.png"); }
@@ -282,7 +335,7 @@ body {
     overflow: hidden;
 }
 
-/* brillo dinámico */
+/* brillo dinamico */
 #news-panel::after {
     content: "";
     position: absolute;
@@ -388,7 +441,7 @@ body {
     color: #555;
 }
 
-/* interacción */
+/* interaccion */
 #news-panel:hover .news-track {
     animation-play-state: paused;
 }
@@ -691,7 +744,31 @@ body{
     grid-column:1;
     grid-row:1 / 4;
     height:100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --cell-size: min(
+        calc(70vw / var(--map-size, 15)),
+        calc(100vh / var(--map-size, 15))
+    );
 }
+
+#mapaContainer table {
+    width: calc(var(--cell-size) * var(--map-size, 15));
+    height: calc(var(--cell-size) * var(--map-size, 15));
+    table-layout: fixed;
+}
+
+#mapaContainer td {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    min-width: var(--cell-size);
+    min-height: var(--cell-size);
+    max-width: var(--cell-size);
+    max-height: var(--cell-size);
+}
+
 
 #datosCiudad{
     padding:2px 8px 4px 8px;
@@ -713,7 +790,9 @@ body{
 #Electricidad,
 #Agua,
 #Alimento,
-#Poblacion{
+#Poblacion,
+#Felicidad,
+#Puntuacion{
     width:95%;
     margin:0;
     font-size:.9rem;
@@ -765,15 +844,17 @@ body{
     grid-column: 1;
     }
 
-    #Dinero,
-    #Electricidad,
-    #Agua,
-    #Alimento,
-    #Poblacion{
-        width:95%;
-        margin:0;
-        font-size:.9rem;
-    }
+#Dinero,
+#Electricidad,
+#Agua,
+#Alimento,
+#Poblacion,
+#Felicidad,
+#Puntuacion{
+    width:95%;
+    margin:0;
+    font-size:.9rem;
+}
 
     #infoCiudad {
         grid-column: 1;
@@ -889,3 +970,4 @@ body{
         background-position: center;
     }
 }
+
