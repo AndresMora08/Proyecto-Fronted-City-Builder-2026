@@ -101,6 +101,20 @@ function actualizarUIClima(datos) {
     document.getElementById('climaHumedad').textContent = `${datos.humedad}%`;
     document.getElementById('climaViento').textContent = `${datos.viento} km/h`;
 
+    const iconos = {
+        Thunderstorm: "🌧️",
+        Drizzle: "🌧️",
+        Rain: "🌧️",
+        Snow: "❄️",
+        Clear: "☀️",
+        Clouds: "☁️"
+    };
+
+    const iconoEl = document.getElementById("climaIcono");
+    if (iconoEl) {
+        iconoEl.textContent = iconos[datos.estadoPrincipal] || "🌡️";
+    }
+
     const contenedor = document.getElementById('widgetClima');
     if (contenedor) {
         contenedor.setAttribute('data-clima', datos.estadoPrincipal);

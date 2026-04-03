@@ -201,7 +201,7 @@ function configurarBotonConfig() {
         inputArchivo.type = "file";
         inputArchivo.accept = ".txt";
         inputArchivo.id = "inputMapaTxt";
-        inputArchivo.style.display = "none";
+        inputArchivo.classList.add("hidden");
         document.body.appendChild(inputArchivo);
     }
 
@@ -337,7 +337,7 @@ function mostrarDatosCiudad(ciudad) {
             ? "--"
             : `${porcentajeSeguro.toFixed(0)}%`;
 
-        elFelicidad.style.setProperty("--felicidad", `${porcentajeSeguro}%`);
+        aplicarClasePorcentaje(elFelicidad, "felicidad-", porcentajeSeguro);
     }
 
     const elPuntuacion = document.getElementById("Puntuacion");
@@ -357,7 +357,7 @@ function iniciarUIProgresoTurno() {
 
         const info = obtenerInfoTurno();
         if (!info || !info.proximoTurnoEn || !info.inicioTurnoEn) {
-            barra.style.width = "0%";
+            aplicarClasePorcentaje(barra, "progreso-", 0);
             texto.textContent = "--s";
             return;
         }
@@ -367,7 +367,7 @@ function iniciarUIProgresoTurno() {
         const totalMs = Math.max(1, info.tiempoTurno || 1);
 
         const progreso = Math.min(1, Math.max(0, 1 - (restanteMs / totalMs)));
-        barra.style.width = `${(progreso * 100).toFixed(1)}%`;
+        aplicarClasePorcentaje(barra, "progreso-", progreso * 100);
 
         const restanteSeg = Math.ceil(restanteMs / 1000);
         texto.textContent = `${restanteSeg}s`;
@@ -375,4 +375,18 @@ function iniciarUIProgresoTurno() {
 
     actualizar();
     setInterval(actualizar, 200);
+}
+
+function aplicarClasePorcentaje(elemento, prefijo, porcentaje) {
+    if (!elemento) return;
+
+    const valor = Math.max(0, Math.min(100, Math.round(porcentaje)));
+
+    Array.from(elemento.classList).forEach((clase) => {
+        if (clase.startsWith(prefijo)) {
+            elemento.classList.remove(clase);
+        }
+    });
+
+    elemento.classList.add(`${prefijo}${valor}`);
 }

@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --panel-bg: #1e1e1e;
     --surface-bg: #2c2c2c;
     --text-main: #ffffff;
@@ -105,6 +105,109 @@ body {
     transition: width 120ms linear;
 }
 
+#turnoBarra .turno-progreso.progreso-0 { width: 0%; }
+#turnoBarra .turno-progreso.progreso-1 { width: 1%; }
+#turnoBarra .turno-progreso.progreso-2 { width: 2%; }
+#turnoBarra .turno-progreso.progreso-3 { width: 3%; }
+#turnoBarra .turno-progreso.progreso-4 { width: 4%; }
+#turnoBarra .turno-progreso.progreso-5 { width: 5%; }
+#turnoBarra .turno-progreso.progreso-6 { width: 6%; }
+#turnoBarra .turno-progreso.progreso-7 { width: 7%; }
+#turnoBarra .turno-progreso.progreso-8 { width: 8%; }
+#turnoBarra .turno-progreso.progreso-9 { width: 9%; }
+#turnoBarra .turno-progreso.progreso-10 { width: 10%; }
+#turnoBarra .turno-progreso.progreso-11 { width: 11%; }
+#turnoBarra .turno-progreso.progreso-12 { width: 12%; }
+#turnoBarra .turno-progreso.progreso-13 { width: 13%; }
+#turnoBarra .turno-progreso.progreso-14 { width: 14%; }
+#turnoBarra .turno-progreso.progreso-15 { width: 15%; }
+#turnoBarra .turno-progreso.progreso-16 { width: 16%; }
+#turnoBarra .turno-progreso.progreso-17 { width: 17%; }
+#turnoBarra .turno-progreso.progreso-18 { width: 18%; }
+#turnoBarra .turno-progreso.progreso-19 { width: 19%; }
+#turnoBarra .turno-progreso.progreso-20 { width: 20%; }
+#turnoBarra .turno-progreso.progreso-21 { width: 21%; }
+#turnoBarra .turno-progreso.progreso-22 { width: 22%; }
+#turnoBarra .turno-progreso.progreso-23 { width: 23%; }
+#turnoBarra .turno-progreso.progreso-24 { width: 24%; }
+#turnoBarra .turno-progreso.progreso-25 { width: 25%; }
+#turnoBarra .turno-progreso.progreso-26 { width: 26%; }
+#turnoBarra .turno-progreso.progreso-27 { width: 27%; }
+#turnoBarra .turno-progreso.progreso-28 { width: 28%; }
+#turnoBarra .turno-progreso.progreso-29 { width: 29%; }
+#turnoBarra .turno-progreso.progreso-30 { width: 30%; }
+#turnoBarra .turno-progreso.progreso-31 { width: 31%; }
+#turnoBarra .turno-progreso.progreso-32 { width: 32%; }
+#turnoBarra .turno-progreso.progreso-33 { width: 33%; }
+#turnoBarra .turno-progreso.progreso-34 { width: 34%; }
+#turnoBarra .turno-progreso.progreso-35 { width: 35%; }
+#turnoBarra .turno-progreso.progreso-36 { width: 36%; }
+#turnoBarra .turno-progreso.progreso-37 { width: 37%; }
+#turnoBarra .turno-progreso.progreso-38 { width: 38%; }
+#turnoBarra .turno-progreso.progreso-39 { width: 39%; }
+#turnoBarra .turno-progreso.progreso-40 { width: 40%; }
+#turnoBarra .turno-progreso.progreso-41 { width: 41%; }
+#turnoBarra .turno-progreso.progreso-42 { width: 42%; }
+#turnoBarra .turno-progreso.progreso-43 { width: 43%; }
+#turnoBarra .turno-progreso.progreso-44 { width: 44%; }
+#turnoBarra .turno-progreso.progreso-45 { width: 45%; }
+#turnoBarra .turno-progreso.progreso-46 { width: 46%; }
+#turnoBarra .turno-progreso.progreso-47 { width: 47%; }
+#turnoBarra .turno-progreso.progreso-48 { width: 48%; }
+#turnoBarra .turno-progreso.progreso-49 { width: 49%; }
+#turnoBarra .turno-progreso.progreso-50 { width: 50%; }
+#turnoBarra .turno-progreso.progreso-51 { width: 51%; }
+#turnoBarra .turno-progreso.progreso-52 { width: 52%; }
+#turnoBarra .turno-progreso.progreso-53 { width: 53%; }
+#turnoBarra .turno-progreso.progreso-54 { width: 54%; }
+#turnoBarra .turno-progreso.progreso-55 { width: 55%; }
+#turnoBarra .turno-progreso.progreso-56 { width: 56%; }
+#turnoBarra .turno-progreso.progreso-57 { width: 57%; }
+#turnoBarra .turno-progreso.progreso-58 { width: 58%; }
+#turnoBarra .turno-progreso.progreso-59 { width: 59%; }
+#turnoBarra .turno-progreso.progreso-60 { width: 60%; }
+#turnoBarra .turno-progreso.progreso-61 { width: 61%; }
+#turnoBarra .turno-progreso.progreso-62 { width: 62%; }
+#turnoBarra .turno-progreso.progreso-63 { width: 63%; }
+#turnoBarra .turno-progreso.progreso-64 { width: 64%; }
+#turnoBarra .turno-progreso.progreso-65 { width: 65%; }
+#turnoBarra .turno-progreso.progreso-66 { width: 66%; }
+#turnoBarra .turno-progreso.progreso-67 { width: 67%; }
+#turnoBarra .turno-progreso.progreso-68 { width: 68%; }
+#turnoBarra .turno-progreso.progreso-69 { width: 69%; }
+#turnoBarra .turno-progreso.progreso-70 { width: 70%; }
+#turnoBarra .turno-progreso.progreso-71 { width: 71%; }
+#turnoBarra .turno-progreso.progreso-72 { width: 72%; }
+#turnoBarra .turno-progreso.progreso-73 { width: 73%; }
+#turnoBarra .turno-progreso.progreso-74 { width: 74%; }
+#turnoBarra .turno-progreso.progreso-75 { width: 75%; }
+#turnoBarra .turno-progreso.progreso-76 { width: 76%; }
+#turnoBarra .turno-progreso.progreso-77 { width: 77%; }
+#turnoBarra .turno-progreso.progreso-78 { width: 78%; }
+#turnoBarra .turno-progreso.progreso-79 { width: 79%; }
+#turnoBarra .turno-progreso.progreso-80 { width: 80%; }
+#turnoBarra .turno-progreso.progreso-81 { width: 81%; }
+#turnoBarra .turno-progreso.progreso-82 { width: 82%; }
+#turnoBarra .turno-progreso.progreso-83 { width: 83%; }
+#turnoBarra .turno-progreso.progreso-84 { width: 84%; }
+#turnoBarra .turno-progreso.progreso-85 { width: 85%; }
+#turnoBarra .turno-progreso.progreso-86 { width: 86%; }
+#turnoBarra .turno-progreso.progreso-87 { width: 87%; }
+#turnoBarra .turno-progreso.progreso-88 { width: 88%; }
+#turnoBarra .turno-progreso.progreso-89 { width: 89%; }
+#turnoBarra .turno-progreso.progreso-90 { width: 90%; }
+#turnoBarra .turno-progreso.progreso-91 { width: 91%; }
+#turnoBarra .turno-progreso.progreso-92 { width: 92%; }
+#turnoBarra .turno-progreso.progreso-93 { width: 93%; }
+#turnoBarra .turno-progreso.progreso-94 { width: 94%; }
+#turnoBarra .turno-progreso.progreso-95 { width: 95%; }
+#turnoBarra .turno-progreso.progreso-96 { width: 96%; }
+#turnoBarra .turno-progreso.progreso-97 { width: 97%; }
+#turnoBarra .turno-progreso.progreso-98 { width: 98%; }
+#turnoBarra .turno-progreso.progreso-99 { width: 99%; }
+#turnoBarra .turno-progreso.progreso-100 { width: 100%; }
+
+
 #turnoTiempo {
     font-size: 0.85rem;
     color: #e3e3e3;
@@ -150,36 +253,14 @@ body {
 }
 
 /* Estilo base para el icono */
-#climaIcono::before,
-.clima-icono::before {
+#climaIcono,
+.clima-icono {
     font-size: 2rem;
-    display: block;
-    content: " NO DATA ";
-}
-
-/* Mapeo de estados a iconos en CSS */
-[data-clima="Rain"] #climaIcono::before,
-[data-clima="Drizzle"] #climaIcono::before,
-[data-clima="Thunderstorm"] #climaIcono::before,
-[data-clima="Rain"] .clima-icono::before,
-[data-clima="Drizzle"] .clima-icono::before,
-[data-clima="Thunderstorm"] .clima-icono::before {
-    content: "🌧️";
-}
-
-[data-clima="Clear"] #climaIcono::before,
-[data-clima="Clear"] .clima-icono::before {
-    content: "☀️";
-}
-
-[data-clima="Clouds"] #climaIcono::before,
-[data-clima="Clouds"] .clima-icono::before {
-    content: "☁️";
-}
-
-[data-clima="Snow"] #climaIcono::before,
-[data-clima="Snow"] .clima-icono::before {
-    content: "❄️";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-family: "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", Arial, sans-serif;
 }
 
 /* Recursos */
@@ -220,6 +301,109 @@ body {
     );
 }
 
+#Felicidad.felicidad-0 { --felicidad: 0%; }
+#Felicidad.felicidad-1 { --felicidad: 1%; }
+#Felicidad.felicidad-2 { --felicidad: 2%; }
+#Felicidad.felicidad-3 { --felicidad: 3%; }
+#Felicidad.felicidad-4 { --felicidad: 4%; }
+#Felicidad.felicidad-5 { --felicidad: 5%; }
+#Felicidad.felicidad-6 { --felicidad: 6%; }
+#Felicidad.felicidad-7 { --felicidad: 7%; }
+#Felicidad.felicidad-8 { --felicidad: 8%; }
+#Felicidad.felicidad-9 { --felicidad: 9%; }
+#Felicidad.felicidad-10 { --felicidad: 10%; }
+#Felicidad.felicidad-11 { --felicidad: 11%; }
+#Felicidad.felicidad-12 { --felicidad: 12%; }
+#Felicidad.felicidad-13 { --felicidad: 13%; }
+#Felicidad.felicidad-14 { --felicidad: 14%; }
+#Felicidad.felicidad-15 { --felicidad: 15%; }
+#Felicidad.felicidad-16 { --felicidad: 16%; }
+#Felicidad.felicidad-17 { --felicidad: 17%; }
+#Felicidad.felicidad-18 { --felicidad: 18%; }
+#Felicidad.felicidad-19 { --felicidad: 19%; }
+#Felicidad.felicidad-20 { --felicidad: 20%; }
+#Felicidad.felicidad-21 { --felicidad: 21%; }
+#Felicidad.felicidad-22 { --felicidad: 22%; }
+#Felicidad.felicidad-23 { --felicidad: 23%; }
+#Felicidad.felicidad-24 { --felicidad: 24%; }
+#Felicidad.felicidad-25 { --felicidad: 25%; }
+#Felicidad.felicidad-26 { --felicidad: 26%; }
+#Felicidad.felicidad-27 { --felicidad: 27%; }
+#Felicidad.felicidad-28 { --felicidad: 28%; }
+#Felicidad.felicidad-29 { --felicidad: 29%; }
+#Felicidad.felicidad-30 { --felicidad: 30%; }
+#Felicidad.felicidad-31 { --felicidad: 31%; }
+#Felicidad.felicidad-32 { --felicidad: 32%; }
+#Felicidad.felicidad-33 { --felicidad: 33%; }
+#Felicidad.felicidad-34 { --felicidad: 34%; }
+#Felicidad.felicidad-35 { --felicidad: 35%; }
+#Felicidad.felicidad-36 { --felicidad: 36%; }
+#Felicidad.felicidad-37 { --felicidad: 37%; }
+#Felicidad.felicidad-38 { --felicidad: 38%; }
+#Felicidad.felicidad-39 { --felicidad: 39%; }
+#Felicidad.felicidad-40 { --felicidad: 40%; }
+#Felicidad.felicidad-41 { --felicidad: 41%; }
+#Felicidad.felicidad-42 { --felicidad: 42%; }
+#Felicidad.felicidad-43 { --felicidad: 43%; }
+#Felicidad.felicidad-44 { --felicidad: 44%; }
+#Felicidad.felicidad-45 { --felicidad: 45%; }
+#Felicidad.felicidad-46 { --felicidad: 46%; }
+#Felicidad.felicidad-47 { --felicidad: 47%; }
+#Felicidad.felicidad-48 { --felicidad: 48%; }
+#Felicidad.felicidad-49 { --felicidad: 49%; }
+#Felicidad.felicidad-50 { --felicidad: 50%; }
+#Felicidad.felicidad-51 { --felicidad: 51%; }
+#Felicidad.felicidad-52 { --felicidad: 52%; }
+#Felicidad.felicidad-53 { --felicidad: 53%; }
+#Felicidad.felicidad-54 { --felicidad: 54%; }
+#Felicidad.felicidad-55 { --felicidad: 55%; }
+#Felicidad.felicidad-56 { --felicidad: 56%; }
+#Felicidad.felicidad-57 { --felicidad: 57%; }
+#Felicidad.felicidad-58 { --felicidad: 58%; }
+#Felicidad.felicidad-59 { --felicidad: 59%; }
+#Felicidad.felicidad-60 { --felicidad: 60%; }
+#Felicidad.felicidad-61 { --felicidad: 61%; }
+#Felicidad.felicidad-62 { --felicidad: 62%; }
+#Felicidad.felicidad-63 { --felicidad: 63%; }
+#Felicidad.felicidad-64 { --felicidad: 64%; }
+#Felicidad.felicidad-65 { --felicidad: 65%; }
+#Felicidad.felicidad-66 { --felicidad: 66%; }
+#Felicidad.felicidad-67 { --felicidad: 67%; }
+#Felicidad.felicidad-68 { --felicidad: 68%; }
+#Felicidad.felicidad-69 { --felicidad: 69%; }
+#Felicidad.felicidad-70 { --felicidad: 70%; }
+#Felicidad.felicidad-71 { --felicidad: 71%; }
+#Felicidad.felicidad-72 { --felicidad: 72%; }
+#Felicidad.felicidad-73 { --felicidad: 73%; }
+#Felicidad.felicidad-74 { --felicidad: 74%; }
+#Felicidad.felicidad-75 { --felicidad: 75%; }
+#Felicidad.felicidad-76 { --felicidad: 76%; }
+#Felicidad.felicidad-77 { --felicidad: 77%; }
+#Felicidad.felicidad-78 { --felicidad: 78%; }
+#Felicidad.felicidad-79 { --felicidad: 79%; }
+#Felicidad.felicidad-80 { --felicidad: 80%; }
+#Felicidad.felicidad-81 { --felicidad: 81%; }
+#Felicidad.felicidad-82 { --felicidad: 82%; }
+#Felicidad.felicidad-83 { --felicidad: 83%; }
+#Felicidad.felicidad-84 { --felicidad: 84%; }
+#Felicidad.felicidad-85 { --felicidad: 85%; }
+#Felicidad.felicidad-86 { --felicidad: 86%; }
+#Felicidad.felicidad-87 { --felicidad: 87%; }
+#Felicidad.felicidad-88 { --felicidad: 88%; }
+#Felicidad.felicidad-89 { --felicidad: 89%; }
+#Felicidad.felicidad-90 { --felicidad: 90%; }
+#Felicidad.felicidad-91 { --felicidad: 91%; }
+#Felicidad.felicidad-92 { --felicidad: 92%; }
+#Felicidad.felicidad-93 { --felicidad: 93%; }
+#Felicidad.felicidad-94 { --felicidad: 94%; }
+#Felicidad.felicidad-95 { --felicidad: 95%; }
+#Felicidad.felicidad-96 { --felicidad: 96%; }
+#Felicidad.felicidad-97 { --felicidad: 97%; }
+#Felicidad.felicidad-98 { --felicidad: 98%; }
+#Felicidad.felicidad-99 { --felicidad: 99%; }
+#Felicidad.felicidad-100 { --felicidad: 100%; }
+
+
 /*----------------- MAPA -----------------*/
 #mapaContainer {
     display: flex;
@@ -229,7 +413,25 @@ body {
     width: 100%;
     background-color: #24551fb7;
     margin: 0;
+    --map-size: 15;
 }
+
+#mapaContainer.map-size-15 { --map-size: 15; }
+#mapaContainer.map-size-16 { --map-size: 16; }
+#mapaContainer.map-size-17 { --map-size: 17; }
+#mapaContainer.map-size-18 { --map-size: 18; }
+#mapaContainer.map-size-19 { --map-size: 19; }
+#mapaContainer.map-size-20 { --map-size: 20; }
+#mapaContainer.map-size-21 { --map-size: 21; }
+#mapaContainer.map-size-22 { --map-size: 22; }
+#mapaContainer.map-size-23 { --map-size: 23; }
+#mapaContainer.map-size-24 { --map-size: 24; }
+#mapaContainer.map-size-25 { --map-size: 25; }
+#mapaContainer.map-size-26 { --map-size: 26; }
+#mapaContainer.map-size-27 { --map-size: 27; }
+#mapaContainer.map-size-28 { --map-size: 28; }
+#mapaContainer.map-size-29 { --map-size: 29; }
+#mapaContainer.map-size-30 { --map-size: 30; }
 
 #mapaContainer table {
     border-collapse: collapse;
@@ -970,4 +1172,5 @@ body{
         background-position: center;
     }
 }
+
 

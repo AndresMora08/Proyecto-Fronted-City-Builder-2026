@@ -24,12 +24,13 @@
         if (!mapaContainer) return;
 
         const tamanio = ciudad.mapa.tamanio;
-        mapaContainer.style.setProperty("--map-size", tamanio);
+        aplicarClaseMapa(mapaContainer, tamanio);
         const { ocupados, origenes } = construirMapaOcupacion(ciudad, tamanio);
-        let tablaHTML = "<table>";
+        const tabla = obtenerTablaMapa(mapaContainer);
+        tabla.textContent = "";
 
         for (let i = 0; i < tamanio; i++) {
-            tablaHTML += "<tr>";
+            const fila = document.createElement("tr");
 
             for (let j = 0; j < tamanio; j++) {
                 if (ocupados[i][j] && !origenes[`${i},${j}`]) {
@@ -55,22 +56,55 @@
                 const spanRows = rowspan > 1 ? ` rowspan="${rowspan}"` : "";
                 const spanCols = colspan > 1 ? ` colspan="${colspan}"` : "";
 
-                tablaHTML += `
-                    <td class="${clase}"${spanRows}${spanCols}>
-                        <button class="casilla" data-x="${i}" data-y="${j}" ></button>
-                    </td>
-                `;
+                const celda = document.createElement("td");
+                if (clase) {
+                    celda.classList.add(clase);
+                }
+                if (spanRows) {
+                    celda.rowSpan = rowspan;
+                }
+                if (spanCols) {
+                    celda.colSpan = colspan;
+                }
+
+                const boton = document.createElement("button");
+                boton.className = "casilla";
+                boton.dataset.x = i;
+                boton.dataset.y = j;
+                celda.appendChild(boton);
+                fila.appendChild(celda);
 
                 if (colspan > 1) {
                     j += colspan - 1;
                 }
             }
 
-            tablaHTML += "</tr>";
+            tabla.appendChild(fila);
+        }
+    }
+
+    function aplicarClaseMapa(mapaContainer, tamanio) {
+        const claseBase = "map-size-";
+        const tamanioSeguro = Math.min(Math.max(tamanio, 15), 30);
+
+        Array.from(mapaContainer.classList).forEach((clase) => {
+            if (clase.startsWith(claseBase)) {
+                mapaContainer.classList.remove(clase);
+            }
+        });
+
+        mapaContainer.classList.add(`${claseBase}${tamanioSeguro}`);
+    }
+
+    function obtenerTablaMapa(mapaContainer) {
+        let tabla = mapaContainer.querySelector("#mapaTabla");
+        if (!tabla) {
+            tabla = document.createElement("table");
+            tabla.id = "mapaTabla";
+            mapaContainer.appendChild(tabla);
         }
 
-        tablaHTML += "</table>";
-        mapaContainer.innerHTML = tablaHTML;
+        return tabla;
     }
 
     function construirMapaOcupacion(ciudad, tamanio) {
