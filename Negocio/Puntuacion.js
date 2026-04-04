@@ -1,15 +1,81 @@
-function calcularPuntuacion(ciudad, produccion, consumo){
+  function calcularPuntuacion(ciudad, produccion, consumo){
+  const datosPuntuacion = {
+        poblacion:(ciudad.poblacion*10),
+        felicidad:(felicidadPromedioCondicion(ciudad)*5),
+        dinero:(ciudad.dinero/100),
+        edificios:(ciudad.edificios.length*50),
+        balanceElectricidad:(balanceElectricidad(produccion, consumo)*2),
+        balanceAgua:(balanceAgua(produccion, consumo)*2),
+        bonificaciones:bonificaciones(ciudad),
+        penalizaciones:penalizaciones(ciudad)
+        
+    }
 
-    const score = (ciudad.poblacion * 10) 
-    + (felicidadPromedioCondicion(ciudad) * 5) 
-    + (ciudad.dinero / 100) 
-    + (ciudad.edificios.length * 50) 
-    + (balanceElectricidad(produccion, consumo) * 2) 
-    + (balanceAgua(produccion, consumo) * 2)
-    + bonificaciones(ciudad) 
-    + penalizaciones(ciudad);
+    return obtenerPuntuacion(datosPuntuacion);
+  }
+
+
+  function obtenerPuntuacion(datosPuntuacion){
+
+    const score = datosPuntuacion.poblacion
+                + datosPuntuacion.felicidad
+                + datosPuntuacion.dinero
+                + datosPuntuacion.edificios
+                + datosPuntuacion.balanceElectricidad
+                + datosPuntuacion.balanceAgua
+                + datosPuntuacion.bonificaciones
+                + datosPuntuacion.penalizaciones;
 
     return score;
+}
+function desglosePuntuacion(datosPuntuacion){//esta funcion servira para una parte del documento qu pide que al darle clikc a la puntucacion de muestre puntuacion por estadisticas especificas
+    const contenedor = document.getElementById("contenedorDatos");
+    if(!contenedor) return;
+
+  
+    contenedor.innerHTML = `
+    <table border="1">
+        <tr>
+            <th>Concepto</th>
+            <th>Puntos</th>
+        </tr>
+        <tr>
+            <td>Puntos por población</td>
+            <td>${datosPuntuacion.poblacion}</td>
+        </tr>
+        <tr>
+            <td>Puntos por felicidad</td>
+            <td>${datosPuntuacion.felicidad}</td>
+        </tr>
+        <tr>
+            <td>Puntos por dinero</td>
+            <td>${datosPuntuacion.dinero}</td>
+        </tr>
+        <tr>
+            <td>Puntos por edificios</td>
+            <td>${datosPuntuacion.edificios}</td>
+        </tr>
+        <tr>
+            <td>Puntos por balance de electricidad</td>
+            <td>${datosPuntuacion.balanceElectricidad}</td>
+        </tr>
+        <tr>
+            <td>Puntos por balance de agua</td>
+            <td>${datosPuntuacion.balanceAgua}</td>
+        </tr>
+        <tr>
+            <td>Bonificaciones</td>
+            <td>${datosPuntuacion.bonificaciones}</td>
+        </tr>
+        <tr>
+            <td>Penalizaciones</td>
+            <td>${datosPuntuacion.penalizaciones}</td>
+        </tr>
+        <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>${Object.values(datosPuntuacion).reduce((a,b)=>a+b,0)}</strong></td>
+        </tr>
+    </table>`;
 }
 
 function felicidadPromedioCondicion(ciudad){

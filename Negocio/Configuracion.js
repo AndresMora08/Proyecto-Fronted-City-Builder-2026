@@ -195,6 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>`;
 
         document.getElementById('cancelarEliminarCiudad').addEventListener('click', limpiarMensaje);
+        document.getElementById('confirmarEliminarCiudad').addEventListener('click', () => {
+            eliminarCiudad();//me falto hacer esto para elminar la ciudad, tambien aqui voy a guardar los datos es un json para el ranking
+            limpiarMensaje();
+            UIMensajes.mostrarMensaje(`Ciudad eliminada, Juego terminado`, 3000);
+        });
     });
 
     botonesConfiguracion.btnExportarCiudad.addEventListener('click', () => {

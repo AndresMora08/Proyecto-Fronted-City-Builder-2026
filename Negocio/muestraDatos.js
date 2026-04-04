@@ -88,4 +88,6 @@ function modalidadMuestraDatos(ciudad, x, y) {
             contenedor.innerHTML = "";
         }
     });
+
+
 }
