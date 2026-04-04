@@ -1,0 +1,111 @@
+/*----------------- MAPA -----------------*/
+#mapaContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    width: 100%;
+    background-color: #24551fb7;
+    margin: 0;
+    --map-size: 15;
+}
+
+#mapaContainer.map-size-15 { --map-size: 15; }
+#mapaContainer.map-size-16 { --map-size: 16; }
+#mapaContainer.map-size-17 { --map-size: 17; }
+#mapaContainer.map-size-18 { --map-size: 18; }
+#mapaContainer.map-size-19 { --map-size: 19; }
+#mapaContainer.map-size-20 { --map-size: 20; }
+#mapaContainer.map-size-21 { --map-size: 21; }
+#mapaContainer.map-size-22 { --map-size: 22; }
+#mapaContainer.map-size-23 { --map-size: 23; }
+#mapaContainer.map-size-24 { --map-size: 24; }
+#mapaContainer.map-size-25 { --map-size: 25; }
+#mapaContainer.map-size-26 { --map-size: 26; }
+#mapaContainer.map-size-27 { --map-size: 27; }
+#mapaContainer.map-size-28 { --map-size: 28; }
+#mapaContainer.map-size-29 { --map-size: 29; }
+#mapaContainer.map-size-30 { --map-size: 30; }
+
+#mapaContainer table {
+    border-collapse: collapse;
+}
+
+#mapaContainer td {
+    padding: 0;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    min-width: var(--cell-size);
+    max-width: var(--cell-size);
+    min-height: var(--cell-size);
+    max-height: var(--cell-size);
+    line-height: 0;
+}
+
+#mapaContainer.modo-construccion .casilla {
+    cursor: url("../../Assets/images/cursores/transparent-image-maker-png-3-removebg-preview.png") 16 16, pointer;
+}
+
+/* Tiles base */
+.pasto,
+.casa,
+.apartamento,
+.tienda,
+.centro_comercial,
+.fabrica,
+.granja,
+.estacion_policia,
+.estacion_bomberos,
+.hospital,
+.planta_electrica,
+.planta_agua,
+.parque,
+.carrera,
+.calle {
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.casa,
+.apartamento,
+.tienda,
+.centro_comercial,
+.fabrica,
+.granja,
+.estacion_policia,
+.estacion_bomberos,
+.hospital,
+.planta_electrica,
+.planta_agua,
+.parque {
+    border: none;
+    background-color: transparent !important;
+}
+
+/* Imagenes */
+.pasto { background-image: url("../../Assets/images/istockphoto-2191688361-255x253.jpg"); }
+.casa { background-image: url("../../Assets/images/construir/edificios/residencias/pixil-assets-hose1.png"); }
+.apartamento { background-image: url("../../Assets/images/construir/edificios/residencias/apartamento-asset.png"); }
+.tienda { background-image: url("../../Assets/images/construir/edificios/comercios/tienda-pixel.png"); }
+.centro_comercial { background-image: url("../../Assets/images/construir/edificios/comercios/shoppingmall.png"); }
+.fabrica { background-image: url("../../Assets/images/construir/edificios/industrias/farbica-asset.png"); }
+.granja { background-image: url("../../Assets/images/construir/edificios/industrias/pixel-art-illustration-barn.png"); }
+.estacion_policia { background-image: url("../../Assets/images/construir/edificios/servicios/edificio-estacion-policia.png"); }
+.estacion_bomberos { background-image: url("../../Assets/images/construir/edificios/servicios/fire-station-building.png"); }
+.hospital { background-image: url("../../Assets/images/construir/edificios/servicios/estacion-hospital.png"); }
+.planta_electrica { background-image: url("../../Assets/images/construir/edificios/utilidades/reactor.png"); }
+.planta_agua { background-image: url("../../Assets/images/construir/edificios/utilidades/AGUA.png"); }
+.parque { background-image: url("../../Assets/images/construir/parques/parque-asset.png"); }
+.carrera { background-image: url("../../Assets/images/construir/vias/carrera.jpg"); }
+.calle { background-image: url("../../Assets/images/construir/vias/calle.jpg"); }
+
+.casilla {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}

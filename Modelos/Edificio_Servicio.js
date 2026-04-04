@@ -45,6 +45,15 @@ class Edificio_Servicios extends Edificio{
         hospital.setCodigoMapa(codigoMapa);
         return hospital;
     }
+
+
+    cambiarBeneficio(nuevoBeneficio){
+        if(nuevoBeneficio < 0){
+            return false;
+        }
+        this.beneficio = nuevoBeneficio;
+        return true;
+    }
      // GETTERS
 
     getRadio(){

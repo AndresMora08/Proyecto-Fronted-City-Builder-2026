@@ -1,0 +1,296 @@
+/*----------------- RESPONSIVE -----------------*/
+
+/* ===== MÓVIL (< 769px) ===== */
+@media (max-width: 769px) {
+    #mapaContainer {
+        width: 100vw;
+        justify-content: center;
+        padding: 0;
+        --cell-size: calc(100vw / var(--map-size, 15));
+    }
+
+    .huds button {
+        width: 22%;
+        height: 60px;
+        padding: 0;
+        background-size: 55%;
+    }
+
+    .huds .btn-menuConfig,
+    .huds .btn-menu {
+        background-size: 0;
+        height: 60px;
+        font-size: 0.68rem;
+        padding: 0 4px;
+    }
+}
+
+/* ===== TABLET (769px – 1024px) ===== */
+@media (min-width: 769px) and (max-width: 1024px) and (min-height: 600px) {
+    body {
+        grid-template-columns: 70% 30%;
+    }
+
+    #mapaContainer {
+        grid-column: 1;
+        grid-row: 1 / 4;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        --cell-size: min(
+            calc(70vw / var(--map-size, 15)),
+            calc(100vh / var(--map-size, 15))
+        );
+    }
+
+    #mapaContainer table {
+        width: calc(var(--cell-size) * var(--map-size, 15));
+        height: calc(var(--cell-size) * var(--map-size, 15));
+        table-layout: fixed;
+    }
+
+    #mapaContainer td {
+        width: var(--cell-size);
+        height: var(--cell-size);
+        min-width: var(--cell-size);
+        min-height: var(--cell-size);
+        max-width: var(--cell-size);
+        max-height: var(--cell-size);
+    }
+
+    #datosCiudad {
+        padding: 2px 8px 4px 8px;
+    }
+
+    #infoCiudad {
+        grid-column: 2;
+        grid-row: 1;
+        padding: 0;
+        border-left: 2px solid #444;
+    }
+
+    .recursosCiudad {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    #Dinero, #Electricidad, #Agua, #Alimento,
+    #Poblacion, #Felicidad, #Puntuacion {
+        width: 95%;
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .huds {
+        grid-column: 2;
+        grid-row: 2;
+        flex-direction: column;
+        border-left: 2px solid #444;
+        background: var(--panel-bg);
+    }
+
+    #hudAcciones {
+        --hud-gap: 10px;
+        padding: 15px;
+    }
+
+    .huds button {
+        width: 100%;
+        height: 60px;
+        padding: 0;
+        background-size: 50%;
+    }
+
+    .huds .btn-menuConfig,
+    .huds .btn-menu {
+        background-size: 0;
+        height: 60px;
+        font-size: 0.75rem;
+        padding: 0 8px;
+    }
+
+    #hudDinamico {
+        grid-column: 2;
+        grid-row: 3;
+        min-height: 140px;
+        border-left: 2px solid #444;
+        border-top: 1px solid #444;
+        padding: 15px;
+    }
+}
+
+/* ===== ESCRITORIO (> 1024px) ===== */
+@media (min-width: 1025px) {
+    :root {
+        --cell-size: 4.6vh;
+    }
+
+    body {
+        grid-template-columns: 22% 56% 22%;
+        grid-template-rows: auto 1fr;
+    }
+
+    .recursosCiudad {
+        flex-direction: column;
+        gap: 6px;
+        grid-column: 1;
+    }
+
+    #Dinero, #Electricidad, #Agua, #Alimento,
+    #Poblacion, #Felicidad, #Puntuacion {
+        width: 95%;
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    #infoCiudad {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #mapaContainer {
+        grid-column: 2;
+        grid-row: 1 / 3;
+        overflow: hidden;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        --cell-size: min(
+            calc(56vw / var(--map-size, 15)),
+            calc(100vh / var(--map-size, 15))
+        );
+    }
+
+    .Clima {
+        grid-column: 3;
+        grid-row: 1;
+        border-left: 2px solid #444;
+        height: 100%;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: none;
+    }
+
+    .Clima .clima-principal {
+        font-size: 1.9rem;
+        justify-content: space-between;
+        padding-bottom: 6px;
+    }
+
+    .Clima #climaIcono::before {
+        font-size: 2.4rem;
+    }
+
+    .Clima .clima-detalles {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        font-size: 1rem;
+        flex: 1 1 auto;
+    }
+
+    #news-panel {
+        grid-column: 3;
+        grid-row: 2;
+        border-left: 2px solid #444;
+        height: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    #nr {
+        width: 100%;
+    }
+
+    #news-list {
+        width: 100%;
+    }
+
+    /* ---- HUD lateral izquierdo ---- */
+    .huds {
+        grid-column: 1;
+        grid-row: 2;
+        flex-direction: column;
+        align-items: stretch;
+        border-right: 2px solid #444;
+        justify-content: flex-start;
+        padding-top: 8px;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    #hudAcciones,
+    #hudConstruir,
+    #hudConstruirEdificios,
+    #hudResidencias,
+    #hudConstruirVias,
+    #hudConstruirParques,
+    #hudComercios,
+    #hudIndustrias,
+    #hudServicios,
+    #hudUtilidades,
+    #hudConfig,
+    #hudConfigTurno,
+    #hudConfigRecursos,
+    #hudConfigFelicidad,
+    #hudConfigExtra {
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 100%;
+        padding: 8px 10px 10px;
+        gap: 8px;
+        height: 100%;
+        scroll-snap-type: none;
+    }
+
+    /* Todos los botones del HUD lateral */
+    #hudAcciones button,
+    #hudConstruir button,
+    #hudConstruirEdificios button,
+    #hudResidencias button,
+    #hudConstruirVias button,
+    #hudConstruirParques button,
+    #hudComercios button,
+    #hudIndustrias button,
+    #hudServicios button,
+    #hudUtilidades button,
+    #hudConfig button,
+    #hudConfigTurno button,
+    #hudConfigRecursos button,
+    #hudConfigFelicidad button,
+    #hudConfigExtra button {
+        flex: 1 1 0;
+        width: 100%;
+        min-height: 52px;
+        max-height: 80px;
+        padding: 0;
+        background-size: contain;
+        background-position: center;
+    }
+
+    /* Botones de icono puro en desktop */
+    .huds button[id]:not(.btn-menuConfig):not(.btn-menu),
+    .huds button.btn-volver {
+        background-size: 55%;
+        font-size: 0;
+    }
+
+    /* Botones de texto en desktop */
+    .huds .btn-menuConfig,
+    .huds .btn-menu {
+        background-size: 0;
+        min-height: 48px;
+        max-height: 72px;
+        font-size: 0.78rem;
+        padding: 6px 10px;
+        line-height: 1.3;
+    }
+}

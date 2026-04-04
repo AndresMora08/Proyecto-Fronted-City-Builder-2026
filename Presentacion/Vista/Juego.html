@@ -34,7 +34,9 @@
     <script defer src="../../Negocio/Demoliciones.js"></script>
     <script defer src="../../Negocio/muestraDatos.js"></script>
     <script defer src="../../Negocio/Menu_Acciones.js"></script>
+    
     <script defer src="../../Negocio/Importar_Mapa.js"></script>
+    <script defer src="../../Negocio/Exportar_Mapa.js"></script>
 
     <!-- ================= UI ================= -->
     <script defer src="../../Negocio/ui/UiAlertas.js"></script>
@@ -42,6 +44,8 @@
     <script defer src="../../Negocio/ui/UiMapa.js"></script>
     <script defer src="../../Negocio/ui/UiConstruccion.js"></script>
     <script defer src="../../Negocio/ui/UiDemolicion.js"></script>
+    
+    <script defer src="../../Negocio/Configuracion.js"></script>
 
     <!-- ================= APIS / EXTRA ================= -->
     <script defer src="../../Acceso_Datos/Apis/ApiKeys.js"></script>
@@ -52,7 +56,15 @@
     <script defer src="../../Negocio/Juego.js"></script>
 
     <!-- ================= ESTILOS ================= -->
-    <link rel="stylesheet" href="../Estilo/Juego.css">
+     <link rel="stylesheet"href="../Estilo/base.css">
+     <link rel="stylesheet" href="../Estilo/clima.css">
+     <link rel="stylesheet" href="../Estilo/estadisticas.css">
+     <link rel="stylesheet" href="../Estilo/hud.css">
+     <link rel="stylesheet" href="../Estilo/mapa.css">
+     <link rel="stylesheet" href="../Estilo/mensajes.css">
+     <link rel="stylesheet" href="../Estilo/noticias.css">
+     <link rel="stylesheet" href="../Estilo/responsive.css">
+    
     <link rel="stylesheet" href="../Estilo/alertas.css">
 </head>
 
@@ -131,30 +143,63 @@
         </div>
 
         <div id="hudConfig" class="hidden">
-            <button id="btnConfigTurno" class="btn-menu">
+
+            <button class="btn-volver" data-back="acciones"></button>
+
+            <button id="btnConfigTurno" class="btn-menuConfig">
                 Configuración de Turno
             </button>
 
-            <button id="btnConfigRecursos" class="btn-menu">
+            <button id="btnConfigRecursos" class="btn-menuConfig">
                 Modificación de Recursos
             </button>
 
-            <button id="btnConfigFelicidad" class="btn-menu">
+            <button id="btnConfigFelicidad" class="btn-menuConfig">
                 Felicidad y Servicios
             </button>
 
-            <button id="btnConfigExtra" class="btn-menu">
+            <button id="btnConfigExtra" class="btn-menuConfig">
                 Configuración Extra
             </button>
 
-            <button id="btnImportarTxt" class="btn-menu">
+            <button id="btnImportarTxt" class="btn-menuConfig">
                 Importar mapa (.txt)
             </button>
 
-            <button id="btnExportarMapa" class="btn-menu">
+            <button id="btnExportarMapa" class="btn-menuConfig">
                 Exportar mapa (.txt)
             </button>
         </div>
+
+        <div id="hudConfigTurno" class="hidden">
+            <button class="btn-volver" data-back="config"></button>
+            <button id="btnCambioTiempo" class="btn-menuConfig"> cambiar duracion turno </button>
+            <button id="btnCambioTasaAumento" class="btn-menuConfig">cambiar tasa de aumento de poblacion</button>
+            <button id="btnCambioConsumo" class="btn-menuConfig">cambiar consumo por ciudadano</button>
+        </div>
+
+        <div id="hudConfigRecursos" class="hidden">
+            <button class="btn-volver" data-back="config"></button>
+            <button id="btnModificarDinero" class="btn-menuConfig">modificar dinero</button>
+            <button id="btnModificarElectricidad" class="btn-menuConfig">modificar electricidad</button>
+            <button id="btnModificarAgua" class="btn-menuConfig">modificar agua</button>
+            <button id="btnModificarAlimento" class="btn-menuConfig">modificar alimento</button>
+      
+        </div>
+
+        <div id="hudConfigFelicidad" class="hidden">
+            <button class="btn-volver" data-back="config"></button>
+            <button id="btnCambioBeneficioH" class="btn-menuConfig">cambiar beneficio de Hospitales</button>
+            <button id="btnCambioBeneficioP" class="btn-menuConfig">cambiar beneficio de Policias</button>
+            <button id="btnCambioBeneficioB" class="btn-menuConfig">cambiar beneficio de Bomberos</button>
+        </div>
+
+        <div id="hudConfigExtra" class="hidden">
+            <button class="btn-volver" data-back="config"></button>
+            <button id="EliminarCiudad" class="btn-menuConfig">Eliminar ciudad</button>
+        </div>
+
+
 
         <div id="hudConstruir" class="hidden">
             <button class="btn-volver" data-back="acciones"></button>

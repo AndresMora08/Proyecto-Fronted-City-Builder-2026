@@ -1,22 +1,61 @@
-
-let tiempoTurno = 50000; // 10 segundos por defecto 3
+let tiempoTurno = 50000; 
+let maximoCiudadanos = 3;
+let minimoCiudadanos = 1;
 
 let idTurno = null;
 let proximoTurnoEn = null;
 let inicioTurnoEn = null;
 
-// Inicia el sistema de turnos (llamar cuando carga la ciudad)
-// Parámetro opcional: tiempo en milisegundos
+// Consumo por ciudadano (configurable)
+let CONSUMO_CIUDADANO = {
+    electricidad: 1,
+    agua: 1,
+    alimento: 1
+};
+
+// ===============================
+// INICIO DEL SISTEMA
+// ===============================
 function iniciarSistemaTurnos() {
     programarProximoTurno();
 }
 
-// Cambia el tiempo del turno en cualquier momento
 function cambiarTiempoTurno(nuevoTiempo) {
     tiempoTurno = nuevoTiempo;
 }
 
-// Programa el próximo turno (se actualiza automáticamente si cambias tiempoTurno)
+function cambiarRangoCreacion(nuevoMaximo, nuevoMinimo){
+    if(nuevoMaximo !== undefined && nuevoMinimo !== undefined){
+        if(nuevoMaximo >= nuevoMinimo && nuevoMinimo >= 0){
+            maximoCiudadanos = nuevoMaximo;
+            minimoCiudadanos = nuevoMinimo;
+            return true;
+        }
+    }
+    return false;
+}
+
+function cambiarConsumoCiudadano(nuevoConsumo){
+    if(!nuevoConsumo) return false;
+
+    if(nuevoConsumo.electricidad >= 0){
+        CONSUMO_CIUDADANO.electricidad = nuevoConsumo.electricidad;
+    }
+
+    if(nuevoConsumo.agua >= 0){
+        CONSUMO_CIUDADANO.agua = nuevoConsumo.agua;
+    }
+
+    if(nuevoConsumo.alimento >= 0){
+        CONSUMO_CIUDADANO.alimento = nuevoConsumo.alimento;
+    }
+
+    return true;
+}
+
+// ===============================
+// TURNOS
+// ===============================
 function programarProximoTurno() {
     const ahora = Date.now();
     inicioTurnoEn = ahora;
@@ -30,7 +69,6 @@ function programarProximoTurno() {
     }, tiempoTurno);
 }
 
-// Detiene los turnos si es necesario
 function detenerTurnos() {
     if (idTurno) {
         clearTimeout(idTurno);
@@ -46,22 +84,30 @@ function obtenerInfoTurno() {
     };
 }
 
+// ===============================
+// EJECUCIÓN DEL TURNO
+// ===============================
 function ejecutarTurno(ciudad){
-const produccion=calcularProduccion(ciudad);
-const consumo=calcularConsumo(ciudad);
-aplicarBalance(ciudad,produccion,consumo);
-actualizarFelicidadGeneral(ciudad);
-creacionNuevosCiudadanos(ciudad);
-const score=calcularPuntuacion(ciudad,produccion,consumo);
-ciudad.puntuacion+=score;
-CiudadStorage.guardar(ciudad);
-mostrarDatosCiudad(ciudad);
 
-console.log("puntuacion:", ciudad.puntuacion);
-console.log(ciudad.dinero);
-console.log("Ciudadanos creados:", ciudad.ciudadanos);
+    const produccion = calcularProduccion(ciudad);
+    const consumo = calcularConsumo(ciudad);
+
+    aplicarBalance(ciudad, produccion, consumo);
+
+    actualizarFelicidadGeneral(ciudad);
+
+    creacionNuevosCiudadanos(ciudad, maximoCiudadanos, minimoCiudadanos);
+
+    const score = calcularPuntuacion(ciudad, produccion, consumo);
+    ciudad.puntuacion += score;
+
+    CiudadStorage.guardar(ciudad);
+    mostrarDatosCiudad(ciudad);
 }
 
+// ===============================
+// PRODUCCIÓN
+// ===============================
 function calcularProduccion(ciudad){
 
     let produccion = {
@@ -76,14 +122,14 @@ function calcularProduccion(ciudad){
         const edificio = ciudad.edificios[i];
         
         if(edificio.ingresos){
-            
             produccion.dinero += edificio.ingresos;
         }
 
         if(edificio.produccion){
-            if(edificio.tipo==="Fabrica"){
-                 produccion.dinero+=edificio.produccion
-             }
+
+            if(edificio.tipo === "Fabrica"){
+                produccion.dinero += edificio.produccion;
+            }
 
             if(edificio.tipo === "Planta electrica"){
                 produccion.electricidad += edificio.produccion;
@@ -95,44 +141,49 @@ function calcularProduccion(ciudad){
 
             if(edificio.tipo === "Granja"){
                 produccion.alimento += edificio.produccion;
-                console.log("Producción alimento:",edificio.tipo, edificio.produccion);
             }
-
         }
-
     }
 
     return produccion;
 }
 
+// ===============================
+// CONSUMO
+// ===============================
 function calcularConsumo(ciudad){
 
     let consumo = {
         electricidad: 0,
-        agua: 0
+        agua: 0,
+        alimento: 0
     };
 
     for(let i = 0; i < ciudad.edificios.length; i++){
 
         const edificio = ciudad.edificios[i];
 
-        consumo.electricidad += edificio.consumoElectricidad;
-        consumo.agua += edificio.consumoAgua;
-
+        consumo.electricidad += edificio.consumoElectricidad || 0;
+        consumo.agua += edificio.consumoAgua || 0;
     }
+
+    const poblacion = ciudad.poblacion;
+
+    consumo.electricidad += poblacion * CONSUMO_CIUDADANO.electricidad;
+    consumo.agua += poblacion * CONSUMO_CIUDADANO.agua;
+    consumo.alimento += poblacion * CONSUMO_CIUDADANO.alimento;
 
     return consumo;
 }
 
+// ===============================
+// BALANCES
+// ===============================
 function balanceElectricidad(produccion, consumo){
-    console.log("Producción electricidad:", produccion.electricidad);
-    console.log("Consumo electricidad:", consumo.electricidad);
     return produccion.electricidad - consumo.electricidad;
 }
 
 function balanceAgua(produccion, consumo){
-    console.log("Producción agua:", produccion.agua);
-    console.log("Consumo agua:", consumo.agua);
     return produccion.agua - consumo.agua;
 }
 
@@ -140,175 +191,163 @@ function balanceDinero(produccion){
     return produccion.dinero;
 }
 
-function balanceAlimento(produccion){
-    return produccion.alimento;
+function balanceAlimento(produccion, consumo){
+    return produccion.alimento - consumo.alimento;
 }
 
+function balanceMantenimiento(ciudad){
 
+    let costoMantenimiento = 0;
+
+    for(let i = 0; i < ciudad.edificios.length; i++){
+
+        const edificio = ciudad.edificios[i];
+
+        if(edificio.costo){
+            costoMantenimiento += edificio.costo * 0.0001;
+        }
+    }
+
+    return costoMantenimiento;
+}
+
+// ===============================
+// APLICAR BALANCE
+// ===============================
 function aplicarBalance(ciudad, produccion, consumo){
 
     ciudad.dinero += balanceDinero(produccion);
-
     ciudad.electricidad += balanceElectricidad(produccion, consumo);
-
     ciudad.agua += balanceAgua(produccion, consumo);
+    ciudad.alimento += balanceAlimento(produccion, consumo);
 
-    ciudad.alimento += balanceAlimento(produccion);
+    const mantenimiento = balanceMantenimiento(ciudad);
+    ciudad.dinero -= mantenimiento;
+
+    if(
+        ciudad.dinero < 0 ||
+        ciudad.electricidad < 0 ||
+        ciudad.agua < 0 ||
+        ciudad.alimento < 0
+    ){
+        detenerTurnos();
+        alert("GAME OVER: La ciudad ha colapsado por falta de recursos.");
+    }
 }
 
-function creacionNuevosCiudadanos(ciudad){
+// ===============================
+// CREACIÓN DE CIUDADANOS
+// ===============================
+function creacionNuevosCiudadanos(ciudad, maximoCiudadanos, minimoCiudadanos){
 
-    const capacidadResidencial=calcularCapacidad(ciudad);
-    const felicidadPromedio=calcularFelicidadPromedio(ciudad);
-    const empleosDisponibles=verificarEmpleosDisponibles(ciudad);
+    const capacidadResidencial = calcularCapacidad(ciudad);
+    const felicidadPromedio = calcularFelicidadPromedio(ciudad);
+    const empleosDisponibles = verificarEmpleosDisponibles(ciudad);
 
-    
-    if(capacidadResidencial>ciudad.poblacion && (felicidadPromedio>60 || felicidadPromedio===-1) && empleosDisponibles){
+    if(capacidadResidencial > ciudad.poblacion && (felicidadPromedio > 60 || felicidadPromedio === -1) && empleosDisponibles){
        
-        const Random=Math.floor(Math.random()*(3)+1);
-        for(let i=0;i<Random;i++){
+        const Random = Math.floor(Math.random() * (maximoCiudadanos - minimoCiudadanos + 1) + minimoCiudadanos);
 
-            const ciudadanoCreado=Ciudadano.crearCiudadano();
+        for(let i = 0; i < Random; i++){
 
+            const ciudadanoCreado = Ciudadano.crearCiudadano();
             ciudad.ciudadanos.push(ciudadanoCreado);
-            
-            console.log("NUEVO CIUDADANO:", ciudadanoCreado);
             ciudad.poblacion++;
-
-
         }
+
         asignarViviendas(ciudad);
         asignarEmpleos(ciudad);
-       
     }
-    
 }
 
+// ===============================
+// RESTO DE FUNCIONES (SIN CAMBIOS)
+// ===============================
 function calcularCapacidad(ciudad){
+    let capacidadResidencial = 0;
 
-    let capacidadResidencial=0;
-
-    for(let i=0;i<ciudad.edificios.length;i++){
-        
-        const edificio=ciudad.edificios[i];
-         if(edificio.tipo==="Casa"||edificio.tipo==="Apartamento"){
-            capacidadResidencial+=edificio.capacidadMaxima;
-         }
+    for(let i = 0; i < ciudad.edificios.length; i++){
+        const edificio = ciudad.edificios[i];
+        if(edificio.tipo === "Casa" || edificio.tipo === "Apartamento"){
+            capacidadResidencial += edificio.capacidadMaxima;
+        }
     }
 
     return capacidadResidencial;
 }
 
 function calcularFelicidadPromedio(ciudad){
-   
-    let felicidadTotal=0;
-    let felicidadPromedio=0;
-    if(ciudad.ciudadanos.length>0){
-        for(let i=0;i<ciudad.ciudadanos.length;i++){
-            const ciudadano=ciudad.ciudadanos[i];
-            felicidadTotal+=ciudadano.nivelFelicidad;
+    let felicidadTotal = 0;
+
+    if(ciudad.ciudadanos.length > 0){
+        for(let ciudadano of ciudad.ciudadanos){
+            felicidadTotal += ciudadano.nivelFelicidad;
         }
-            felicidadPromedio=felicidadTotal/ciudad.ciudadanos.length;
-    }else{
-        felicidadPromedio=-1;
+        return felicidadTotal / ciudad.ciudadanos.length;
     }
-    console.log("Felicidad promedio:", felicidadPromedio);
-    return felicidadPromedio;
+
+    return -1;
 }
 
 function verificarEmpleosDisponibles(ciudad){
-let empleosDisponibles=0;
-for(let i=0;i<ciudad.edificios.length;i++){
-    const edificio=ciudad.edificios[i];
+    let empleosDisponibles = 0;
 
-    if(edificio.ciudadanosEmpleados){
-        empleosDisponibles+=edificio.capacidadMaxima-edificio.ciudadanosEmpleados.length;
+    for(let edificio of ciudad.edificios){
 
+        if(edificio.ciudadanosEmpleados){
+            empleosDisponibles += edificio.capacidadMaxima - edificio.ciudadanosEmpleados.length;
+        }
+
+        if(empleosDisponibles > 0){
+            return true;
+        }
     }
-    if(empleosDisponibles>0){
-        return true;
-        
-    }
-    
-}
 
-return false;
-
+    return false;
 }
 
 function asignarViviendas(ciudad){
+    for(let ciudadano of ciudad.ciudadanos){
 
-    for(let i = 0; i < ciudad.ciudadanos.length; i++){
+        if(ciudadano.vivienda) continue;
 
-        const ciudadano = ciudad.ciudadanos[i];
-
-        if(ciudadano.vivienda){
-            continue;
-        }
-
-        for(let j = 0; j < ciudad.edificios.length; j++){
-
-            const edificio = ciudad.edificios[j];
+        for(let edificio of ciudad.edificios){
 
             if(edificio.tipo === "Casa" || edificio.tipo === "Apartamento"){
 
                 const agregado = edificio.agregarResidente(ciudadano);
 
                 if(agregado){
-                    console.log("Ciudadano", ciudadano.id, "asignado a vivienda en", edificio.nombre);
                     break;
                 }
-
             }
-
         }
-
     }
-
 }
+
 function asignarEmpleos(ciudad){
+    for(let ciudadano of ciudad.ciudadanos){
 
-    for(let i = 0; i < ciudad.ciudadanos.length; i++){
+        if(ciudadano.empleo) continue;
 
-        const ciudadano = ciudad.ciudadanos[i];
+        for(let edificio of ciudad.edificios){
 
-        if(ciudadano.empleo){
-            continue;
-        }
-
-        for(let j = 0; j < ciudad.edificios.length; j++){
-
-            const edificio = ciudad.edificios[j];
-
-            if(
-            edificio.ciudadanosEmpleados &&
-             typeof edificio.agregarEmpleado === "function"
-             ){
+            if(edificio.ciudadanosEmpleados && typeof edificio.agregarEmpleado === "function"){
 
                 const agregado = edificio.agregarEmpleado(ciudadano);
 
                 if(agregado){
-                    console.log("Ciudadano", ciudadano.id, "asignado a empleo en", edificio.nombre);
                     break;
                 }
-
             }
-
         }
-
     }
-
 }
 
 function actualizarFelicidadGeneral(ciudad){
- if(ciudad.ciudadanos.length===0){
-    return;
- }
-    for(let i=0;i<ciudad.ciudadanos.length;i++){
-        const ciudadano=ciudad.ciudadanos[i];
+    if(ciudad.ciudadanos.length === 0) return;
 
+    for(let ciudadano of ciudad.ciudadanos){
         ciudadano.actualizarFelicidadIndividual(ciudad);
-        
     }
-    
 }

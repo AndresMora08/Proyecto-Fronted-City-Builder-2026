@@ -85,6 +85,10 @@ function configurarMenus() {
         servicios: document.getElementById('hudServicios'),
         utilidades: document.getElementById('hudUtilidades'),
         vias: document.getElementById('hudConstruirVias'),
+        configTurno: document.getElementById('hudConfigTurno'),
+        configRecursos: document.getElementById('hudConfigRecursos'),
+        configFelicidad: document.getElementById('hudConfigFelicidad'),
+        configExtra: document.getElementById('hudConfigExtra'),
 
         //  NUEVO
         config: document.getElementById('hudConfig')
@@ -101,7 +105,11 @@ function configurarMenus() {
         btnVias: document.getElementById('btnVias'),
 
         //  NUEVO
-        btnConfig: document.getElementById('btnConfig')
+        btnConfig: document.getElementById('btnConfig'),
+        btnConfigTurno: document.getElementById('btnConfigTurno'),
+        btnConfigRecursos: document.getElementById('btnConfigRecursos'),
+        btnConfigFelicidad: document.getElementById('btnConfigFelicidad'),
+        btnConfigExtra: document.getElementById('btnConfigExtra')
     };
 
     const botonesVolver = document.querySelectorAll('.btn-volver');
@@ -168,6 +176,26 @@ function configurarMenus() {
     btns.btnConfig?.addEventListener('click', () => {
         menuAnterior = 'acciones';
         mostrarSolo('config');
+    });
+
+    btns.btnConfigTurno?.addEventListener('click', () => {
+        menuAnterior = 'config';
+        mostrarSolo('configTurno');
+    });
+
+    btns.btnConfigRecursos?.addEventListener('click', () => {
+        menuAnterior = 'config';
+        mostrarSolo('configRecursos');
+    });
+
+    btns.btnConfigFelicidad?.addEventListener('click', () => {
+        menuAnterior = 'config';
+        mostrarSolo('configFelicidad');
+    });
+
+    btns.btnConfigExtra?.addEventListener('click', () => {
+        menuAnterior = 'config';
+        mostrarSolo('configExtra');
     });
 
     // BOTON VOLVER
