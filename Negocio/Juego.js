@@ -1,13 +1,15 @@
 ﻿let ciudad = null;
-
+let alcalde=null;
 document.addEventListener("DOMContentLoaded", inicializarJuego);
 
 async function inicializarJuego() {
     intentarBloqueoOrientacionMovil();
     configurarAlertaOrientacionMovil();
-
+    
     ciudad = cargarCiudad();
+    alcalde = AlcaldeStorage.cargar();
     console.log("Ciudad cargada:", ciudad);
+    
     if (!ciudad) return;
 
     if (!ciudad.mapa || !Array.isArray(ciudad.mapa.matriz)) {
@@ -109,8 +111,12 @@ function configurarMenus() {
         btnConfigTurno: document.getElementById('btnConfigTurno'),
         btnConfigRecursos: document.getElementById('btnConfigRecursos'),
         btnConfigFelicidad: document.getElementById('btnConfigFelicidad'),
-        btnConfigExtra: document.getElementById('btnConfigExtra')
+        btnConfigExtra: document.getElementById('btnConfigExtra'),
+        btnRanking: document.getElementById('btnRanking'),
+        
     };
+
+    
 
     const botonesVolver = document.querySelectorAll('.btn-volver');
     let menuAnterior = null;
@@ -196,6 +202,9 @@ function configurarMenus() {
     btns.btnConfigExtra?.addEventListener('click', () => {
         menuAnterior = 'config';
         mostrarSolo('configExtra');
+    });
+    btns.btnRanking?.addEventListener('click', () => {
+     UIRanking.mostrarRanking(ciudad);
     });
 
     // BOTON VOLVER
@@ -335,27 +344,33 @@ function cargarCiudad() {
 
 
 function mostrarDatosCiudad(ciudad) {
+
+    // 🔹 Nombre de la ciudad
     const nombre = document.getElementById("datosCiudad");
     if (nombre) nombre.textContent = ciudad.nombreCiudad;
 
+    // 🔹 Función auxiliar
     const actualizar = (id, valor) => {
         const el = document.getElementById(id);
         if (el) el.textContent = valor;
     };
 
+    // 🔹 Recursos
     actualizar("Dinero", ciudad.dinero);
     actualizar("Electricidad", ciudad.electricidad);
     actualizar("Agua", ciudad.agua);
     actualizar("Alimento", ciudad.alimento);
-    actualizar("Poblacion", ciudad.poblacion); 
 
+   
+    actualizar("Poblacion", ciudad.poblacion);
+
+
+    
     const elFelicidad = document.getElementById("Felicidad");
-    if (elFelicidad) {
-        let felicidadPromedio = -1;
 
-        if (typeof calcularFelicidadPromedio === "function") {
-            felicidadPromedio = calcularFelicidadPromedio(ciudad);
-        }
+    if (elFelicidad) {
+
+        const felicidadPromedio = ciudad.felicidadPromedio;
 
         const porcentajeSeguro = felicidadPromedio === -1
             ? 0
@@ -367,6 +382,7 @@ function mostrarDatosCiudad(ciudad) {
 
         aplicarClasePorcentaje(elFelicidad, "felicidad-", porcentajeSeguro);
     }
+
 
     const elPuntuacion = document.getElementById("Puntuacion");
     if (elPuntuacion) {

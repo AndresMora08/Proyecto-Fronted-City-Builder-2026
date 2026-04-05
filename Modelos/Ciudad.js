@@ -13,8 +13,11 @@ class Ciudad{
         this.alimento = Number(alimento);
         this.poblacion = Number(poblacion);
         this.puntuacion = Number(puntuacion);
+        this.turno=0;
+        this.felicidadPromedio=0;
 
         // Propiedades iniciales
+        
         this.ciudadanos = [];
         this.edificios = [];
         this.mapa = null;

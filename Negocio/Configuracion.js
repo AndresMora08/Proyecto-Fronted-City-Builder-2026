@@ -201,6 +201,14 @@ document.addEventListener('DOMContentLoaded', () => {
             UIMensajes.mostrarMensaje(`Ciudad eliminada, Juego terminado`, 3000);
         });
     });
+    function eliminarCiudad(){
+        detenerTurnos();
+        RankingStorage.guardarEnRanking(ciudad);
+        UIMensajes.mostrarMensaje(`Juego Terminado, desempeño guardado en ranking local`, 8000);
+        CiudadStorage.limpiar();
+        ciudad = null;
+        window.location.href="Menu_Principal.html";
+    }
 
     botonesConfiguracion.btnExportarCiudad.addEventListener('click', () => {
         const el = getMensaje();

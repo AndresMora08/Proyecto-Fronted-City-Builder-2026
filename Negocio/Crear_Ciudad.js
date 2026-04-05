@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //Guardar
         CiudadStorage.guardar(nuevaCiudad);
+        AlcaldeStorage.guardar(nuevoAlcalde);
 
         window.location.href = "Juego.html"; 
     });

@@ -85,3 +85,153 @@
     from { transform: translateY(6px) scale(0.98); opacity: 0; }
     to { transform: translateY(0) scale(1); opacity: 1; }
 }
+
+/* ===== ESTILOS PARA EL ELEMENTO PUNTUACIÓN ===== */
+
+/* ===== ELEMENTO PUNTUACIÓN CLICKEABLE ===== */
+.clickeable {
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.clickeable:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    transform: scale(1.03);
+}
+
+.clickeable:active {
+    transform: scale(0.98);
+}
+
+/* Flecha indicadora */
+.clickeable::after {
+    content: ' ▼';
+    font-size: 8px;
+    margin-left: 4px;
+    opacity: 0.6;
+    transition: transform 0.3s ease;
+}
+
+#Puntuacion.abierto::after {
+    transform: rotate(180deg);
+}
+
+
+/* ===== CONTENEDOR COMPACTO ===== */
+#contenedorDatos {
+    margin-top: 10px;
+    max-width: 350px; /* Más angosto */
+    animation: desplegar 0.25s ease-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+@keyframes desplegar {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ===== TABLA COMPACTA ===== */
+#contenedorDatos table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px; /* Texto más pequeño */
+    background-color: #fff;
+}
+
+/* Encabezados compactos */
+#contenedorDatos table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8px 10px; /* Menos padding */
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 10px; /* Muy pequeño */
+    letter-spacing: 0.3px;
+}
+
+/* Celdas compactas */
+#contenedorDatos table td {
+    padding: 6px 10px; /* Reducido */
+    border-bottom: 1px solid #e0e0e0;
+    color: #333;
+}
+
+/* Primera columna (conceptos) más angosta */
+#contenedorDatos table td:first-child {
+    font-size: 11px; /* Texto ligeramente más pequeño */
+    max-width: 180px; /* Limitar ancho */
+}
+
+/* Segunda columna (números) */
+#contenedorDatos table td:nth-child(2) {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+    font-size: 12px;
+    min-width: 60px; /* Ancho mínimo para números */
+}
+
+/* Filas alternas */
+#contenedorDatos table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Hover en filas */
+#contenedorDatos table tr:hover {
+    background-color: #e3f2fd;
+    transition: background-color 0.15s ease;
+}
+
+/* Fila TOTAL destacada */
+#contenedorDatos table tr:last-child {
+    background-color: #f0f0f0;
+    border-top: 2px solid #667eea;
+    font-weight: bold;
+}
+
+#contenedorDatos table tr:last-child:hover {
+    background-color: #e8e8e8;
+}
+
+#contenedorDatos table tr:last-child td {
+    padding: 8px 10px; /* Un poco más de padding en total */
+    font-size: 13px; /* Número total ligeramente más grande */
+}
+
+
+/* ===== RESPONSIVE COMPACTO ===== */
+@media screen and (max-width: 600px) {
+    #contenedorDatos {
+        max-width: 100%;
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+    
+    #contenedorDatos table {
+        font-size: 11px;
+    }
+    
+    #contenedorDatos table th,
+    #contenedorDatos table td {
+        padding: 5px 8px;
+    }
+    
+    #contenedorDatos table td:first-child {
+        font-size: 10px;
+    }
+}
