@@ -102,10 +102,9 @@ function actualizarUIClima(datos) {
     document.getElementById('climaViento').textContent = `${datos.viento} km/h`;
 
     const iconos = {
-        Thunderstorm: "🌧️",
-        Drizzle: "🌧️",
+        Thunderstorm: "⛈️",
+        Drizzle: "🌦️",
         Rain: "🌧️",
-        Snow: "❄️",
         Clear: "☀️",
         Clouds: "☁️"
     };

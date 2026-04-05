@@ -6,9 +6,6 @@ const NEWS_CONFIG = {
 
 const RSS_SOURCES = [
     { name: 'El Tiempo', url: 'https://www.eltiempo.com/rss/colombia.xml' },
-    { name: 'El Espectador', url: 'https://www.elespectador.com/rss/colombia/' },
-    { name: 'Caracol', url: 'https://www.caracol.com.co/rss/colombia/' },
-    { name: 'RCN', url: 'https://www.rcnradio.com/feeds/tema/colombia' }
 ];
 
 async function fetchRegionalNews() {
@@ -31,13 +28,13 @@ async function fetchRegionalNews() {
 }
 
 async function solicitarNoticiasColombia() {
-    // 1) Intentar NewsAPI top-headlines
+    // Intentar NewsAPI top-headlines
     const newsApi = await solicitarTopHeadlinesCO();
     if (newsApi.articles && newsApi.articles.length > 0) {
         return newsApi;
     }
 
-    // 2) Fallback a RSS locales (sin API key)
+    // Fallback a RSS locales (sin API key)
     const rssArticles = await solicitarRssColombia();
     if (rssArticles.length > 0) {
         return { articles: rssArticles };
