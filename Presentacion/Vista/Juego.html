@@ -28,7 +28,7 @@
     <script defer src="../../Acceso_Datos/AlcaldeStorage.js"></script>
     <script defer src="../../Acceso_Datos/RankingStorage.js"></script>
 
-    <!--  LÓGICA DE NEGOCIO -->
+    <!--  L�GICA DE NEGOCIO -->
     <script defer src="../../Negocio/Tamanos_Edificios.js"></script>
     <script defer src="../../Negocio/Sistema_Turnos.js"></script>
     <script defer src="../../Negocio/Puntuacion.js"></script>
@@ -130,7 +130,7 @@
 
     <!-- NOTICIAS -->
     <div id="news-panel" class="city-builder-ui">
-        <div id="nr">📰 NEWS</div>
+        <div id="nr">?? NEWS</div>
         <div id="news-list">
             <div class="news-ticker">
                 <div class="news-track" id="news-track"></div>
@@ -142,22 +142,22 @@
     <div class="huds">
 
         <div id="hudAcciones"> 
-            <button id="btnConstruir"></button>
-            <button id="btnDemoler"></button>
-            <button id="btnRuta"></button>
-            <button id="btnConfig"></button>
+            <button id="btnConstruir" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Construir</span></button>
+            <button id="btnDemoler" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Demoler</span></button>
+            <button id="btnRuta" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Ruta</span></button>
+            <button id="btnConfig" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Configuracion</span></button>
         </div>
 
         <div id="hudConfig" class="hidden">
 
-            <button class="btn-volver" data-back="acciones"></button>
+            <button class="btn-volver btn-icon" data-back="acciones"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
 
             <button id="btnConfigTurno" class="btn-menuConfig">
-                Configuración de Turno
+                Configuracion de Turno
             </button>
 
             <button id="btnConfigRecursos" class="btn-menuConfig">
-                Modificación de Recursos
+                Modificacion de Recursos
             </button>
 
             <button id="btnConfigFelicidad" class="btn-menuConfig">
@@ -165,8 +165,7 @@
             </button>
 
             <button id="btnConfigExtra" class="btn-menuConfig">
-                Configuración Extra
-            </button>
+                Configuracion
 
             <button id="btnImportarTxt" class="btn-menuConfig">
                 Importar mapa (.txt)
@@ -178,14 +177,14 @@
         </div>
 
         <div id="hudConfigTurno" class="hidden">
-            <button class="btn-volver" data-back="config"></button>
+            <button class="btn-volver btn-icon" data-back="config"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
             <button id="btnCambioTiempo" class="btn-menuConfig"> cambiar duracion turno </button>
             <button id="btnCambioTasaAumento" class="btn-menuConfig">cambiar tasa de aumento de poblacion</button>
             <button id="btnCambioConsumo" class="btn-menuConfig">cambiar consumo por ciudadano</button>
         </div>
 
         <div id="hudConfigRecursos" class="hidden">
-            <button class="btn-volver" data-back="config"></button>
+            <button class="btn-volver btn-icon" data-back="config"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
             <button id="btnModificarDinero" class="btn-menuConfig">modificar dinero</button>
             <button id="btnModificarElectricidad" class="btn-menuConfig">modificar electricidad</button>
             <button id="btnModificarAgua" class="btn-menuConfig">modificar agua</button>
@@ -194,76 +193,76 @@
         </div>
 
         <div id="hudConfigFelicidad" class="hidden">
-            <button class="btn-volver" data-back="config"></button>
+            <button class="btn-volver btn-icon" data-back="config"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
             <button id="btnCambioBeneficioH" class="btn-menuConfig">cambiar beneficio de Hospitales</button>
             <button id="btnCambioBeneficioP" class="btn-menuConfig">cambiar beneficio de Policias</button>
             <button id="btnCambioBeneficioB" class="btn-menuConfig">cambiar beneficio de Bomberos</button>
         </div>
 
         <div id="hudConfigExtra" class="hidden">
-            <button class="btn-volver" data-back="config"></button>
+            <button class="btn-volver btn-icon" data-back="config"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
             <button id="EliminarCiudad" class="btn-menuConfig">Eliminar ciudad</button>
         </div>
 
 
 
         <div id="hudConstruir" class="hidden">
-            <button class="btn-volver" data-back="acciones"></button>
-            <button id="btnEdificios"></button>
-            <button id="btnVias"></button>
-            <button id="btnParques"></button>
+            <button class="btn-volver btn-icon" data-back="acciones"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
+            <button id="btnEdificios" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Edificios</span></button>
+            <button id="btnVias" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Vias</span></button>
+            <button id="btnParques" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Parques</span></button>
         </div>
 
         <div id="hudConstruirEdificios" class="hidden"> 
-            <button class="btn-volver" data-back="construir"></button>
-            <button id="btnResidencias"></button>
-            <button id="btnComercios"></button>
-            <button id="btnIndustrias"></button>
-            <button id="btnServicios"></button>
-            <button id="btnUtilidades"></button>
+            <button class="btn-volver btn-icon" data-back="construir"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
+            <button id="btnResidencias" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Residen<br>cias</span></button>
+            <button id="btnComercios" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Comercios</span></button>
+            <button id="btnIndustrias" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Industrias</span></button>
+            <button id="btnServicios" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Servicios</span></button>
+            <button id="btnUtilidades" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Utilidades</span></button>
         </div>
 
         <div id="hudResidencias" class="hidden">
-            <button class="btn-volver" data-back="edificios"></button>
-            <button id="casa"></button>
-            <button id="apartamento"></button>
+            <button class="btn-volver btn-icon" data-back="edificios"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
+            <button id="casa" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Casa</span></button>
+            <button id="apartamento" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Apartamento</span></button>
         </div>
 
         <div id="hudComercios" class="hidden">
-            <button class="btn-volver" data-back="edificios"></button>
-            <button id="tienda"></button>
-            <button id="centroComercial"></button>
+            <button class="btn-volver btn-icon" data-back="edificios"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
+            <button id="tienda" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Tienda</span></button>
+            <button id="centroComercial" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Centro comercial</span></button>
         </div>
 
         <div id="hudIndustrias" class="hidden">
-            <button class="btn-volver" data-back="edificios"></button>
-            <button id="fabrica"></button>
-            <button id="granja"></button>
+            <button class="btn-volver btn-icon" data-back="edificios"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
+            <button id="fabrica" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Fabrica</span></button>
+            <button id="granja" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Granja</span></button>
         </div>
 
         <div id="hudServicios" class="hidden">
-            <button class="btn-volver" data-back="edificios"></button>
-            <button id="policia"></button>
-            <button id="bomberos"></button>
-            <button id="hospital"></button>
+            <button class="btn-volver btn-icon" data-back="edificios"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
+            <button id="policia" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Policia</span></button>
+            <button id="bomberos" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Bomberos</span></button>
+            <button id="hospital" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Hospital</span></button>
         </div>
 
         <div id="hudUtilidades" class="hidden">
-            <button class="btn-volver" data-back="edificios"></button>
-            <button id="electrica"></button>
-            <button id="agua"></button>
+            <button class="btn-volver btn-icon" data-back="edificios"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
+            <button id="electrica" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Electrica</span></button>
+            <button id="agua" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Agua</span></button>
         </div>
 
         <div id="hudConstruirVias" class="hidden">
-            <button id="calle"></button>
-            <button id="carrera"></button>
-            <button class="btn-volver" data-back="construir"></button>
+            <button id="calle" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Calle</span></button>
+            <button id="carrera" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Carrera</span></button>
+            <button class="btn-volver btn-icon" data-back="construir"><span class="btn-icon-img"></span><span class="btn-label">Volver</span></button>
         </div>
 
     </div>
     
     <div id="Ranking">
-        <button id="btnRanking"></button>
+        <button id="btnRanking" class="btn-icon"><span class="btn-icon-img"></span><span class="btn-label">Ranking</span></button>
         <div id="contenedorRanking" class="hidden"></div>
     </div>
 

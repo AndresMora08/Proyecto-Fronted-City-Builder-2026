@@ -26,6 +26,7 @@
     box-shadow: inset 0 2px 0 rgba(255,255,255,0.4);
     cursor: pointer;
     transition: all 0.1s ease;
+    overflow: hidden;
 }
 
 .huds button:hover {
@@ -38,14 +39,34 @@
 }
 
 /*
- * Botones con icono puro (sin texto): mantienen padding grande y bg centrado
+ * Botones con icono + texto
  */
-.huds button[id]:not(.btn-menuConfig):not(.btn-menu),
-.huds button.btn-volver {
+.huds button.btn-icon {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    justify-items: center;
+    gap: 6px;
+    padding: 8px;
+    font-size: 10px;
+}
+
+.huds button.btn-icon .btn-icon-img {
+    display: block;
+    width: 100%;
+    height: 48px;
+    background-repeat: no-repeat;
     background-position: center;
-    background-size: 60%;
-    font-size: 0;
-    padding: 40px;
+    background-size: contain;
+}
+
+.huds button.btn-icon .btn-label {
+    display: block;
+    font-size: 10px;
+    line-height: 1;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
 }
 
 /*
@@ -124,34 +145,34 @@
     scroll-snap-align: start;
 }
 
-/* Iconos — botones de icono puro */
-.btn-volver { background-image: url("../../Assets/images/menu/retroceso-rapido.png"); }
-#btnConstruir { background-image: url("../../Assets/images/menu/herramientas-de-construccion.png"); }
-#btnDemoler { background-image: url("../../Assets/images/menu/excavadora.png"); }
-#btnRuta { background-image: url("../../Assets/images/menu/ruta.png"); }
-#btnConfig { background-image: url("../../Assets/images/menu/engranajes.png"); }
+/* Iconos — ahora en el span interno */
+.btn-volver .btn-icon-img { background-image: url("../../Assets/images/menu/retroceso-rapido.png"); }
+#btnConstruir .btn-icon-img { background-image: url("../../Assets/images/menu/herramientas-de-construccion.png"); }
+#btnDemoler .btn-icon-img { background-image: url("../../Assets/images/menu/excavadora.png"); }
+#btnRuta .btn-icon-img { background-image: url("../../Assets/images/menu/ruta.png"); }
+#btnConfig .btn-icon-img { background-image: url("../../Assets/images/menu/engranajes.png"); }
 
-#btnEdificios { background-image: url("../../Assets/images/construir/edificios.png"); }
-#btnResidencias { background-image: url("../../Assets/images/construir/edificios/apartamentos.png"); }
-#casa { background-image: url("../../Assets/images/construir/edificios/residencias/casa.png"); }
-#apartamento { background-image: url("../../Assets/images/construir/edificios/residencias/apartamento.png"); }
-#btnComercios { background-image: url("../../Assets/images/construir/edificios/carro-de-la-carretilla.png"); }
-#centroComercial { background-image: url("../../Assets/images/construir/edificios/comercios/centro-comercial.png"); }
-#tienda { background-image: url("../../Assets/images/construir/edificios/comercios/tienda.png"); }
-#btnIndustrias { background-image: url("../../Assets/images/construir/edificios/industrial.png"); }
-#fabrica { background-image: url("../../Assets/images/construir/edificios//industrias/fabrica.png"); }
-#granja { background-image: url("../../Assets/images/construir/edificios/industrias/granero.png"); }
-#btnServicios { background-image: url("../../Assets/images/construir/edificios/primer-respondedor.png"); }
-#policia { background-image: url("../../Assets/images/construir/edificios/servicios/comisaria-de-policia.png"); }
-#bomberos { background-image: url("../../Assets/images/construir/edificios/servicios/estacion-de-bomberos.png"); }
-#hospital { background-image: url("../../Assets/images/construir/edificios/servicios/hospital.png"); }
-#btnUtilidades { background-image: url("../../Assets/images/construir/edificios/energia-del-agua.png"); }
-#agua { background-image: url("../../Assets/images/construir/edificios//utilidades/planta-de-energia.png"); }
-#electrica { background-image: url("../../Assets/images/construir/edificios/utilidades/poder.png"); }
-#btnVias { background-image: url("../../Assets/images/construir/autopista.png"); }
-#carrera { background-image: url("../../Assets/images/construir/vias/la-carretera.png"); }
-#calle { background-image: url("../../Assets/images/construir/vias/calle-de-doble-sentido.png"); }
-#btnParques { background-image: url("../../Assets/images/construir/parque.png"); }
+#btnEdificios .btn-icon-img { background-image: url("../../Assets/images/construir/edificios.png"); }
+#btnResidencias .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/apartamentos.png"); }
+#casa .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/residencias/casa.png"); }
+#apartamento .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/residencias/apartamento.png"); }
+#btnComercios .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/carro-de-la-carretilla.png"); }
+#centroComercial .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/comercios/centro-comercial.png"); }
+#tienda .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/comercios/tienda.png"); }
+#btnIndustrias .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/industrial.png"); }
+#fabrica .btn-icon-img { background-image: url("../../Assets/images/construir/edificios//industrias/fabrica.png"); }
+#granja .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/industrias/granero.png"); }
+#btnServicios .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/primer-respondedor.png"); }
+#policia .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/servicios/comisaria-de-policia.png"); }
+#bomberos .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/servicios/estacion-de-bomberos.png"); }
+#hospital .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/servicios/hospital.png"); }
+#btnUtilidades .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/energia-del-agua.png"); }
+#agua .btn-icon-img { background-image: url("../../Assets/images/construir/edificios//utilidades/planta-de-energia.png"); }
+#electrica .btn-icon-img { background-image: url("../../Assets/images/construir/edificios/utilidades/poder.png"); }
+#btnVias .btn-icon-img { background-image: url("../../Assets/images/construir/autopista.png"); }
+#carrera .btn-icon-img { background-image: url("../../Assets/images/construir/vias/la-carretera.png"); }
+#calle .btn-icon-img { background-image: url("../../Assets/images/construir/vias/calle-de-doble-sentido.png"); }
+#btnParques .btn-icon-img { background-image: url("../../Assets/images/construir/parque.png"); }
 
 .hidden { display: none !important; }
 

@@ -23,12 +23,53 @@
         font-size: 0.68rem;
         padding: 0 4px;
     }
+
+    .huds button.btn-icon .btn-icon-img {
+        height: 44px;
+    }
+
+    .huds button.btn-icon {
+        height: 72px;
+        padding: 6px;
+    }
+
+    .huds button.btn-icon .btn-label {
+        display: block;
+        font-size: 11px;
+        line-height: 1.1;
+    }
+
+    .huds button[id].btn-icon:not(.btn-menuConfig):not(.btn-menu),
+    .huds button.btn-volver.btn-icon {
+        background-size: 60%;
+    }
+
+    .huds button[id].btn-icon:not(.btn-menuConfig):not(.btn-menu)::before,
+    .huds button.btn-volver.btn-icon::before {
+        height: 57px;
+    }
+
+    /* Ranking: esquina inferior derecha, arriba del widget de noticias */
+    #Ranking {
+        position: fixed;
+        right: 10px;
+        bottom: calc(60px + 50px + 52px);
+        z-index: 1001;
+    }
+
+    #btnRanking {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+        width: auto;
+        height: auto;
+    }
 }
 
 /* ===== TABLET (769px – 1024px) ===== */
 @media (min-width: 769px) and (max-width: 1024px) and (min-height: 600px) {
     body {
-        grid-template-columns: 70% 30%;
+        grid-template-columns: 65% 35%;
+        grid-template-rows: auto auto 1fr auto;
     }
 
     #mapaContainer {
@@ -92,7 +133,7 @@
     }
 
     #hudAcciones {
-        --hud-gap: 10px;
+        --hud-gap: 6px;
         padding: 15px;
     }
 
@@ -103,12 +144,76 @@
         background-size: 50%;
     }
 
+    /* Menos espacio entre botones en tablet */
+    #hudAcciones,
+    #hudConstruir,
+    #hudConstruirEdificios,
+    #hudResidencias,
+    #hudConstruirVias,
+    #hudConstruirParques,
+    #hudComercios,
+    #hudIndustrias,
+    #hudServicios,
+    #hudUtilidades,
+    #hudConfig,
+    #hudConfigTurno,
+    #hudConfigRecursos,
+    #hudConfigFelicidad,
+    #hudConfigExtra {
+        gap: 4px;
+    }
+
     .huds .btn-menuConfig,
     .huds .btn-menu {
         background-size: 0;
-        height: 60px;
-        font-size: 0.75rem;
-        padding: 0 8px;
+        height: auto;
+        min-height: 84px;
+        font-size: 0.74rem;
+        padding: 8px 12px;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.2;
+        word-break: normal;
+    }
+
+    .huds button.btn-icon .btn-icon-img {
+        height: 46px;
+    }
+
+    .huds button.btn-icon {
+        height: 76px;
+        padding: 6px 12px;
+    }
+
+    .huds button.btn-icon .btn-label {
+        display: block;
+        font-size: 11px;
+        line-height: 1.2;
+        white-space: normal;
+        text-align: center;
+    }
+
+    /* Botones de configuración un poco más anchos para texto largo */
+    #hudConfig button,
+    #hudConfigTurno button,
+    #hudConfigRecursos button,
+    #hudConfigFelicidad button,
+    #hudConfigExtra button {
+        width: 100%;
+        min-height: 84px;
+        padding: 6px 14px;
+        white-space: normal;
+        line-height: 1.2;
+    }
+
+    .huds button[id].btn-icon:not(.btn-menuConfig):not(.btn-menu),
+    .huds button.btn-volver.btn-icon {
+        background-size: 55%;
+    }
+
+    .huds button[id].btn-icon:not(.btn-menuConfig):not(.btn-menu)::before,
+    .huds button.btn-volver.btn-icon::before {
+        height: 52px;
     }
 
     #hudDinamico {
@@ -118,6 +223,21 @@
         border-left: 2px solid #444;
         border-top: 1px solid #444;
         padding: 15px;
+    }
+
+    #Ranking {
+        position: static;
+        grid-column: 2;
+        grid-row: 4;
+        height: 100%;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    #btnRanking {
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -269,18 +389,45 @@
     #hudConfigExtra button {
         flex: 1 1 0;
         width: 100%;
-        min-height: 52px;
-        max-height: 80px;
-        padding: 0;
+        min-height: 68px;
+        max-height: 96px;
+        padding: 4px 0;
         background-size: contain;
         background-position: center;
     }
 
-    /* Botones de icono puro en desktop */
-    .huds button[id]:not(.btn-menuConfig):not(.btn-menu),
-    .huds button.btn-volver {
-        background-size: 55%;
-        font-size: 0;
+    /* Botones con etiqueta en desktop */
+    #hudAcciones button.btn-icon,
+    #hudConstruir button.btn-icon,
+    #hudConstruirEdificios button.btn-icon,
+    #hudResidencias button.btn-icon,
+    #hudConstruirVias button.btn-icon,
+    #hudConstruirParques button.btn-icon,
+    #hudComercios button.btn-icon,
+    #hudIndustrias button.btn-icon,
+    #hudServicios button.btn-icon,
+    #hudUtilidades button.btn-icon,
+    #hudConfig button.btn-icon,
+    #hudConfigTurno button.btn-icon,
+    #hudConfigRecursos button.btn-icon,
+    #hudConfigFelicidad button.btn-icon,
+    #hudConfigExtra button.btn-icon {
+        min-height: 112px;
+        max-height: 112px;
+    }
+
+    .huds button.btn-icon .btn-icon-img {
+        height: 52px;
+    }
+
+    .huds button.btn-icon .btn-label {
+        display: block;
+        margin-top: auto;
+        font-size: 12px;
+        line-height: 1;
+        color: #ffffff;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+        pointer-events: none;
     }
 
     /* Botones de texto en desktop */
