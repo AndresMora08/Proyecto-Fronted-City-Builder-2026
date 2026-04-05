@@ -25,6 +25,8 @@
 
     <!--  ACCESO A DATOS -->
     <script defer src="../../Acceso_Datos/CiudadStorage.js"></script>
+    <script defer src="../../Acceso_Datos/AlcaldeStorage.js"></script>
+    <script defer src="../../Acceso_Datos/RankingStorage.js"></script>
 
     <!--  LÓGICA DE NEGOCIO -->
     <script defer src="../../Negocio/Tamanos_Edificios.js"></script>
@@ -45,6 +47,7 @@
     <script defer src="../../Negocio/ui/UiRuta.js"></script>
     <script defer src="../../Negocio/ui/UiConstruccion.js"></script>
     <script defer src="../../Negocio/ui/UiDemolicion.js"></script>
+    <script defer src="../../Negocio/ui/UIRanking.js"></script>
     
     <script defer src="../../Negocio/Configuracion.js"></script>
 
@@ -257,6 +260,11 @@
             <button class="btn-volver" data-back="construir"></button>
         </div>
 
+    </div>
+    
+    <div id="Ranking">
+        <button id="btnRanking"></button>
+        <div id="contenedorRanking" class="hidden"></div>
     </div>
 
 </body>

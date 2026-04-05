@@ -1,3 +1,5 @@
+  let datosPuntuacionGlobal = null;
+  
   function calcularPuntuacion(ciudad, produccion, consumo){
   const datosPuntuacion = {
         poblacion:(ciudad.poblacion*10),
@@ -10,7 +12,7 @@
         penalizaciones:penalizaciones(ciudad)
         
     }
-
+    datosPuntuacionGlobal = datosPuntuacion; // Guardamos los datos para el desglose en variable global igual a datosPuntuacion
     return obtenerPuntuacion(datosPuntuacion);
   }
 
@@ -28,7 +30,7 @@
 
     return score;
 }
-function desglosePuntuacion(datosPuntuacion){//esta funcion servira para una parte del documento qu pide que al darle clikc a la puntucacion de muestre puntuacion por estadisticas especificas
+function desglosePuntuacion(datosPuntuacion){//esta funcion servira para una parte del documento que pide que al darle clikc a la puntucacion de muestre puntuacion por estadisticas especificas
     const contenedor = document.getElementById("contenedorDatos");
     if(!contenedor) return;
 
@@ -37,7 +39,7 @@ function desglosePuntuacion(datosPuntuacion){//esta funcion servira para una par
     <table border="1">
         <tr>
             <th>Concepto</th>
-            <th>Puntos</th>
+            <th>Puntos del turno</th>
         </tr>
         <tr>
             <td>Puntos por población</td>

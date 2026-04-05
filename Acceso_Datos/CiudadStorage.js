@@ -65,19 +65,28 @@ class CiudadStorage {
             listaEdificiosPlano.push(edificioSimple);
         }
 
+        // 🔴 AQUÍ AGREGAMOS LAS NUEVAS VARIABLES
         let ciudadPlano = {
             nombreCiudad: ciudad.nombreCiudad,
-            latitud: ciudad.latitud,        // <--- agregado
-            longitud: ciudad.longitud,      // <--- agregado
-            region: ciudad.region,          // <--- agregado
+            latitud: ciudad.latitud,
+            longitud: ciudad.longitud,
+            region: ciudad.region,
+
             dinero: ciudad.dinero,
             electricidad: ciudad.electricidad,
             agua: ciudad.agua,
             alimento: ciudad.alimento,
+
             poblacion: ciudad.poblacion,
             puntuacion: ciudad.puntuacion,
+
+            // 🔴 NUEVO
+            turno: ciudad.turno,
+            felicidadPromedio: ciudad.felicidadPromedio,
+
             tamanioMapa: ciudad.mapa.tamanio,
             matrizMapa: ciudad.mapa.matriz,
+
             ciudadanos: listaCiudadanosPlano,
             edificios: listaEdificiosPlano
         };
@@ -102,7 +111,6 @@ class CiudadStorage {
             return null;
         }
 
-        
         if (!ciudadPlano.ciudadanos) ciudadPlano.ciudadanos = [];
         if (!ciudadPlano.edificios) ciudadPlano.edificios = [];
 
@@ -131,17 +139,21 @@ class CiudadStorage {
 
         // ===== CIUDAD =====
         let ciudad = new Ciudad(
-         ciudadPlano.nombreCiudad,      // nombreCiudad
-         ciudadPlano.latitud,           // latitud
-         ciudadPlano.longitud,          // longitud
-         ciudadPlano.dinero,            // dinero
-         ciudadPlano.electricidad,      // electricidad
-         ciudadPlano.agua,              // agua
-         ciudadPlano.alimento,          // alimento
-         ciudadPlano.poblacion,         // poblacion
-         ciudadPlano.puntuacion,        // puntuacion
-         ciudadPlano.region || ""       // region
-);
+            ciudadPlano.nombreCiudad,
+            ciudadPlano.latitud,
+            ciudadPlano.longitud,
+            ciudadPlano.dinero,
+            ciudadPlano.electricidad,
+            ciudadPlano.agua,
+            ciudadPlano.alimento,
+            ciudadPlano.poblacion,
+            ciudadPlano.puntuacion,
+            ciudadPlano.region || ""
+        );
+
+        // 🔴 RESTAURAR NUEVAS VARIABLES
+        ciudad.turno = ciudadPlano.turno || 0;
+        ciudad.felicidadPromedio = ciudadPlano.felicidadPromedio || 0;
 
         ciudad.mapa = mapa;
         ciudad.ciudadanos = [];
@@ -195,7 +207,6 @@ class CiudadStorage {
             }
 
             if (edificio) {
-                
                 if (!edificio.ciudadanosViviendo) edificio.ciudadanosViviendo = [];
                 if (!edificio.ciudadanosEmpleados) edificio.ciudadanosEmpleados = [];
 
@@ -203,7 +214,7 @@ class CiudadStorage {
             }
         }
 
-        // ===== FUNCION BUSCAR =====
+        // ===== FUNCIONES AUXILIARES =====
         function buscarCiudadanoPorId(lista, id) {
             for (let i = 0; i < lista.length; i++) {
                 if (lista[i].id === id) return lista[i];

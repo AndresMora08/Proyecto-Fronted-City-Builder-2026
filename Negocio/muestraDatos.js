@@ -89,5 +89,28 @@ function modalidadMuestraDatos(ciudad, x, y) {
         }
     });
 
-
+  
 }
+document.addEventListener("DOMContentLoaded", function() {
+    const elementoPuntuacion = document.getElementById('Puntuacion');
+    const contenedorDatos = document.getElementById('contenedorDatos');
+    
+    if(elementoPuntuacion && contenedorDatos) {
+        elementoPuntuacion.addEventListener('click', function() {
+            
+            if(contenedorDatos.innerHTML.trim() === '') {
+                if(datosPuntuacionGlobal) {
+                    console.log("Mostrando datos de puntuación:", datosPuntuacionGlobal);
+                    desglosePuntuacion(datosPuntuacionGlobal);
+                    elementoPuntuacion.classList.add('abierto'); // Agrega clase para rotar flecha
+                }
+            } else {
+                contenedorDatos.innerHTML = '';
+                elementoPuntuacion.classList.remove('abierto'); // Quita clase para volver flecha normal
+            }
+        });
+        
+        elementoPuntuacion.classList.add('clickeable');
+    }
+
+});

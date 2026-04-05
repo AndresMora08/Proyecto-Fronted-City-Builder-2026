@@ -88,7 +88,7 @@ function obtenerInfoTurno() {
 // EJECUCIÓN DEL TURNO
 // ===============================
 function ejecutarTurno(ciudad){
-
+    ciudad.turno++;
     const produccion = calcularProduccion(ciudad);
     const consumo = calcularConsumo(ciudad);
 
@@ -97,12 +97,14 @@ function ejecutarTurno(ciudad){
     actualizarFelicidadGeneral(ciudad);
 
     creacionNuevosCiudadanos(ciudad, maximoCiudadanos, minimoCiudadanos);
-
+    ciudad.felicidadPromedio = calcularFelicidadPromedio(ciudad);
     const score = calcularPuntuacion(ciudad, produccion, consumo);
     ciudad.puntuacion += score;
 
     CiudadStorage.guardar(ciudad);
     mostrarDatosCiudad(ciudad);
+    console.log(ciudad.ciudadanos)
+    
 }
 
 // ===============================
@@ -231,7 +233,12 @@ function aplicarBalance(ciudad, produccion, consumo){
         ciudad.alimento < 0
     ){
         detenerTurnos();
-        alert("GAME OVER: La ciudad ha colapsado por falta de recursos.");
+        UIMensajes.mostrarMensaje("Tu ciudad ha colapsado por falta de recursos. Fin del juego.", 8000);
+            RankingStorage.guardarCiudad(ciudad);
+            CiudadStorage.limpiar();
+            ciudad = null;
+            window.location.href="Menu_Principal.html";
+
     }
 }
 
