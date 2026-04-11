@@ -16,7 +16,7 @@ class RankingStorage {
         // =========================
         const nuevaEntrada = {
             cityName: ciudad.nombreCiudad,
-            mayor: ciudad.alcalde || "Desconocido",
+            mayor: alcalde.nombreAlcalde || "Desconocido",
 
             score: Number(ciudad.puntuacion || 0),
             population: Number(ciudad.poblacion || 0),

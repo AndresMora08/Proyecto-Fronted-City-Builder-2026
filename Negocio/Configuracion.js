@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!el) return;
 
         el.innerHTML = `<div>
-        <label>Modificar dinero:</label>
+        <label>Modificar dinero(ingrese la cantidad a agregar o restar con un - al inicio):</label>
         <input type="number" id="cantidadDinero" value="0">
         <button id="confirmarCambioDinero">Confirmar</button>
         </div>`;
@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('confirmarCambioDinero').addEventListener('click', () => {
             const valor = parseInt(document.getElementById('cantidadDinero').value);
             ciudad.dinero += valor;
+            CiudadStorage.guardar(ciudad);
             limpiarMensaje();
             UIMensajes.mostrarMensaje(`Dinero actualizado: ${ciudad.dinero}`, 3000);
             mostrarDatosCiudad(ciudad);
@@ -136,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('confirmarCambioElectricidad').addEventListener('click', () => {
             const valor = parseInt(document.getElementById('cantidadElectricidad').value);
             ciudad.electricidad += valor;
+            CiudadStorage.guardar(ciudad);
             limpiarMensaje();
             UIMensajes.mostrarMensaje(`Electricidad: ${ciudad.electricidad}`, 3000);
             mostrarDatosCiudad(ciudad);
@@ -156,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('confirmarCambioAgua').addEventListener('click', () => {
             const valor = parseInt(document.getElementById('cantidadAgua').value);
             ciudad.agua += valor;
+            CiudadStorage.guardar(ciudad);
             limpiarMensaje();
             UIMensajes.mostrarMensaje(`Agua: ${ciudad.agua}`, 3000);
             mostrarDatosCiudad(ciudad);
@@ -176,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('confirmarCambioAlimento').addEventListener('click', () => {
             const valor = parseInt(document.getElementById('cantidadAlimento').value);
             ciudad.alimento += valor;
+            CiudadStorage.guardar(ciudad);
             limpiarMensaje();
             UIMensajes.mostrarMensaje(`Alimento: ${ciudad.alimento}`, 3000);
             mostrarDatosCiudad(ciudad);
@@ -183,6 +187,96 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    botonesConfiguracion.btnCambioBeneficioH.addEventListener('click', () => {
+            const el = getMensaje();
+            if (!el) return;
+
+            el.innerHTML = `<div>
+            <label>Nuevo beneficio por felicidad:</label>
+            <input type="number" id="nuevoBeneficioH" min="0" value="0">
+            <button id="confirmarCambioBeneficioH">Confirmar</button>
+            </div>`;
+
+            document.getElementById('confirmarCambioBeneficioH').addEventListener('click', () => {
+                const valor = parseInt(document.getElementById('nuevoBeneficioH').value);
+                for (let i = 0; i < ciudad.edificios.length; i++) {
+                    
+                    const edificio = ciudad.edificios[i];
+                    if(edificio.tipo==="Hospital"){
+                        console.log("edificio encontrado", edificio);
+                         validacion=edificio.cambiarBeneficio(valor);
+                         if(!validacion){
+                            limpiarMensaje();
+                            UIMensajes.mostrarMensaje(`Beneficio inválido`, 3000);
+                            return;
+                         }
+                    }
+                }
+                CiudadStorage.guardar(ciudad);
+                console.log(ciudad.edificios);
+                limpiarMensaje();
+                UIMensajes.mostrarMensaje(`Beneficio por felicidad actualizado`, 3000);
+            });
+    }
+    );
+
+    botonesConfiguracion.btnCambioBeneficioP.addEventListener('click', () => {
+        const el = getMensaje();
+        if (!el) return;
+        el.innerHTML = `<div>
+        <label>Nuevo beneficio por felicidad:</label>
+        <input type="number" id="nuevoBeneficioP" min="0" value="0">
+        <button id="confirmarCambioBeneficioP">Confirmar</button>
+        </div>`;
+        document.getElementById('confirmarCambioBeneficioP').addEventListener('click', () => {
+            const valor = parseInt(document.getElementById('nuevoBeneficioP').value);
+            for (let i = 0; i < ciudad.edificios.length; i++) {
+                const edificio = ciudad.edificios[i];
+                if(edificio.tipo==="Estacion de policia"){
+                    console.log("edificio encontrado", edificio);
+                    const validacion = edificio.cambiarBeneficio(valor);
+                    if(!validacion){
+                        limpiarMensaje();
+                        UIMensajes.mostrarMensaje(`Beneficio inválido`, 3000);
+                        return;
+                    }
+                }
+            }
+
+            CiudadStorage.guardar(ciudad);
+            console.log(ciudad.edificios);
+            limpiarMensaje();
+            UIMensajes.mostrarMensaje(`Beneficio por felicidad actualizado`, 3000);
+        });
+    });
+    botonesConfiguracion.btnCambioBeneficioB.addEventListener('click', () => {
+        const el = getMensaje();
+        if (!el) return;
+        el.innerHTML = `<div>
+        <label>Nuevo beneficio por felicidad:</label>
+        <input type="number" id="nuevoBeneficioB" min="0" value="0">
+        <button id="confirmarCambioBeneficioB">Confirmar</button>
+        </div>`;
+        document.getElementById('confirmarCambioBeneficioB').addEventListener('click', () => {
+            const valor = parseInt(document.getElementById('nuevoBeneficioB').value);
+            for (let i = 0; i < ciudad.edificios.length; i++) {
+                const edificio = ciudad.edificios[i];
+                if(edificio.tipo==="Estacion de bomberos"){
+                    console.log("edificio encontrado", edificio);
+                    const validacion = edificio.cambiarBeneficio(valor);
+                    if(!validacion){
+                        limpiarMensaje();
+                        UIMensajes.mostrarMensaje(`Beneficio inválido`, 3000);
+                        return;
+                    }
+                }
+            }
+            CiudadStorage.guardar(ciudad);
+            console.log(ciudad.edificios);
+            limpiarMensaje();
+            UIMensajes.mostrarMensaje(`Beneficio por felicidad actualizado`, 3000);
+        });
+    });
     // ================= ELIMINAR =================
     botonesConfiguracion.EliminarCiudad.addEventListener('click', () => {
         const el = getMensaje();
@@ -196,19 +290,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('cancelarEliminarCiudad').addEventListener('click', limpiarMensaje);
         document.getElementById('confirmarEliminarCiudad').addEventListener('click', () => {
-            eliminarCiudad();//me falto hacer esto para elminar la ciudad, tambien aqui voy a guardar los datos es un json para el ranking
+            eliminarCiudad(ciudad);
             limpiarMensaje();
             UIMensajes.mostrarMensaje(`Ciudad eliminada, Juego terminado`, 3000);
         });
     });
-    function eliminarCiudad(){
+    function eliminarCiudad(ciudad){
         detenerTurnos();
         RankingStorage.guardarEnRanking(ciudad);
         UIMensajes.mostrarMensaje(`Juego Terminado, desempeño guardado en ranking local`, 8000);
         CiudadStorage.limpiar();
         ciudad = null;
+        setTimeout(() => {
         window.location.href="Menu_Principal.html";
-    }
+         },1000);
+        }
 
     botonesConfiguracion.btnExportarCiudad.addEventListener('click', () => {
         const el = getMensaje();

@@ -1,4 +1,13 @@
 let tiempoTurno = 50000; 
+
+
+
+const tiempoGuardado = localStorage.getItem("tiempoTurno");
+
+if (tiempoGuardado !== null) {
+    tiempoTurno = Number(tiempoGuardado);
+}
+
 let maximoCiudadanos = 3;
 let minimoCiudadanos = 1;
 
@@ -22,6 +31,11 @@ function iniciarSistemaTurnos() {
 
 function cambiarTiempoTurno(nuevoTiempo) {
     tiempoTurno = nuevoTiempo;
+     localStorage.setItem("tiempoTurno", nuevoTiempo);
+
+    
+    detenerTurnos();
+    programarProximoTurno();
 }
 
 function cambiarRangoCreacion(nuevoMaximo, nuevoMinimo){
@@ -92,7 +106,10 @@ function ejecutarTurno(ciudad){
     const produccion = calcularProduccion(ciudad);
     const consumo = calcularConsumo(ciudad);
 
-    aplicarBalance(ciudad, produccion, consumo);
+    const sigue=aplicarBalance(ciudad, produccion, consumo);
+    if(!sigue){
+        return
+    }
 
     actualizarFelicidadGeneral(ciudad);
 
@@ -232,14 +249,12 @@ function aplicarBalance(ciudad, produccion, consumo){
         ciudad.agua < 0 ||
         ciudad.alimento < 0
     ){
-        detenerTurnos();
-        UIMensajes.mostrarMensaje("Tu ciudad ha colapsado por falta de recursos. Fin del juego.", 8000);
-            RankingStorage.guardarCiudad(ciudad);
-            CiudadStorage.limpiar();
-            ciudad = null;
-            window.location.href="Menu_Principal.html";
+        UiMensajes.mostrarMensaje("Tu ciudad ha colapsado por falta de recursos. El juego ha terminado.", 8000);
+       eliminarCiudad(ciudad);
+        return false;
 
     }
+    return true;
 }
 
 // ===============================
