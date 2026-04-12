@@ -1,0 +1,887 @@
+:root {
+    --panel-bg: #1e1e1e;
+    --surface-bg: #2c2c2c;
+    --text-main: #ffffff;
+    --btn-main: #3498db;
+    --btn-hover: #2980b9;
+    --cell-size: 4.2vh;
+}
+
+/*----------------- BASE -----------------*/
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto auto 1fr ;
+    background: var(--surface-bg);
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+/*----------------- ESTADISTICAS -----------------*/
+.recursosCiudad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+#infoCiudad {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--panel-bg);
+    color: var(--text-main);
+    font-weight: bold;
+    padding: 5px 12px;
+    width: 100%;
+}
+
+#datosCiudad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background: #2c2c2c center / 70% no-repeat;
+    border: 2px solid #2c2c2c;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+#datosCiudad:hover {
+    background-color: #3d3d3d;
+    border-color: #459fdb;
+    box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        0 0 10px rgba(69,159,219,0.5);
+    transform: translateY(-1px);
+}
+
+/* WIDGET CLIMA */
+
+.Clima {
+    top: 0px;
+    right: 0px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0px;
+    border-radius: 8px;
+    border: 2px solid #555;
+    font-family: 'Arial', sans-serif;
+    min-width: 100%;
+    max-height: 110px;
+    z-index: 1000;
+    margin: 0;
+}
+
+.clima-principal {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0px;
+}
+
+.clima-detalles {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.dato-clima strong {
+    color: #aaa;
+}
+
+/* Estilo base para el icono */
+#climaIcono::before,
+.clima-icono::before {
+    font-size: 2rem;
+    display: block;
+    content: "🌡️"; /* Icono por defecto */
+}
+
+/* Mapeo de estados a iconos en CSS */
+[data-clima="Rain"] #climaIcono::before,
+[data-clima="Drizzle"] #climaIcono::before,
+[data-clima="Thunderstorm"] #climaIcono::before,
+[data-clima="Rain"] .clima-icono::before,
+[data-clima="Drizzle"] .clima-icono::before,
+[data-clima="Thunderstorm"] .clima-icono::before {
+    content: "🌧️";
+}
+
+[data-clima="Clear"] #climaIcono::before,
+[data-clima="Clear"] .clima-icono::before {
+    content: "☀️";
+}
+
+[data-clima="Clouds"] #climaIcono::before,
+[data-clima="Clouds"] .clima-icono::before {
+    content: "☁️";
+}
+
+[data-clima="Snow"] #climaIcono::before,
+[data-clima="Snow"] .clima-icono::before {
+    content: "❄️";
+}
+
+/* Recursos */
+#Dinero, #Electricidad, #Agua, #Alimento, #Poblacion {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 1%;
+    padding: 0 1%;
+    background-color: #333;
+    border-radius: 10px;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#Dinero::before,#Electricidad::before,#Agua::before,#Alimento::before,#Poblacion::before {
+    content: "";
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    background: center / contain no-repeat;
+    display: inline-block;
+}
+
+#Dinero::before { background-image: url("../../Assets/images/menu/dinero.png"); }
+#Electricidad::before { background-image: url("../../Assets/images/menu/destello.png"); }
+#Agua::before { background-image: url("../../Assets/images/menu/gota-de-agua.png"); }
+#Alimento::before { background-image: url("../../Assets/images/menu/pollo.png"); }
+#Poblacion::before { background-image: url("../../Assets/images/menu/gente-junta.png"); }
+
+/*----------------- MAPA -----------------*/
+#mapaContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    width: 100%;
+    background-color: #24551fb7;
+    margin: 0;
+}
+
+#mapaContainer table {
+    border-collapse: collapse;
+}
+
+#mapaContainer td {
+    padding: 0;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    min-width: var(--cell-size);
+    max-width: var(--cell-size);
+    min-height: var(--cell-size);
+    max-height: var(--cell-size);
+    line-height: 0;
+}
+
+#mapaContainer.modo-construccion .casilla {
+    cursor: url("../../Assets/images/cursores/transparent-image-maker-png-3-removebg-preview.png") 16 16, pointer;
+}
+
+/* Tiles base */
+.pasto,
+.casa,
+.apartamento,
+.tienda,
+.centro_comercial,
+.fabrica,
+.granja,
+.estacion_policia,
+.estacion_bomberos,
+.hospital,
+.planta_electrica,
+.planta_agua,
+.parque,
+.carrera,
+.calle {
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Tiles sin fondo */
+.casa,
+.apartamento,
+.tienda,
+.centro_comercial,
+.fabrica,
+.granja,
+.estacion_policia,
+.estacion_bomberos,
+.hospital,
+.planta_electrica,
+.planta_agua,
+.parque {
+    border: none;
+    background-color: transparent !important;
+}
+
+/* Imágenes */
+
+.pasto { background-image: url("../../Assets/images/istockphoto-2191688361-255x253.jpg"); }
+.casa { background-image: url("../../Assets/images/construir/edificios/residencias/pixil-assets-hose1.png"); }
+.apartamento { background-image: url("../../Assets/images/construir/edificios/residencias/apartamento-asset.png"); }
+.tienda { background-image: url("../../Assets/images/construir/edificios/comercios/tienda-pixel.png"); }
+.centro_comercial { background-image: url("../../Assets/images/construir/edificios/comercios/shoppingmall.png"); }
+.fabrica { background-image: url("../../Assets/images/construir/edificios/industrias/farbica-asset.png"); }
+.granja { background-image: url("../../Assets/images/construir/edificios/industrias/pixel-art-illustration-barn.png"); }
+.estacion_policia { background-image: url("../../Assets/images/construir/edificios/servicios/edificio-estacion-policia.png"); }
+.estacion_bomberos { background-image: url("../../Assets/images/construir/edificios/servicios/fire-station-building.png"); }
+.hospital { background-image: url("../../Assets/images/construir/edificios/servicios/estacion-hospital.png"); }
+.planta_electrica { background-image: url("../../Assets/images/construir/edificios/utilidades/reactor.png"); }
+.planta_agua { background-image: url("../../Assets/images/construir/edificios/utilidades/AGUA.png"); }
+.parque { background-image: url("../../Assets/images/construir/parques/parque-asset.png"); }
+.carrera { background-image: url("../../Assets/images/construir/vias/carrera.jpg"); }
+.calle { background-image: url("../../Assets/images/construir/vias/calle.jpg"); }
+
+.casilla {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+/*WIDGET NOTICIAS - BARRA TICKER*/
+#news-panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+
+    background: linear-gradient(90deg, #1a1a1a, #2c2c2c);
+    border-top: 3px solid #0099ff;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+
+    font-family: 'Orbitron', sans-serif;
+    color: #eaeaea;
+    overflow: hidden;
+}
+
+/* brillo dinámico */
+#news-panel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+    animation: shine 6s infinite;
+}
+
+@keyframes shine {
+    100% { left: 100%; }
+}
+
+/* etiqueta NEWS */
+#nr {
+    color: #00ccff;
+    font-weight: bold;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* contenedor */
+#news-list {
+    flex: 1;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* ticker individual */
+.news-ticker-single {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.news-single-item {
+    display: inline-block;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.news-single-item.animate {
+    animation: news-single var(--news-item-duration, 7000ms) linear 1;
+}
+
+@keyframes news-single {
+    from { transform: translateX(var(--news-start, 100%)); }
+    to { transform: translateX(var(--news-end, -100%)); }
+}
+
+.news-no-link {
+    pointer-events: none;
+}
+
+/* ticker */
+.news-ticker {
+    width: 100%;
+    overflow: hidden;
+
+    /* fade en bordes */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.news-track {
+    display: flex;
+    gap: 70px;
+    white-space: nowrap;
+    animation: news-ticker 20s linear infinite;
+}
+
+@keyframes news-ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* noticias */
+.news-ticker-item {
+    color: #ccc;
+    font-size: 1rem;
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.news-ticker-item.important {
+    color: #00ccff;
+    font-weight: bold;
+    opacity: 1;
+}
+
+.news-sep {
+    color: #555;
+}
+
+/* interacción */
+#news-panel:hover .news-track {
+    animation-play-state: paused;
+}
+
+#news-panel:hover .news-ticker-item {
+    opacity: 0.4;
+}
+
+.news-ticker-item:hover {
+    opacity: 1 !important;
+    color: #ffffff;
+}
+
+/* Noticias - tarjeta */
+.news-card {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 8px;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.news-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.news-card-media {
+    width: 100%;
+    min-height: 180px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+}
+
+.news-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.news-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f2f2f2;
+    line-height: 1.2;
+    max-height: none;
+    overflow: visible;
+}
+
+.news-card-desc {
+    font-size: 0.82rem;
+    color: #c6d2dc;
+    line-height: 1.25;
+    max-height: none;
+    overflow: visible;
+}
+
+.news-card-footer {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.news-card-meta {
+    margin-top: 0;
+    font-size: 0.8rem;
+    color: #9aa7b2;
+}
+
+/*----------------- ALERTAS EN JUEGO -----------------*/
+#mensajeAusuario {
+    position: fixed;
+    left: 50%;
+    bottom: 130px;
+    transform: translateX(-50%);
+    z-index: 9998;
+    width: min(520px, 92vw);
+    pointer-events: none;
+}
+
+#mensajeAusuario > div {
+    pointer-events: auto;
+    background: linear-gradient(180deg, #222, #141414);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-left: 4px solid #00ccff;
+    color: #f1f1f1;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 14px 30px rgba(0,0,0,0.55);
+    font-family: "Segoe UI", Arial, sans-serif;
+    animation: msg-in 160ms ease-out;
+}
+
+#mensajeAusuario p {
+    margin: 0 0 10px 0;
+    font-size: 0.98rem;
+    line-height: 1.4;
+    color: #e3e3e3;
+}
+
+#mensajeAusuario label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: #d8d8d8;
+}
+
+#mensajeAusuario input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: #0f0f0f;
+    color: #ffffff;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+#mensajeAusuario button {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,153,255,0.45);
+    background: linear-gradient(180deg, #0f7bd4, #0c5da5);
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+#mensajeAusuario button:hover {
+    background: linear-gradient(180deg, #1a8ee8, #0e6bbd);
+    box-shadow: 0 8px 18px rgba(0,153,255,0.35);
+    transform: translateY(-1px);
+}
+
+#mensajeAusuario button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+#btnNOdemoler {
+    border-color: rgba(255,255,255,0.2);
+    background: linear-gradient(180deg, #3a3a3a, #2b2b2b);
+}
+
+#btnNOdemoler:hover {
+    background: linear-gradient(180deg, #4a4a4a, #343434);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+@keyframes msg-in {
+    from { transform: translateY(6px) scale(0.98); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/*----------------- BOTONES -----------------*/
+.huds {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    flex-wrap: wrap;
+    background-color: var(--panel-bg);
+}
+
+.huds button {
+    padding: 40px;
+    background-color: #2c2c2c;
+    border-radius: 10px;
+
+    background-position: center;
+    background-size: 60%;
+    background-repeat: no-repeat;
+
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.huds button:hover {
+    background-color: #3d3d3d;
+    border-color: #459fdb;
+    box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        0 0 10px rgba(69,159,219,0.5);
+    transform: translateY(-1px);
+}
+
+/* HUD scroll */
+#hudAcciones,
+#hudConstruir,
+#hudConstruirEdificios,
+#hudResidencias,
+#hudConstruirVias,
+#hudConstruirParques,
+#hudComercios,
+#hudIndustrias,
+#hudServicios,
+#hudUtilidades {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    --hud-gap: 8px;
+    gap: var(--hud-gap);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+}
+
+#hudAcciones button,
+#hudConstruir button,
+#hudConstruirEdificios button,
+#hudResidencias button,
+#hudConstruirVias button,
+#hudConstruirParques button,
+#hudComercios button,
+#hudIndustrias button,
+#hudServicios button,
+#hudUtilidades button {
+    flex: 0 0 calc((100% - (var(--hud-gap) * 3)) / 4);
+    scroll-snap-align: start;
+}
+
+/* Iconos */
+.btn-volver {background-image: url("../../Assets/images/menu/retroceso-rapido.png"); }
+#btnConstruir { background-image: url("../../Assets/images/menu/herramientas-de-construccion.png"); }
+#btnDemoler { background-image: url("../../Assets/images/menu/excavadora.png"); }
+#btnRuta { background-image: url("../../Assets/images/menu/ruta.png"); }
+#btnConfig { background-image: url("../../Assets/images/menu/engranajes.png"); }
+
+#btnEdificios  {background-image: url("../../Assets/images/construir/edificios.png"); }
+    #btnResidencias {background-image: url("../../Assets/images/construir/edificios/apartamentos.png");}
+        #casa {background-image: url("../../Assets/images/construir/edificios/residencias/casa.png");}
+        #apartamento {background-image: url("../../Assets/images/construir/edificios/residencias/apartamento.png");}
+
+    #btnComercios {background-image: url("../../Assets/images/construir/edificios/carro-de-la-carretilla.png");}
+        #centroComercial{background-image: url("../../Assets/images/construir/edificios/comercios/centro-comercial.png");}
+        #tienda{background-image: url("../../Assets/images/construir/edificios/comercios/tienda.png");}
+
+    #btnIndustrias {background-image: url("../../Assets/images/construir/edificios/industrial.png");}
+        #fabrica {background-image: url("../../Assets/images/construir/edificios//industrias/fabrica.png");}
+        #granja {background-image: url("../../Assets/images/construir/edificios/industrias/granero.png");}
+
+    #btnServicios {background-image: url("../../Assets/images/construir/edificios/primer-respondedor.png");}
+        #policia {background-image: url("../../Assets/images/construir/edificios/servicios/comisaria-de-policia.png");}
+        #bomberos {background-image: url("../../Assets/images/construir/edificios/servicios/estacion-de-bomberos.png");}
+        #hospital {background-image: url("../../Assets/images/construir/edificios/servicios/hospital.png");}
+
+    #btnUtilidades {background-image: url("../../Assets/images/construir/edificios/energia-del-agua.png");}
+        #agua {background-image: url("../../Assets/images/construir/edificios//utilidades/planta-de-energia.png");}
+        #electrica {background-image: url("../../Assets/images/construir/edificios/utilidades/poder.png");}
+
+#btnVias {background-image: url("../../Assets/images/construir/autopista.png"); }
+    #carrera {background-image: url("../../Assets/images/construir/vias/la-carretera.png");}
+    #calle {background-image: url("../../Assets/images/construir/vias/calle-de-doble-sentido.png");}
+    
+#btnParques {background-image: url("../../Assets/images/construir/parque.png"); }
+
+
+/* (resto de iconos intactos, no se tocan) */
+
+.hidden { display: none !important; }
+
+/*----------------- RESPONSIVE -----------------*/
+@media (max-width: 769px) {
+  #mapaContainer {
+        width: 100vw;
+        justify-content: center;
+        padding: 0;
+        --cell-size: calc(100vw / var(--map-size, 15));
+    }
+    
+
+    .huds button {
+        width: 22%;
+        height: 60px;
+        padding: 0;
+        background-size: 55%;
+    }
+}
+
+@media (min-width:769px) and (max-width:1024px) and (min-height:600px){
+
+body{
+    grid-template-columns:70% 30%;
+}
+
+#mapaContainer{
+    grid-column:1;
+    grid-row:1 / 4;
+    height:100%;
+}
+
+#datosCiudad{
+    padding:2px 8px 4px 8px;
+}
+
+#infoCiudad{
+    grid-column:2;
+    grid-row:1;
+    padding:0;
+    border-left:2px solid #444;
+}
+
+.recursosCiudad{
+    flex-direction:column;
+    gap:6px;
+}
+
+#Dinero,
+#Electricidad,
+#Agua,
+#Alimento,
+#Poblacion{
+    width:95%;
+    margin:0;
+    font-size:.9rem;
+}
+
+.huds{
+    grid-column:2;
+    grid-row:2;
+    flex-direction:column;
+    border-left:2px solid #444;
+    background:var(--panel-bg);
+}
+
+#hudAcciones{
+    --hud-gap: 10px;
+    padding:15px;
+}
+
+.huds button{
+    width:100%;
+    height:70px;
+    padding:0;
+    background-size:50%;
+}
+
+#hudDinamico{
+    grid-column:2;
+    grid-row:3;
+    min-height:140px;
+    border-left:2px solid #444;
+    border-top:1px solid #444;
+    padding:15px;
+}
+}
+
+@media (min-width:1025px) {
+    :root {
+        --cell-size: 5vh;
+    }
+
+    body {
+        grid-template-columns: 22% 56% 22%;
+        grid-template-rows: auto 1fr;
+    }
+
+    .recursosCiudad{
+    flex-direction:column;
+    gap:6px;
+    grid-column: 1;
+    }
+
+    #Dinero,
+    #Electricidad,
+    #Agua,
+    #Alimento,
+    #Poblacion{
+        width:95%;
+        margin:0;
+        font-size:.9rem;
+    }
+
+    #infoCiudad {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #mapaContainer {
+        grid-column: 2;
+        grid-row: 1 / 3;
+        overflow: hidden;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        --cell-size: min(calc(56vw / var(--map-size, 15)), calc(100vh / var(--map-size, 15)));
+    }
+
+    .Clima {
+        grid-column: 3;
+        grid-row: 1;
+        border-left: 2px solid #444;
+        height: 100%;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: none;
+    }
+
+    .Clima .clima-principal {
+        font-size: 1.9rem;
+        justify-content: space-between;
+        padding-bottom: 6px;
+    }
+
+    .Clima #climaIcono::before {
+        font-size: 2.4rem;
+    }
+
+    .Clima .clima-detalles {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        font-size: 1rem;
+        flex: 1 1 auto;
+    }
+
+    #news-panel {
+        grid-column: 3;
+        grid-row: 2;
+        border-left: 2px solid #444;
+        height: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    #nr {
+        width: 100%;
+    }
+
+    #news-list {
+        width: 100%;
+    }
+
+    .huds {
+        grid-column: 1;
+        grid-row: 2;
+        flex-direction: column;
+        align-items: stretch;
+        border-right: 2px solid #444;
+        justify-content: flex-start;
+        padding-top: 8px;
+        height: 100%;
+    }
+
+    #hudAcciones,
+    #hudConstruir,
+    #hudConstruirEdificios,
+    #hudResidencias,
+    #hudConstruirVias,
+    #hudConstruirParques,
+    #hudComercios,
+    #hudIndustrias,
+    #hudServicios,
+    #hudUtilidades {
+        flex-direction: column;
+        overflow: hidden;
+        width: 100%;
+        padding: 8px 12px 12px;
+        gap: 10px;
+        height: 100%;
+    }
+
+    #hudAcciones button,
+    #hudConstruir button,
+    #hudConstruirEdificios button,
+    #hudResidencias button,
+    #hudConstruirVias button,
+    #hudConstruirParques button,
+    #hudComercios button,
+    #hudIndustrias button,
+    #hudServicios button,
+    #hudUtilidades button {
+        flex: 1 1 0;
+        width: 100%;
+        min-height: 70px;
+        padding: 0;
+        background-size: contain;
+        background-position: center;
+    }
+}

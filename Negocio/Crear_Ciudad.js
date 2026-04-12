@@ -1,7 +1,25 @@
 // Crear_Ciudad.js
-
 document.addEventListener("DOMContentLoaded", () => {
     const btnCrear = document.getElementById("botonCrear");
+
+    let timeoutBusqueda;
+    document.getElementById("regionInput").addEventListener("input", function() {
+        clearTimeout(timeoutBusqueda);
+        const texto = this.value;
+
+        timeoutBusqueda = setTimeout(async () => {
+            // LLAMADA DIRECTA A LA NUEVA FUNCIÓN DE LA API
+            const sugerencias = await buscarSugerenciasGeo(texto);
+            const lista = document.getElementById("listaSugerencias");
+            lista.innerHTML = "";
+
+            sugerencias.forEach(s => {
+                const opcion = document.createElement("option");
+                opcion.value = s.descripcion;
+                lista.appendChild(opcion);
+            });
+        }, 400);
+    });
 
     btnCrear.addEventListener("click", async () => {
         //Capturar datos del HTML
@@ -29,6 +47,23 @@ document.addEventListener("DOMContentLoaded", () => {
         nuevaCiudad.mapa = miMapa;
 
         const nuevoAlcalde = new Alcalde(nombreA, region);
+
+        let lat, lon;
+        const latM = parseFloat(document.getElementById("latInput").value);
+        const lonM = parseFloat(document.getElementById("lonInput").value);
+
+        // Validación de prioridad
+        if (!isNaN(latM) && !isNaN(lonM)) {
+            lat = latM;
+            lon = lonM;
+        } else {
+            // LLAMADA A LA API
+            const geo = await obtenerCoordenadasCiudad(region);
+            if (geo) {
+                lat = geo.lat;
+                lon = geo.lon;
+            }
+        }
 
         //Guardar
         CiudadStorage.guardar(nuevaCiudad);

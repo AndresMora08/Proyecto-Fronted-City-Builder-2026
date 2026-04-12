@@ -22,7 +22,7 @@
             rankingTemporal.push({
                 cityName: ciudadActual.nombreCiudad,
                 mayor: alcalde ? alcalde.nombreAlcalde : "Desconocido",
-                score: ciudadActual.puntuacion,
+                score: parseInt(ciudadActual.puntuacion),
                 population: ciudadActual.poblacion,
                 happiness: ciudadActual.felicidadPromedio === -1
                     ? "--"

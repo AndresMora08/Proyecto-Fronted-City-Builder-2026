@@ -1,5 +1,40 @@
 ﻿const OPENWEATHER_API_KEY = (window.API_KEYS && window.API_KEYS.OPENWEATHER) || "";
 
+const buscarSugerenciasGeo = async (texto) => {
+    if (!texto || texto.length < 3 || !OPENWEATHER_API_KEY) return [];
+
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(texto)}&limit=5&appid=${OPENWEATHER_API_KEY}`;
+
+    try {
+        const respuesta = await fetch(url);
+        const ciudades = await respuesta.json();
+        // Devolvemos un formato amigable: "Ciudad, Estado, Pais"
+        return ciudades.map(c => ({
+            descripcion: `${c.name}${c.state ? ', ' + c.state : ''}, ${c.country}`,
+            lat: c.lat,
+            lon: c.lon
+        }));
+    } catch (error) {
+        console.error("Error en sugerencias:", error);
+        return [];
+    }
+};
+
+async function obtenerCoordenadasCiudad(region) {
+    if (!region || !OPENWEATHER_API_KEY) return null;
+
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(region)}&limit=1&appid=${OPENWEATHER_API_KEY}`;
+
+    try {
+        const respuesta = await fetch(url);
+        const resultados = await respuesta.json();
+        return resultados.length > 0 ? resultados[0] : null;
+    } catch (error) {
+        console.error("Error buscando coordenadas:", error);
+        return null;
+    }
+}
+
 const obtenerClima = async (lat, lon) => {
     if (!OPENWEATHER_API_KEY) {
         console.warn("OPENWEATHER_API_KEY no configurada.");
@@ -26,72 +61,6 @@ const obtenerClima = async (lat, lon) => {
     }
 };
 
-async function obtenerCoordenadasCiudad(nombreCiudad, region) {
-    const nombre = (nombreCiudad || "").trim();
-    const regionLimpia = (region || "").trim();
-
-    if (!nombre && !regionLimpia) return null;
-
-    if (!OPENWEATHER_API_KEY) {
-        console.warn("OPENWEATHER_API_KEY no configurada.");
-        return null;
-    }
-
-    const consultas = [];
-    const pushUnico = (valor) => {
-        const v = (valor || "").trim();
-        if (!v) return;
-        if (!consultas.includes(v)) consultas.push(v);
-    };
-
-    const nombreTieneComa = nombre.includes(",");
-    const regionTieneComa = regionLimpia.includes(",");
-
-    if (nombre) {
-        if (nombreTieneComa) {
-            pushUnico(nombre);
-        } else if (regionLimpia) {
-            pushUnico(`${nombre},${regionLimpia}`);
-            pushUnico(nombre);
-            pushUnico(regionLimpia);
-            pushUnico(`${regionLimpia},${nombre}`);
-        } else {
-            pushUnico(nombre);
-        }
-    } else if (regionLimpia) {
-        pushUnico(regionLimpia);
-    }
-
-    if (regionLimpia && regionTieneComa && !consultas.includes(regionLimpia)) {
-        pushUnico(regionLimpia);
-    }
-
-    for (let i = 0; i < consultas.length; i++) {
-        const consulta = consultas[i];
-        const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(consulta)}&limit=1&appid=${OPENWEATHER_API_KEY}`;
-
-        try {
-            const respuesta = await fetch(url);
-            if (!respuesta.ok) throw new Error("Error en la peticion de geocoding");
-            const resultados = await respuesta.json();
-            if (!Array.isArray(resultados) || resultados.length === 0) continue;
-
-            const resultado = resultados[0];
-            return {
-                lat: resultado.lat,
-                lon: resultado.lon,
-                nombre: resultado.name,
-                pais: resultado.country,
-                estado: resultado.state || ""
-            };
-        } catch (error) {
-            console.error("Hubo un problema con la geocodificacion:", error);
-            return null;
-        }
-    }
-
-    return null;
-}
 
 function actualizarUIClima(datos) {
     if (!datos) return;

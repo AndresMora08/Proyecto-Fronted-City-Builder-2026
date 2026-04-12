@@ -1,4 +1,13 @@
 let tiempoTurno = 50000; 
+
+
+
+const tiempoGuardado = localStorage.getItem("tiempoTurno");
+
+if (tiempoGuardado !== null) {
+    tiempoTurno = Number(tiempoGuardado);
+}
+
 let maximoCiudadanos = 3;
 let minimoCiudadanos = 1;
 
@@ -22,6 +31,11 @@ function iniciarSistemaTurnos() {
 
 function cambiarTiempoTurno(nuevoTiempo) {
     tiempoTurno = nuevoTiempo;
+     localStorage.setItem("tiempoTurno", nuevoTiempo);
+
+    
+    detenerTurnos();
+    programarProximoTurno();
 }
 
 function cambiarRangoCreacion(nuevoMaximo, nuevoMinimo){
@@ -92,7 +106,10 @@ function ejecutarTurno(ciudad){
     const produccion = calcularProduccion(ciudad);
     const consumo = calcularConsumo(ciudad);
 
-    aplicarBalance(ciudad, produccion, consumo);
+    const sigue=aplicarBalance(ciudad, produccion, consumo);
+    if(!sigue){
+        return
+    }
 
     actualizarFelicidadGeneral(ciudad);
 
@@ -104,6 +121,13 @@ function ejecutarTurno(ciudad){
     CiudadStorage.guardar(ciudad);
     mostrarDatosCiudad(ciudad);
     console.log(ciudad.ciudadanos)
+    
+    console.log("--- Reporte de Turno ---");
+    console.log("Población:", ciudad.poblacion);
+    console.log("Capacidad Habitacional:", calcularCapacidad(ciudad));
+    console.log("Felicidad Promedio:", calcularFelicidadPromedio(ciudad));
+    
+    creacionNuevosCiudadanos(ciudad, maximoCiudadanos, minimoCiudadanos);
     
 }
 
@@ -216,8 +240,8 @@ function balanceMantenimiento(ciudad){
 // ===============================
 // APLICAR BALANCE
 // ===============================
-function aplicarBalance(ciudad, produccion, consumo){
-
+function aplicarBalance(ciudad, produccion, consumo) {
+    // 1. Aplicar cambios
     ciudad.dinero += balanceDinero(produccion);
     ciudad.electricidad += balanceElectricidad(produccion, consumo);
     ciudad.agua += balanceAgua(produccion, consumo);
@@ -226,42 +250,46 @@ function aplicarBalance(ciudad, produccion, consumo){
     const mantenimiento = balanceMantenimiento(ciudad);
     ciudad.dinero -= mantenimiento;
 
-    if(
+    // 2. Verificar condición de derrota (Cualquier recurso < 0)
+    if (
         ciudad.dinero < 0 ||
         ciudad.electricidad < 0 ||
         ciudad.agua < 0 ||
         ciudad.alimento < 0
     ){
-        detenerTurnos();
-        UIMensajes.mostrarMensaje("Tu ciudad ha colapsado por falta de recursos. Fin del juego.", 8000);
-            RankingStorage.guardarCiudad(ciudad);
-            CiudadStorage.limpiar();
-            ciudad = null;
-            window.location.href="Menu_Principal.html";
+        UiMensajes.mostrarMensaje("Tu ciudad ha colapsado por falta de recursos. El juego ha terminado.", 8000);
+       eliminarCiudad(ciudad);
+        return false;
 
     }
+    return true;
 }
 
 // ===============================
 // CREACIÓN DE CIUDADANOS
 // ===============================
-function creacionNuevosCiudadanos(ciudad, maximoCiudadanos, minimoCiudadanos){
-
+function creacionNuevosCiudadanos(ciudad, maximoCiudadanos, minimoCiudadanos) {
     const capacidadResidencial = calcularCapacidad(ciudad);
     const felicidadPromedio = calcularFelicidadPromedio(ciudad);
-    const empleosDisponibles = verificarEmpleosDisponibles(ciudad);
+    const hayEmpleos = verificarEmpleosDisponibles(ciudad);
 
-    if(capacidadResidencial > ciudad.poblacion && (felicidadPromedio > 60 || felicidadPromedio === -1) && empleosDisponibles){
-       
-        const Random = Math.floor(Math.random() * (maximoCiudadanos - minimoCiudadanos + 1) + minimoCiudadanos);
+    // LOG DE DEPURACIÓN: Esto te dirá en consola exactamente por qué no crecen
+    console.log(`Chequeo: Capacidad(${capacidadResidencial > ciudad.poblacion}), Felicidad(${felicidadPromedio}), Empleos(${hayEmpleos})`);
 
-        for(let i = 0; i < Random; i++){
+    if (capacidadResidencial > ciudad.poblacion && (felicidadPromedio > 60 || felicidadPromedio === -1) && hayEmpleos) {
+        
+        // Calculamos cuántos pueden entrar realmente según el espacio
+        let cantidadDeseada = Math.floor(Math.random() * (maximoCiudadanos - minimoCiudadanos + 1) + minimoCiudadanos);
+        let espacioLibre = capacidadResidencial - ciudad.poblacion;
+        let nuevosCiudadanos = Math.min(cantidadDeseada, espacioLibre);
 
-            const ciudadanoCreado = Ciudadano.crearCiudadano();
+        for (let i = 0; i < nuevosCiudadanos; i++) {
+            const ciudadanoCreado = Ciudadano.crearCiudadano(); // Asegúrate que esta clase asigne felicidad base 0
             ciudad.ciudadanos.push(ciudadanoCreado);
             ciudad.poblacion++;
         }
 
+        // ASIGNACIÓN INMEDIATA: Fundamental para que en el próximo cálculo no tengan penalización
         asignarViviendas(ciudad);
         asignarEmpleos(ciudad);
     }
@@ -296,21 +324,33 @@ function calcularFelicidadPromedio(ciudad){
     return -1;
 }
 
-function verificarEmpleosDisponibles(ciudad){
-    let empleosDisponibles = 0;
+function verificarEmpleosDisponibles(ciudad) {
+    let vacantesTotales = 0;
 
-    for(let edificio of ciudad.edificios){
+    if (!ciudad.edificios || ciudad.edificios.length === 0) return false;
 
-        if(edificio.ciudadanosEmpleados){
-            empleosDisponibles += edificio.capacidadMaxima - edificio.ciudadanosEmpleados.length;
-        }
+    for (let edificio of ciudad.edificios) {
+        // Consola para depurar: ¿Qué edificios está viendo el sistema?
+        // console.log(`Revisando edificio: ${edificio.tipo}, Capacidad: ${edificio.capacidadMaxima}`);
 
-        if(empleosDisponibles > 0){
-            return true;
+        // Solo contamos edificios que NO sean de vivienda
+        if (edificio.tipo !== "Casa" && edificio.tipo !== "Apartamento") {
+            
+            // Verificamos que el edificio tenga capacidad de empleo
+            if (edificio.capacidadMaxima !== undefined) {
+                // Si no tiene el array de empleados, lo inicializamos para evitar errores
+                if (!edificio.ciudadanosEmpleados) {
+                    edificio.ciudadanosEmpleados = [];
+                }
+                
+                const ocupados = edificio.ciudadanosEmpleados.length;
+                vacantesTotales += (edificio.capacidadMaxima - ocupados);
+            }
         }
     }
 
-    return false;
+    console.log("Vacantes totales encontradas:", vacantesTotales);
+    return vacantesTotales > 0;
 }
 
 function asignarViviendas(ciudad){
@@ -357,4 +397,30 @@ function actualizarFelicidadGeneral(ciudad){
     for(let ciudadano of ciudad.ciudadanos){
         ciudadano.actualizarFelicidadIndividual(ciudad);
     }
+}
+
+function finalizarJuegoPorColapso(ciudad) {
+    // Detener el reloj de turnos inmediatamente
+    detenerTurnos();
+
+    // Determinar qué recurso faltó para un mensaje personalizado (Opcional)
+    let causa = "";
+    if (ciudad.dinero < 0) causa = "quiebra financiera";
+    else if (ciudad.electricidad < 0) causa = "apagón total";
+    else if (ciudad.agua < 0) causa = "sequía crítica";
+    else if (ciudad.alimento < 0) causa = "hambruna generalizada";
+
+    // Mostrar mensaje al usuario
+    UIMensajes.mostrarMensaje(`¡Colapso! Tu ciudad ha caído por ${causa}.`, 10000);
+
+    // Guardar en el ranking antes de borrar
+    if (typeof RankingStorage !== 'undefined') {
+        RankingStorage.guardarCiudad(ciudad);
+    }
+
+    // Limpiar datos y redirigir tras un breve delay para que vean el mensaje
+    setTimeout(() => {
+        CiudadStorage.limpiar();
+        window.location.href = "Menu_Principal.html";
+    }, 3000);
 }

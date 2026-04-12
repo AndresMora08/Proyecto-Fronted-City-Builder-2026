@@ -31,8 +31,17 @@
         </div>
 
         <div class="campo">
-            <label>Region</label><br>
-            <input id="regionInput" type="text" name="region" required>
+            <label>Región (Ubicación Real)</label><br>
+            <input id="regionInput" type="text" name="region" list="listaSugerencias" autocomplete="off" required>
+            <datalist id="listaSugerencias"></datalist>
+        </div>
+
+        <div class="campo-coordenadas">
+            <label>O ingresar coordenadas manuales (Opcional):</label>
+            <div style="display: flex; gap: 10px; margin-top: 5px;">
+                <input id="latInput" type="number" placeholder="Latitud" step="any" style="width: 50%;">
+                <input id="lonInput" type="number" placeholder="Longitud" step="any" style="width: 50%;">
+            </div>
         </div>
 
         <div class="campo">

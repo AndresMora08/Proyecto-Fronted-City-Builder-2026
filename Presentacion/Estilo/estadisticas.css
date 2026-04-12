@@ -214,7 +214,6 @@
 #Alimento::before { background-image: url("../../Assets/images/menu/pollo.png"); }
 #Poblacion::before { background-image: url("../../Assets/images/menu/gente-junta.png"); }
 #Felicidad::before { background-image: url("../../Assets/images/menu/felicidad.png"); }
-#Puntuacion::before { background-image: url("../../Assets/images/menu/puntuacion.png"); }
 
 #Felicidad {
     background: linear-gradient(

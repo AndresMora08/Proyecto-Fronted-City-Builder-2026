@@ -91,8 +91,6 @@ function configurarMenus() {
         configRecursos: document.getElementById('hudConfigRecursos'),
         configFelicidad: document.getElementById('hudConfigFelicidad'),
         configExtra: document.getElementById('hudConfigExtra'),
-
-        //  NUEVO
         config: document.getElementById('hudConfig')
     };
 
@@ -105,8 +103,6 @@ function configurarMenus() {
         btnServicios: document.getElementById('btnServicios'),
         btnUtilidades: document.getElementById('btnUtilidades'),
         btnVias: document.getElementById('btnVias'),
-
-        //  NUEVO
         btnConfig: document.getElementById('btnConfig'),
         btnConfigTurno: document.getElementById('btnConfigTurno'),
         btnConfigRecursos: document.getElementById('btnConfigRecursos'),
@@ -178,7 +174,6 @@ function configurarMenus() {
         mostrarSolo('vias');
     });
 
-    //  NUEVO: abrir menu config
     btns.btnConfig?.addEventListener('click', () => {
         menuAnterior = 'acciones';
         mostrarSolo('config');
@@ -345,17 +340,17 @@ function cargarCiudad() {
 
 function mostrarDatosCiudad(ciudad) {
 
-    // 🔹 Nombre de la ciudad
+    //  Nombre de la ciudad
     const nombre = document.getElementById("datosCiudad");
     if (nombre) nombre.textContent = ciudad.nombreCiudad;
 
-    // 🔹 Función auxiliar
+    //  Función auxiliar
     const actualizar = (id, valor) => {
         const el = document.getElementById(id);
         if (el) el.textContent = valor;
     };
 
-    // 🔹 Recursos
+    //  Recursos
     actualizar("Dinero", ciudad.dinero);
     actualizar("Electricidad", ciudad.electricidad);
     actualizar("Agua", ciudad.agua);
