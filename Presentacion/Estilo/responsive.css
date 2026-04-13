@@ -144,7 +144,6 @@
         background-size: 50%;
     }
 
-    /* Menos espacio entre botones en tablet */
     #hudAcciones,
     #hudConstruir,
     #hudConstruirEdificios,
@@ -193,7 +192,6 @@
         text-align: center;
     }
 
-    /* Botones de configuración un poco más anchos para texto largo */
     #hudConfig button,
     #hudConfigTurno button,
     #hudConfigRecursos button,
@@ -371,7 +369,6 @@
         scroll-snap-type: none;
     }
 
-    /* Todos los botones del HUD lateral */
     #hudAcciones button,
     #hudConstruir button,
     #hudConstruirEdificios button,
@@ -396,7 +393,6 @@
         background-position: center;
     }
 
-    /* Botones con etiqueta en desktop */
     #hudAcciones button.btn-icon,
     #hudConstruir button.btn-icon,
     #hudConstruirEdificios button.btn-icon,
@@ -430,7 +426,6 @@
         pointer-events: none;
     }
 
-    /* Botones de texto en desktop */
     .huds .btn-menuConfig,
     .huds .btn-menu {
         background-size: 0;

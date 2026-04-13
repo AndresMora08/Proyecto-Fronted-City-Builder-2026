@@ -1,4 +1,4 @@
-let tiempoTurno = 300000; 
+let tiempoTurno = 60000; 
 
 
 
