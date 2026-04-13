@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCambioBeneficioB: document.getElementById('btnCambioBeneficioB'),
 
         btnExportarCiudad: document.getElementById('btnExportarMapa'),
-        EliminarCiudad: document.getElementById('EliminarCiudad')
+        EliminarCiudad: document.getElementById('EliminarCiudad'),
+        CrearNuevaCiudad: document.getElementById('CrearNuevaCiudad')
     };
 
     // ================= TIEMPO =================
@@ -306,6 +307,23 @@ document.addEventListener('DOMContentLoaded', () => {
          },1000);
         }
 
+        botonesConfiguracion.CrearNuevaCiudad.addEventListener('click', () => {
+            const el = getMensaje();
+            if (!el) return;
+            el.innerHTML = `<div>
+            <label>¿Crear nueva ciudad? Se perderá el progreso actual.</label>
+            <button id="confirmarCrearCiudad">Sí</button>
+            <button id="cancelarCrearCiudad">No</button>
+            </div>`;
+            document.getElementById('cancelarCrearCiudad').addEventListener('click', limpiarMensaje);
+            document.getElementById('confirmarCrearCiudad').addEventListener('click', () => {
+                eliminarCiudad(ciudad);
+                limpiarMensaje();
+                window.location.href="Crear_Ciudad.html";
+                
+            });
+
+        });
     botonesConfiguracion.btnExportarCiudad.addEventListener('click', () => {
         const el = getMensaje();
         if (!el) return;
@@ -327,4 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
+    window.Configuracion = {
+        eliminarCiudad
+    };
 });

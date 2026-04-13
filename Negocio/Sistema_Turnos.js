@@ -1,4 +1,4 @@
-let tiempoTurno = 50000; 
+let tiempoTurno = 300000; 
 
 
 
@@ -257,8 +257,8 @@ function aplicarBalance(ciudad, produccion, consumo) {
         ciudad.agua < 0 ||
         ciudad.alimento < 0
     ){
-        UiMensajes.mostrarMensaje("Tu ciudad ha colapsado por falta de recursos. El juego ha terminado.", 8000);
-       eliminarCiudad(ciudad);
+        UIMensajes.mostrarMensaje("Tu ciudad ha colapsado por falta de recursos. El juego ha terminado.", 8000);
+        Configuracion.eliminarCiudad(ciudad);
         return false;
 
     }
