@@ -215,3 +215,44 @@
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
 }
+/* =========================
+   MODOS RESPONSIVE (JS)
+========================= */
+
+/* 🔹 MODO DESKTOP */
+#news-list.modo-desktop {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+}
+
+/* 🔹 La tarjeta ocupa todo el espacio */
+#news-list.modo-desktop .news-card {
+    height: 100%;
+}
+
+/* 🔹 Ajuste imagen en desktop */
+#news-list.modo-desktop .news-card-media {
+    min-height: 120px;
+    max-height: 180px;
+}
+
+/* =========================
+   MODO MOBILE
+========================= */
+
+#news-list.modo-mobile {
+    display: block;
+}
+
+/* 🔹 Asegura que el ticker use todo el espacio */
+#news-list.modo-mobile .news-ticker {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* 🔹 Mejora alineación del texto móvil */
+#news-list.modo-mobile .news-ticker-item {
+    font-size: 1.1rem;
+}

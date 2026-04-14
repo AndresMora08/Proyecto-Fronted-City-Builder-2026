@@ -7,7 +7,11 @@ function renderNewsToUI(item) {
     const isDesktop = window.innerWidth > 1024;
 
     if (isDesktop) {
-        list.style.display = "flex";
+
+        // 🔹 Control por clases en lugar de style
+        list.classList.remove("modo-mobile");
+        list.classList.add("modo-desktop");
+
         list.innerHTML = `
             <a class="news-card animate-fade-in" href="${item.url}" target="_blank">
                 <div class="news-card-media">
@@ -21,20 +25,26 @@ function renderNewsToUI(item) {
                     </div>
                 </div>
             </a>`;
+
     } else {
-        list.style.display = "block";
-        
+
+        // 🔹 Control por clases en lugar de style
+        list.classList.remove("modo-desktop");
+        list.classList.add("modo-mobile");
+
         let mobileTrack = track;
-        // Si el track no existe
+
+        // 🔹 Si el track no existe
         if (!mobileTrack) {
             list.innerHTML = `
                 <div class="news-ticker">
                     <div class="news-track" id="news-track"></div>
                 </div>`;
+            
             mobileTrack = document.getElementById('news-track');
             if (!mobileTrack) return;
         }
-        
+
         mobileTrack.innerHTML = "";
 
         requestAnimationFrame(() => {

@@ -19,7 +19,7 @@ class RankingStorage {
             mayor: alcalde.nombreAlcalde || "Desconocido",
 
             score: Number(ciudad.puntuacion || 0),
-            population: Number(ciudad.poblacion || 0),
+            population: Number(parseInt(ciudad.poblacion || 0)),
 
             
             happiness: ciudad.felicidadPromedio === -1 

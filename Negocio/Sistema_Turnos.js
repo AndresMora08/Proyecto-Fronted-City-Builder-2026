@@ -399,28 +399,3 @@ function actualizarFelicidadGeneral(ciudad){
     }
 }
 
-function finalizarJuegoPorColapso(ciudad) {
-    // Detener el reloj de turnos inmediatamente
-    detenerTurnos();
-
-    // Determinar qué recurso faltó para un mensaje personalizado (Opcional)
-    let causa = "";
-    if (ciudad.dinero < 0) causa = "quiebra financiera";
-    else if (ciudad.electricidad < 0) causa = "apagón total";
-    else if (ciudad.agua < 0) causa = "sequía crítica";
-    else if (ciudad.alimento < 0) causa = "hambruna generalizada";
-
-    // Mostrar mensaje al usuario
-    UIMensajes.mostrarMensaje(`¡Colapso! Tu ciudad ha caído por ${causa}.`, 10000);
-
-    // Guardar en el ranking antes de borrar
-    if (typeof RankingStorage !== 'undefined') {
-        RankingStorage.guardarCiudad(ciudad);
-    }
-
-    // Limpiar datos y redirigir tras un breve delay para que vean el mensaje
-    setTimeout(() => {
-        CiudadStorage.limpiar();
-        window.location.href = "Menu_Principal.html";
-    }, 3000);
-}

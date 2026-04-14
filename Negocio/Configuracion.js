@@ -344,8 +344,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     });
+    
 
     window.Configuracion = {
         eliminarCiudad
     };
+
+    
+
 });
